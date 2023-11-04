@@ -1,0 +1,57 @@
+.header {
+    @apply fixed left-1/2 top-4 p-4 rounded-full translate-x-[-50%] bg-white text-slate-950 font-medium ring-1 ring-slate-500 ring-opacity-10 z-[10000];
+}
+
+.nav-links-wrapper {
+    @apply flex gap-8 px-8;
+}
+
+.nav-active {
+    @apply text-red-500;
+}
+
+.section {
+    @apply min-h-screen py-20;
+}
+.hero {
+    @apply min-h-screen py-20;
+}
+
+.page-content {
+    @apply max-w-6xl m-auto;
+}
+
+.btn {
+    @apply font-medium hover:scale-[1.075] px-3 py-2 rounded-full cursor-pointer;
+}
+
+.icon-box {
+    @apply h-10 w-10 rounded-full cursor-pointer grid place-items-center ring-1 p-2 bg-white ring-slate-800 hover:ring-2 ring-opacity-40 hover:ring-2;
+}
+.icon-box svg {
+    @apply text-xl text-blue-900;
+}
+
+.btn-filled {
+    @apply bg-slate-900 text-white;
+}
+
+.btn-outline {
+    @apply border bg-white text-slate-950 border-slate-950 hover:scale-[1.075];
+}
+
+.section-title {
+    @apply w-max my-4 mb-12 mx-auto border-b-2 border-slate-800 text-[2rem] font-extrabold uppercase;
+}
+.para {
+    @apply text-[16px] text-slate-800 text-center max-w-[96ch] m-auto mb-4;
+}
+.card {
+    @apply bg-gradient-to-r from-blue-100 to-red-100 bg-opacity-50 shadow-lg p-8 rounded-lg ring-black ring-1 ring-opacity-20 hover:ring-4 hover:ring-opacity-10 scale-95 hover:scale-100 cursor-pointer transition-all;
+}
+.card .title {
+    @apply text-[1.35rem] capitalize font-semibold mb-4 h-12 flex items-center;
+}
+.card .desc {
+    @apply text-[1rem] mb-2;
+}
