@@ -1,26 +1,26 @@
 export const navLinksArr = [
     {
         name: "Hero",
-        url: "hero",
+        url: "#hero",
     },
     {
         name: "About",
-        url: "about",
-    },
-    {
-        name: "Skills",
-        url: "skills",
+        url: "#about",
     },
     {
         name: "Projects",
-        url: "projects",
+        url: "#projects",
+    },
+    {
+        name: "Skills",
+        url: "#skills",
     },
     {
         name: "Experience",
-        url: "experience",
+        url: "#experience",
     },
     {
         name: "Contact",
-        url: "contact",
+        url: "#contact",
     },
-];
+] as const;

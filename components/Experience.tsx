@@ -1,9 +1,12 @@
-import React from "react";
+import SectionHeading from "./shared/SectionHeading";
+import { useSectionInView } from "@/constants/hooks";
 
 const Experience = () => {
+    const { ref } = useSectionInView("Experience");
+
     return (
-        <section id="experience" className="section">
-            Experience
+        <section ref={ref} id="experience" className="section">
+            <SectionHeading>experience</SectionHeading>
         </section>
     );
 };

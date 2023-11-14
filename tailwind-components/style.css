@@ -1,5 +1,5 @@
 .header {
-    @apply fixed left-1/2 top-4 p-4 rounded-full translate-x-[-50%] bg-white text-slate-950 font-medium ring-1 ring-slate-500 ring-opacity-10 z-[10000];
+    @apply fixed top-0 left-1/2 -translate-x-1/2 h-[4.5rem] w-full rounded-none border border-white border-opacity-40 bg-white bg-opacity-80 shadow-lg shadow-black/[.03] backdrop-blur-[.5rem] sm:top-6 sm:h-[3.25rem] sm:w-[36rem] sm:rounded-full;
 }
 
 .nav-links-wrapper {
@@ -22,14 +22,14 @@
 }
 
 .btn {
-    @apply font-medium hover:scale-[1.075] px-3 py-2 rounded-full cursor-pointer;
+    @apply flex items-center text-[14px] gap-2 font-medium transition-all hover:scale-[1.075] px-3 py-2 rounded-full cursor-pointer;
 }
 
 .icon-box {
     @apply h-10 w-10 rounded-full cursor-pointer grid place-items-center ring-1 p-2 bg-white ring-slate-800 hover:ring-2 ring-opacity-40 hover:ring-2;
 }
-.icon-box svg {
-    @apply text-xl text-blue-900;
+.icon-box {
+    @apply text-xl text-slate-800 hover:text-slate-950 transition-all;
 }
 
 .btn-filled {
