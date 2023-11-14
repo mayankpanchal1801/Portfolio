@@ -3,9 +3,12 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { BsArrowRight, BsDownload, BsGithub, BsLinkedin } from "react-icons/bs";
 import { useSectionInView } from "@/constants/hooks";
+import { useActiveSectionContext } from "@/context/active-section-context";
 
 const Hero = () => {
+    const { activeSection, setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
     const { ref } = useSectionInView("Hero", 0.6);
+
     return (
         <section ref={ref} id="hero" className="hero flex items-center justify-center">
             <div className="hero-wrapper space-y-8 max-w-[50rem]">
@@ -61,7 +64,14 @@ const Hero = () => {
                         delay: 0.1,
                     }}
                 >
-                    <Link className="group btn btn-filled" href="#contact">
+                    <Link
+                        className="group btn btn-filled"
+                        href="#contact"
+                        onClick={() => {
+                            setActiveSection("Contact");
+                            setTimeOfLastClick(Date.now());
+                        }}
+                    >
                         Contact me here <BsArrowRight className="transition-all group-hover:translate-x-1" />
                     </Link>
                     <a

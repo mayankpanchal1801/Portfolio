@@ -13,6 +13,11 @@
 .section {
     @apply min-h-screen py-20;
 }
+
+.section-content {
+    @apply sm:max-w-3xl md:max-w-4xl lg:max-w-5xl;
+}
+
 .hero {
     @apply min-h-screen py-20;
 }
@@ -54,4 +59,8 @@
 }
 .card .desc {
     @apply text-[1rem] mb-2;
+}
+
+.cu-form-input {
+    @apply px-2 py-3 focus-visible:!border-black/20 rounded-lg border border-black/10;
 }

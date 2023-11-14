@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/react-scrollspy": "^3.3.6",
+    "@types/react-vertical-timeline-component": "^3.3.6",
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.4",
     "next": "13.5.4",
@@ -18,7 +19,8 @@
     "react-icons": "^4.11.0",
     "react-intersection-observer": "^9.5.3",
     "react-scroll": "^1.9.0",
-    "react-scrollspy": "^3.4.3"
+    "react-scrollspy": "^3.4.3",
+    "react-vertical-timeline-component": "^3.6.0"
   },
   "devDependencies": {
     "@types/gsap": "^3.0.0",

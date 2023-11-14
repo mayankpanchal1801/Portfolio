@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import "../tailwind-components/style";
+
+html {
+    --line-color: #efe7eb;
+}
