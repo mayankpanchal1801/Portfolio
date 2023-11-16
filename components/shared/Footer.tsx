@@ -12,7 +12,7 @@ const Footer = () => {
                 <div className="credits">
                     <p className="text-center">
                         Designed and built with ❤️ by{" "}
-                        <a href="https://www.yourportfolio.com" target="_blank" rel="noopener noreferrer">
+                        <a href="/" target="_blank" rel="noopener noreferrer">
                             Mayank
                         </a>
                     </p>
