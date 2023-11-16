@@ -10,7 +10,7 @@ const Header = () => {
     const { activeSection, setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
 
     return (
-        <header className="z-[999] relative">
+        <header className="z-[999] relative max-w-[100vw] overflow-x-hidden">
             <motion.div
                 className="header"
                 initial={{ y: -100, x: "-50%", opacity: 0 }}

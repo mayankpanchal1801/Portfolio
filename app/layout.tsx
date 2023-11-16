@@ -17,8 +17,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en" className="!scroll-smooth">
             <body className={` ${nunito.className} bg-gray-50 text-gray-950 max-w-[100vw] overflow-x-hidden`}>
-                <div className="backdround bg-blue-200 -z-10 absolute top-[-20%] left-[10%] w-[32rem] h-[32rem] rounded-full blur-[250px]"></div>
-                <div className="backdround bg-red-200 -z-10 absolute top-[-20%] right-[10%] w-[32rem] h-[32rem] rounded-full blur-[250px]"></div>
+                <div className="backdround bg-blue-200 -z-10 absolute top-[-20%] left-[10%] w-[18rem] sm:w-[32rem] h-[18rem] sm:h-[32rem] rounded-full blur-[250px]"></div>
+                <div className="backdround bg-red-200 -z-10 absolute top-[-20%] right-[10%] w-[18rem] sm:w-[32rem] h-[18rem] sm:h-[32rem] rounded-full blur-[250px]"></div>
                 <ActiveSectionContextProvider>
                     <Header />
                     {children}
