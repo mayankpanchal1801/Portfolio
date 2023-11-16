@@ -22,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <ActiveSectionContextProvider>
                     <Header />
                     {children}
+                    <Footer />
                 </ActiveSectionContextProvider>
             </body>
         </html>

@@ -11,7 +11,7 @@ const Hero = () => {
 
     return (
         <section ref={ref} id="hero" className="hero flex items-center justify-center">
-            <div className="hero-wrapper space-y-8 max-w-[50rem]">
+            <div className="hero-wrapper space-y-8 max-w-[50rem] max-sm:pt-6">
                 <motion.figure
                     className="ring-4 ring-white bg-red-200 w-max m-auto  rounded-full   relative"
                     initial={{ opacity: 0, scale: 0 }}
@@ -45,11 +45,12 @@ const Hero = () => {
                     </motion.span>
                 </motion.figure>
                 <motion.h1
-                    className="text-2xl md:text-4xl text-center"
+                    className="max-sm:px-4  text-2xl md:text-4xl text-center"
                     initial={{ opacity: 0, y: 100 }}
                     animate={{ opacity: 1, y: 0 }}
                 >
                     <span className="font-bold"> Hello, I&apos;m Mayank. </span>
+                    <br />
                     I&apos;m a <span> full-stack developer </span>
                     with <span> 2+ years </span>
                     of experience. I enjoy building

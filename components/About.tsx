@@ -8,7 +8,7 @@ const About = () => {
         <motion.section
             ref={ref}
             id="about"
-            className="section max-w-[45rem]"
+            className="section max-w-[45rem] "
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.175 }}
