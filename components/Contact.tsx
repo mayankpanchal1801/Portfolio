@@ -24,14 +24,14 @@ const Contact = () => {
             >
                 <p className="text-center mb-8">
                     Thank you for visiting my portfolio! I&apos;m excited to connect with you. Whether you have a
-                    project in mind, want to discuss a potential collaboration, or simply have a question, I&aposm here
+                    project in mind, want to discuss a potential collaboration, or simply have a question, I&apos;m here
                     to help.
                 </p>
                 <p>
                     <strong className="text-[1.5em]">Let&apos;s Talk:</strong>
                 </p>
                 <p>
-                    Feel free to reach out to me via email or through the form below. I&aposm always open to new
+                    Feel free to reach out to me via email or through the form below. I&apos;m always open to new
                     opportunities and conversations.
                 </p>
                 <p>
