@@ -1,16 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { BsArrowRight, BsDownload, BsGithub, BsLinkedin } from "react-icons/bs";
+import {
+    BsArrowRight,
+    BsDownload,
+    BsGithub,
+    BsLinkedin,
+} from "react-icons/bs";
 import { useSectionInView } from "@/constants/hooks";
 import { useActiveSectionContext } from "@/context/active-section-context";
 
 const Hero = () => {
-    const { activeSection, setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
+    const {
+        activeSection,
+        setActiveSection,
+        setTimeOfLastClick,
+    } = useActiveSectionContext();
     const { ref } = useSectionInView("Hero", 0.6);
 
     return (
-        <section ref={ref} id="hero" className="hero flex items-center justify-center">
+        <section
+            ref={ref}
+            id="hero"
+            className="hero flex items-center justify-center"
+        >
             <div className="hero-wrapper space-y-8 max-w-[50rem] max-sm:pt-6">
                 <motion.figure
                     className="ring-4 ring-white bg-red-200 w-max m-auto  rounded-full   relative"
@@ -49,13 +62,12 @@ const Hero = () => {
                     initial={{ opacity: 0, y: 100 }}
                     animate={{ opacity: 1, y: 0 }}
                 >
-                    <span className="font-bold"> Hello, I&apos;m Mayank. </span>
-                    <br />
-                    I&apos;m a <span> full-stack developer </span>
-                    with <span> 2+ years </span>
-                    of experience. I enjoy building
-                    <span className="italic"> sites & apps.</span> My focus is
-                    <span> React-(Next.js)</span>.
+                    <span className="font-bold">
+                        {" "}
+                        Hello, I&apos;m Mayank.{" "}
+                    </span>
+                    <br />I build accessible, pixel-perfect
+                    digital experiences for the web.
                 </motion.h1>
                 <motion.div
                     className="flex max-sm:flex-col justify-center gap-4 items-center"
@@ -73,7 +85,8 @@ const Hero = () => {
                             setTimeOfLastClick(Date.now());
                         }}
                     >
-                        Contact me here <BsArrowRight className="transition-all group-hover:translate-x-1" />
+                        Contact me here{" "}
+                        <BsArrowRight className="transition-all group-hover:translate-x-1" />
                     </Link>
                     <a
                         href="/Mayank_Panchal_Resume.pdf"
@@ -92,7 +105,12 @@ const Hero = () => {
                         >
                             <BsLinkedin />
                         </a>
-                        <a href="3" target="_mayank" title="Mayank panchal Github" className="icon-box" download>
+                        <a
+                            href="https://github.com/munkpanchal"
+                            target="_blank"
+                            title="Mayank panchal Github"
+                            className="icon-box"
+                        >
                             <BsGithub />
                         </a>
                     </span>
