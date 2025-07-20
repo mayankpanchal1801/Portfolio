@@ -67,7 +67,8 @@ const Hero = () => {
                         Hello, I&apos;m Mayank.{" "}
                     </span>
                     <br />I build accessible, pixel-perfect
-                    digital experiences for the web.
+                    digital experiences for the web. 
+                    {/* test commit */}
                 </motion.h1>
                 <motion.div
                     className="flex max-sm:flex-col justify-center gap-4 items-center"
