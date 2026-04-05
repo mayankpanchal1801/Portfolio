@@ -1,30 +1,58 @@
-import Header from "@/components/shared/Header";
-import "./globals.css";
-import type { Metadata } from "next";
-import { Nunito } from "next/font/google";
-import Footer from "@/components/shared/Footer";
-import ActiveSectionContextProvider from "@/context/active-section-context";
+import Header from '@/components/shared/Header'
+import './globals.css'
+import type { Metadata } from 'next'
+import { Space_Grotesk, Inter, JetBrains_Mono } from 'next/font/google'
+import Footer from '@/components/shared/Footer'
+import ActiveSectionContextProvider from '@/context/active-section-context'
+import SmoothScrollProvider from '@/components/ui/SmoothScrollProvider'
+import CustomCursor from '@/components/ui/CustomCursor'
+import NoiseCanvas from '@/components/ui/NoiseCanvas'
+import PageTransition from '@/components/ui/PageTransition'
 
-const nunito = Nunito({ subsets: ["latin"] });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains',
+  weight: ['400', '500'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-    title: "Mayank panchal || Portfolio",
-    description:
-        "Experienced frontend developer with a passion for creating beautiful and user-friendly web applications. With over 2 years of industry expertise, I specialize in crafting responsive, pixel-perfect designs and implementing seamless user interfaces. Let's collaborate to turn your web projects into stunning, high-performance experiences.",
-};
+  title: 'Mayank Panchal — Full Stack Developer',
+  description:
+    'Full Stack Developer with 3+ years of experience crafting high-performance, pixel-perfect web experiences. Specializing in React, Next.js, Node.js, and modern web technologies.',
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-    return (
-        <html lang="en" className="!scroll-smooth">
-            <body className={` ${nunito.className} bg-gray-50 text-gray-950 max-w-[100vw] overflow-x-hidden`}>
-                <div className="backdround bg-blue-200 -z-10 absolute top-[-20%] left-[10%] w-[18rem] sm:w-[32rem] h-[18rem] sm:h-[32rem] rounded-full blur-[250px]"></div>
-                <div className="backdround bg-red-200 -z-10 absolute top-[-20%] right-[10%] w-[18rem] sm:w-[32rem] h-[18rem] sm:h-[32rem] rounded-full blur-[250px]"></div>
-                <ActiveSectionContextProvider>
-                    <Header />
-                    {children}
-                    <Footer />
-                </ActiveSectionContextProvider>
-            </body>
-        </html>
-    );
+  return (
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrains.variable}`}
+    >
+      <body className="bg-void text-chalk font-body overflow-x-hidden">
+        <ActiveSectionContextProvider>
+          <SmoothScrollProvider>
+            <CustomCursor />
+            <NoiseCanvas />
+            <PageTransition />
+            <Header />
+            {children}
+            <Footer />
+          </SmoothScrollProvider>
+        </ActiveSectionContextProvider>
+      </body>
+    </html>
+  )
 }

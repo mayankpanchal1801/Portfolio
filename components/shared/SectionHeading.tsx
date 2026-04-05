@@ -1,11 +1,19 @@
-import React from "react";
-
-type SectionHeadingProps = {
-    children: React.ReactNode;
-};
-
-function SectionHeading({ children }: SectionHeadingProps) {
-    return <h3 className="section-title">{children}</h3>;
+interface SectionHeadingProps {
+  children: React.ReactNode
+  className?: string
+  as?: 'h1' | 'h2' | 'h3'
 }
 
-export default SectionHeading;
+export default function SectionHeading({
+  children,
+  className = '',
+  as: Tag = 'h2',
+}: SectionHeadingProps) {
+  return (
+    <Tag
+      className={`font-display font-bold text-display text-chalk leading-tight tracking-tight ${className}`}
+    >
+      {children}
+    </Tag>
+  )
+}

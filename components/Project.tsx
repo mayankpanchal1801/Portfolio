@@ -1,94 +1,118 @@
-import { projectsArr } from "@/constants/projects";
-import {
-    motion,
-    useScroll,
-    useTransform,
-} from "framer-motion";
-import Image from "next/image";
-import React, { useRef } from "react";
-import { BsArrowRight } from "react-icons/bs";
-type ProjectProps = (typeof projectsArr)[0];
+'use client'
 
-const Project = ({
-    title,
-    description,
-    tags,
-    imgSrc,
-    url,
-}: ProjectProps) => {
-    const ref = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: ref,
-        offset: ["0 1", "1.23 1"],
-    });
-    const scaleProgress = useTransform(
-        scrollYProgress,
-        [0, 1],
-        [0.8, 1]
-    );
-    const opacityProgress = useTransform(
-        scrollYProgress,
-        [0, 1],
-        [0.6, 1]
-    );
+import { projectsArr } from '@/constants/projects'
+import Image from 'next/image'
+import { BsArrowUpRight } from 'react-icons/bs'
 
-    return (
-        <motion.div
-            ref={ref}
-            style={{
-                scale: scaleProgress,
-                opacity: opacityProgress,
-            }}
-            className="group mb-3 sm:mb-8 last:mb-0 "
+type ProjectProps = {
+  project: (typeof projectsArr)[0]
+  index: number
+  variant?: 'desktop' | 'mobile'
+}
+
+export default function Project({ project, index, variant = 'desktop' }: ProjectProps) {
+  const { title, description, tags, imgSrc, url } = project
+  const isMobile = variant === 'mobile'
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`View ${title}`}
+      className={[
+        'proj-card group relative flex flex-col overflow-hidden',
+        'bg-smoke border border-ash rounded-[10px]',
+        'transition-[border-color,box-shadow] duration-500',
+        'hover:border-[--color-violet] hover:shadow-[0_0_40px_rgba(20,184,166,0.08)]',
+        isMobile
+          ? 'flex-shrink-0 w-[80vw] sm:w-[60vw] h-[420px] snap-start'
+          : 'flex-shrink-0 h-full',
+      ].join(' ')}
+      style={isMobile ? undefined : { width: 'clamp(320px, 28vw, 440px)' }}
+      data-cursor="link"
+    >
+      {/* ── Image area ── */}
+      <div className="relative overflow-hidden flex-shrink-0" style={{ height: '58%' }}>
+
+        {/* Inner wrapper — GSAP parallax target */}
+        <div
+          className="proj-img-inner absolute inset-0"
+          style={{ width: '120%', left: '-10%' }}
         >
-            <section className="max-sm:flex max-sm:flex-col rounded-lg bg-gray-100 max-w-[42rem] border border-black/5 overflow-hidden sm:pr-8 relative hover:bg-gray-200 transition sm:group-even:pl-8">
-                <div className="max-sm:order-2  pt-4 pb-8 px-5 sm:pl-10 sm:pt-10 sm:max-w-[50%]  flex flex-col sm:group-even:ml-[18rem] ">
-                    <h1 className="text-2xl font-semibold">
-                        {title}
-                    </h1>
-                    <p className="mt-2 leading-relaxed text-gray-700">
-                        {description}
-                    </p>
-                    <ul className="flex flex-wrap mt-4 gap-2">
-                        {tags.map((tag, index) => (
-                            <li
-                                key={index}
-                                className="bg-black/[.7] px-3 py-1 text-[.7rem] uppercase tracking-wider text-white rounded-full"
-                            >
-                                {tag}
-                            </li>
-                        ))}
-                    </ul>
-                    <a
-                        className="group-even:ml-auto mt-4 w-max flex justify-center items-center gap-1 group/link text-blue-700"
-                        target={`"_${title}"`}
-                        href={url}
-                    >
-                        Visit Website{" "}
-                        <BsArrowRight className=" transition-all group-hover/link:translate-x-2" />
-                    </a>
-                </div>
-                <Image
-                    src={imgSrc}
-                    alt="project i worked on"
-                    className="max-sm:order-1 sm:absolute sm:top-10 sm:-right-40 sm:w-[28rem] rounded-t-lg shadow-2xl
-                    max-sm:w-full
-            sm:group-hover:scale-[1.04]
-            sm:group-hover:-translate-x-3
-            sm:group-hover:translate-y-3
-            sm:group-hover:-rotate-2
-            sm:group-even:group-hover:translate-x-2
-            sm:group-even:group-hover:translate-y-3
-            sm:group-even:group-hover:rotate-2
-            group-even:right-[initial]
-            group-even:-left-40 
-            "
-                    width={300}
-                    height={200}
-                />
-            </section>
-        </motion.div>
-    );
-};
+          <Image
+            src={imgSrc}
+            alt={title}
+            fill
+            sizes="(max-width: 767px) 80vw, 440px"
+            className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+            priority={index < 2}
+          />
+        </div>
 
-export default Project;
+        {/* Hover overlay — teal tint */}
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-smoke/80 via-transparent to-transparent
+                     opacity-60 group-hover:opacity-80 transition-opacity duration-500"
+          aria-hidden="true"
+        />
+
+        {/* Arrow top-right: slides in on hover */}
+        <div
+          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-chalk/10 backdrop-blur-sm
+                     border border-white/20 flex items-center justify-center text-chalk
+                     translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
+                     transition-all duration-300 ease-out"
+          aria-hidden="true"
+        >
+          <BsArrowUpRight className="text-sm" />
+        </div>
+
+        {/* Index badge */}
+        <span
+          className="absolute top-4 left-4 font-mono text-[0.62rem] tracking-[0.14em]
+                     text-chalk/50 bg-void/60 backdrop-blur-sm px-2 py-1 rounded"
+        >
+          {String(index + 1).padStart(2, '0')}
+        </span>
+      </div>
+
+      {/* ── Info area ── */}
+      <div className="flex flex-col justify-between p-5 flex-1">
+        <div className="space-y-2">
+          <h3 className="font-display font-semibold text-chalk text-[1.1rem] leading-tight
+                         group-hover:text-[--color-glow] transition-colors duration-300">
+            {title}
+          </h3>
+          <p className="text-mist text-[0.8rem] leading-[1.65] line-clamp-2">
+            {description}
+          </p>
+        </div>
+
+        {/* Tags + visit link row */}
+        <div className="flex items-end justify-between mt-4 gap-3">
+          <div className="flex flex-wrap gap-1.5">
+            {tags.slice(0, 3).map((tag) => (
+              <span
+                key={tag}
+                className="font-mono text-[0.58rem] uppercase tracking-[0.1em] px-2 py-0.5 rounded
+                           border border-[rgba(20,184,166,0.25)] text-[#2dd4bf] bg-[rgba(20,184,166,0.06)]"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* Inline visit link */}
+          <span
+            className="flex-shrink-0 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-mist
+                       flex items-center gap-1 group-hover:text-chalk transition-colors duration-300"
+          >
+            Visit
+            <BsArrowUpRight className="text-[0.6rem]" />
+          </span>
+        </div>
+      </div>
+    </a>
+  )
+}
