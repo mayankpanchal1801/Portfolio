@@ -9,14 +9,25 @@ export const site = {
   shortName: "Mayank Panchal — Full Stack Developer",
   role: "Full Stack Developer",
   roleDetail: "Python (FastAPI) · Next.js / React.js",
+
+  /** ~155 char meta description — resume-language + impact numbers + primary keywords. */
   tagline:
-    "Full Stack Developer building production web apps end-to-end — Next.js on the frontend, Python (FastAPI + PostgreSQL) on the backend, containerized with Docker and shipped on AWS.",
+    "Full Stack Developer in Bengaluru with 4+ years shipping Next.js + FastAPI + PostgreSQL apps. Docker, AWS EC2, CI/CD. AI-augmented workflows with Cursor & Claude Code.",
+
+  /** Shorter variant used where description length is capped (Twitter card, OG summary). */
+  taglineShort:
+    "Full Stack Developer — Next.js, FastAPI, PostgreSQL, Docker & AWS. AI-augmented with Cursor + Claude Code. Bengaluru, India.",
+
+  /** ~60 char title suffix / hero eyebrow. */
+  headlineSuffix: "Next.js · FastAPI · PostgreSQL · AWS",
+
   domain: "portfoliobymayank.vercel.app",
   url: "https://portfoliobymayank.vercel.app",
   locale: "en_IN",
   yearFounded: 2022,
   twitterHandle: "@mayankpanchal01",
   ogImage: "/og.png",
+  portrait: "/mayank.jpeg",
   themeColor: "#0A0A0C",
 } as const;
 
@@ -102,24 +113,81 @@ export const about = {
   },
 } as const;
 
+/**
+ * Extended keyword set — prioritized for SEO relevance.
+ * Order matters: leading keywords carry more weight.
+ * Blends resume tech, job-title variants, and location modifiers.
+ */
 export const seoKeywords = [
+  // Primary intent
   "Mayank Panchal",
+  "Mayank Panchal Full Stack Developer",
+  "Mayank Panchal Bengaluru",
+  "Mayank Panchal portfolio",
+  // Role variants (title tags love these)
   "Full Stack Developer Bengaluru",
+  "Full Stack Developer India",
   "Python FastAPI Developer",
+  "FastAPI Developer Bengaluru",
   "Next.js Developer India",
-  "React Developer",
-  "TypeScript Developer",
+  "React Developer Bengaluru",
+  "TypeScript Developer India",
+  "Backend Developer FastAPI",
+  "Frontend Developer Next.js",
+  // Tech stack
   "PostgreSQL SQLAlchemy",
-  "REST API Design",
-  "AI-augmented development",
-  "Cursor",
-  "Claude Code",
-  "Devin Windsurf",
-  "GitHub Copilot",
+  "REST API Design FastAPI",
+  "JWT Authentication",
   "Docker AWS EC2",
   "GitHub Actions CI/CD",
+  "Nginx Docker Compose",
+  "Redis Celery WebSockets",
+  // AI-augmented
+  "AI-augmented development",
+  "Cursor AI developer",
+  "Claude Code developer",
+  "Devin Windsurf developer",
+  "GitHub Copilot",
+  // Portfolio + framework
   "React Portfolio",
   "Next.js Portfolio",
   "Tailwind CSS",
   "GSAP animations",
+  "Award-winning portfolio",
 ] as const;
+
+/**
+ * FAQ used for FAQPage JSON-LD (highly cited by AI answer engines
+ * like Google SGE, Perplexity, ChatGPT search, Bing Copilot).
+ * Keep answers direct and factual — <300 chars each is ideal.
+ */
+export const faqs: { q: string; a: string }[] = [
+  {
+    q: "Who is Mayank Panchal?",
+    a: "Mayank Panchal is a Full Stack Developer based in Bengaluru, India, with 4+ years of experience shipping production web applications end-to-end using Next.js / React.js on the frontend and Python (FastAPI + PostgreSQL) on the backend.",
+  },
+  {
+    q: "What is Mayank Panchal's tech stack?",
+    a: "Frontend: Next.js (App Router), React.js, TypeScript, Tailwind CSS, GSAP. Backend: Python, FastAPI, Pydantic, SQLAlchemy, PostgreSQL, Redis, Celery, JWT auth. Infra: Docker, Docker Compose, Nginx, AWS EC2, AWS S3, GitHub Actions CI/CD.",
+  },
+  {
+    q: "Where is Mayank Panchal located and is he available for remote work?",
+    a: "Bengaluru, Karnataka, India (Asia/Kolkata / IST). Available for full-time and freelance full-stack, backend (FastAPI/Python), and AI-augmented engineering roles — happy to work remotely with teams anywhere in the world.",
+  },
+  {
+    q: "How can I contact Mayank Panchal?",
+    a: "Email is fastest: mayank.careers01@gmail.com. Phone / WhatsApp: +91 96116 41801. LinkedIn: linkedin.com/in/mayankpanchal01. GitHub: github.com/munkpanchal.",
+  },
+  {
+    q: "Does Mayank Panchal work with AI tools?",
+    a: "Yes — daily. Cursor, Claude Code, Devin (formerly Windsurf), Kiro, Antigravity, GitHub Copilot, ChatGPT, and local Ollama models are integrated into implementation, debugging, refactoring, documentation, and code review — with humans firmly in the loop.",
+  },
+  {
+    q: "What has Mayank Panchal built?",
+    a: "7+ full-stack production apps at Screetract Solutions (Next.js + FastAPI, 99.9% uptime), a scalable conference registration portal (1,000+ attendees, zero downtime), TaskFlow (a full-stack task platform on FastAPI + PostgreSQL + WebSockets), and multiple custom WordPress sites with GSAP-driven UX.",
+  },
+  {
+    q: "What is Mayank Panchal's experience level?",
+    a: "4+ years. Progressed from Associate Software Engineer (2022) → Software Engineer → Senior Software Engineer → Lead Software Engineer (2024–2025) at Screen Interactiv (Screetract OPC) in Bengaluru, leading development across 15+ projects.",
+  },
+];
