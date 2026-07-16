@@ -1,186 +1,217 @@
-'use client'
+"use client";
 
-import MagneticButton from '@/components/ui/MagneticButton'
-import SvgOrbit from '@/components/ui/SvgOrbit'
-import { useSectionInView } from '@/constants/hooks'
-import { useActiveSectionContext } from '@/context/active-section-context'
-import { gsap } from '@/lib/gsap-config'
-import { splitText } from '@/lib/text-splitter'
-import { useGSAP } from '@gsap/react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRef } from 'react'
-import { BsArrowRight, BsDownload, BsGithub, BsLinkedin } from 'react-icons/bs'
+import ImageReveal from "@/components/ui/ImageReveal";
+import MagneticButton from "@/components/ui/MagneticButton";
+import { about, contact, site, socials } from "@/constants/personal";
+import { gsap } from "@/lib/gsap-config";
+import { splitText } from "@/lib/text-splitter";
+import { useGSAP } from "@gsap/react";
+import Link from "next/link";
+import { useRef } from "react";
+import { BsArrowDown, BsGithub, BsLinkedin } from "react-icons/bs";
+
+const ROLES = [
+  "Full Stack Developer",
+  "Next.js · FastAPI · PostgreSQL",
+  "React · TypeScript · Docker",
+  "AI-augmented engineer",
+  "Bengaluru, India",
+];
 
 export default function Hero() {
-  const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext()
-  const { ref: sectionRef } = useSectionInView('Hero', 0.5)
-  const labelRef     = useRef<HTMLSpanElement>(null)
-  const headlineRef  = useRef<HTMLHeadingElement>(null)
-  const subtextRef   = useRef<HTMLParagraphElement>(null)
-  const ctasRef      = useRef<HTMLDivElement>(null)
-  const photoWrapRef = useRef<HTMLDivElement>(null)
-  const emojiRef     = useRef<HTMLSpanElement>(null)
+  const sectionRef = useRef<HTMLElement>(null);
+  const eyebrowRef = useRef<HTMLDivElement>(null);
+  const line1Ref = useRef<HTMLSpanElement>(null);
+  const line2Ref = useRef<HTMLSpanElement>(null);
+  const line3Ref = useRef<HTMLSpanElement>(null);
+  const subtextRef = useRef<HTMLParagraphElement>(null);
+  const metaRef = useRef<HTMLDivElement>(null);
+  const ctasRef = useRef<HTMLDivElement>(null);
+  const rolesRef = useRef<HTMLDivElement>(null);
+  const scrollHintRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    const label    = labelRef.current
-    const headline = headlineRef.current
-    const subtext  = subtextRef.current
-    const ctas     = ctasRef.current
-    const photo    = photoWrapRef.current
-    if (!label || !headline || !subtext || !ctas || !photo) return
+    const tl = gsap.timeline({ defaults: { ease: "expo.out" }, delay: 2.6 });
 
-    const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, delay: 0.5 })
+    // eyebrow
+    if (eyebrowRef.current) {
+      tl.from(Array.from(eyebrowRef.current.children), { opacity: 0, y: 20, duration: 0.6, stagger: 0.08 });
+    }
 
-    // Split label into chars
-    const labelChars = splitText(label, 'chars')
+    // headline lines
+    for (const ref of [line1Ref, line2Ref, line3Ref]) {
+      if (ref.current) {
+        const words = splitText(ref.current, "words");
+        tl.from(words, { yPercent: 110, duration: 0.95, stagger: 0.06, ease: "expo.out" }, "-=0.55");
+      }
+    }
 
-    // Split headline into words
-    const headlineWords = splitText(headline, 'words')
+    // rest
+    if (subtextRef.current) tl.from(subtextRef.current, { opacity: 0, y: 24, duration: 0.7 }, "-=0.5");
+    if (metaRef.current)   tl.from(Array.from(metaRef.current.children), { opacity: 0, y: 14, duration: 0.5, stagger: 0.08 }, "-=0.5");
+    if (ctasRef.current)   tl.from(Array.from(ctasRef.current.children), { opacity: 0, y: 14, duration: 0.5, stagger: 0.08 }, "-=0.4");
+    if (scrollHintRef.current) tl.from(scrollHintRef.current, { opacity: 0, duration: 0.5 }, "-=0.2");
 
-    tl
-      // Label chars stagger in
-      .from(labelChars, {
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.025,
-        ease: 'back.out(2)',
-      })
-      // Headline words slam up
-      .from(
-        headlineWords,
-        { yPercent: 110, duration: 0.85, stagger: 0.07, ease: 'expo.out' },
-        '-=0.3'
-      )
-      // Subtext
-      .from(subtext, { opacity: 0, y: 24, duration: 0.6 }, '-=0.5')
-      // CTAs
-      .from(Array.from(ctas.children), {
-        opacity: 0,
-        y: 20,
-        duration: 0.5,
-        stagger: 0.1,
-      }, '-=0.4')
-      // Photo
-      .from(
-        photo,
-        { scale: 0, opacity: 0, duration: 1.1, ease: 'elastic.out(1, 0.55)' },
-        0.2
-      )
+    // Role ticker — repeat vertical scroll
+    if (rolesRef.current) {
+      const items = Array.from(rolesRef.current.children) as HTMLElement[];
+      const height = items[0]?.offsetHeight ?? 40;
+      gsap.set(rolesRef.current, { height });
+      const rt = gsap.timeline({ repeat: -1, delay: 3.5 });
+      items.forEach((_, i) => {
+        rt.to(rolesRef.current, {
+          y: -height * (i + 1),
+          duration: 0.75,
+          ease: "expo.inOut",
+          delay: 1.8,
+        });
+      });
+      rt.set(rolesRef.current, { y: 0 });
+    }
 
-    // Scroll parallax on photo
-    gsap.to(photo, {
-      yPercent: -35,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1.5,
-      },
-    })
-  }, [])
+    // Scroll hint bounce
+    if (scrollHintRef.current) {
+      gsap.to(scrollHintRef.current.querySelector("[data-arrow]"), {
+        y: 8,
+        repeat: -1,
+        yoyo: true,
+        duration: 1.2,
+        ease: "sine.inOut",
+        delay: 4,
+      });
+    }
+  }, []);
 
   return (
     <section
-      ref={sectionRef as React.RefObject<HTMLElement>}
+      ref={sectionRef}
       id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-screen pt-24 md:pt-32 pb-14 md:pb-20 overflow-hidden"
     >
-      {/* Radial glow backdrop */}
+      {/* Radial glow */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20,184,166,0.12) 0%, transparent 70%)',
+            "radial-gradient(ellipse 70% 55% at 15% 10%, rgba(214,255,59,0.10) 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 90% 90%, rgba(255,107,74,0.05) 0%, transparent 70%)",
         }}
-        aria-hidden="true"
+        aria-hidden
       />
+      <span className="ghost-num right-[-4rem] bottom-[-6rem]">01</span>
 
-      <div className="section-inner w-full pt-28 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 lg:gap-16 items-center">
-
-          {/* LEFT — text content */}
-          <div className="max-w-[640px]">
-            {/* Label */}
-            <span
-              ref={labelRef}
-              className="inline-block font-mono text-label uppercase tracking-[0.18em] text-gold mb-6"
-              aria-label="Full Stack Developer"
-            >
-              Full Stack Developer
+      <div className="container relative z-10">
+        {/* Top band */}
+        <div className="hidden md:flex items-center justify-between mb-12 lg:mb-16">
+          <div ref={eyebrowRef} className="flex items-center gap-8">
+            <span className="eyebrow eyebrow--acid inline-flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-acid" /> Available 2026
             </span>
+            <span className="eyebrow">Portfolio v3 · 2026</span>
+          </div>
+          <div className="flex items-center gap-8">
+            <span className="eyebrow">{contact.city} → World</span>
+            <span className="eyebrow">4+ years shipping</span>
+          </div>
+        </div>
 
-            {/* Headline */}
+        <div className="rule mb-10 md:mb-14" />
+
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-14 lg:gap-24 items-start">
+          <div>
             <h1
-              ref={headlineRef}
-              className="font-display font-bold text-chalk mb-6"
-              style={{
-                fontSize: 'clamp(3rem, 8vw, 7.5rem)',
-                lineHeight: '0.95',
-                letterSpacing: '-0.04em',
-              }}
-              aria-label="Hello, I'm Mayank."
+              className="font-serif text-bone"
+              style={{ fontSize: "clamp(3rem, 12vw, 12rem)", lineHeight: 0.9, letterSpacing: "-0.045em" }}
             >
-              Hello,{'\u00A0'}I&apos;m Mayank.
+              <span className="line-mask block">
+                <span ref={line1Ref} className="inline-block will-change-transform">
+                  Full stack.
+                </span>
+              </span>
+              <span className="line-mask block">
+                <span ref={line2Ref} className="inline-block italic-wonk text-acid will-change-transform">
+                  End to end.
+                </span>
+              </span>
+              <span className="line-mask block">
+                <span ref={line3Ref} className="inline-block will-change-transform">
+                  Ships to prod.
+                </span>
+              </span>
             </h1>
 
-            {/* Subtext */}
+            {/* Rotating role ticker */}
+            <div className="mt-8 md:mt-10 flex items-center gap-4">
+              <span className="eyebrow">Currently</span>
+              <span className="h-px flex-1 max-w-16 bg-fog" />
+              <div className="overflow-hidden" style={{ height: 32 }}>
+                <div ref={rolesRef} className="flex flex-col will-change-transform">
+                  {ROLES.map((r) => (
+                    <span
+                      key={r}
+                      className="h-8 font-serif italic-wonk text-lg md:text-xl text-pearl flex items-center"
+                    >
+                      {r}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
             <p
               ref={subtextRef}
-              className="text-mist text-[1.0625rem] leading-relaxed mb-10 max-w-[480px]"
+              className="mt-10 md:mt-12 max-w-measure text-lede text-pearl"
             >
-              I build accessible, pixel-perfect digital experiences for the web — with precision,
-              performance, and a love for clean code.
+              {about.intro}
             </p>
 
-            {/* CTAs */}
-            <div ref={ctasRef} className="flex flex-wrap gap-4 items-center">
+            <div ref={metaRef} className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-fog pt-6">
+              {[
+                { k: "Experience", v: "4+ years full-stack" },
+                { k: "Frontend", v: "Next.js · React · TS" },
+                { k: "Backend", v: "FastAPI · PostgreSQL" },
+                { k: "Infra", v: "Docker · AWS EC2" },
+              ].map((m) => (
+                <div key={m.k}>
+                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-ash mb-1.5">{m.k}</p>
+                  <p className="text-bone text-sm">{m.v}</p>
+                </div>
+              ))}
+            </div>
+
+            <div ref={ctasRef} className="mt-10 flex flex-wrap items-center gap-4">
               <MagneticButton>
-                <Link
-                  href="#contact"
-                  className="btn-base btn-filled group"
-                  onClick={() => {
-                    setActiveSection('Contact')
-                    setTimeOfLastClick(Date.now())
-                  }}
-                >
-                  Contact me
-                  <BsArrowRight className="transition-transform group-hover:translate-x-1" />
+                <Link href="/contact" className="btn btn-primary" data-cursor="hover" data-cursor-magnetic>
+                  Get in touch
+                  <BsArrowDown className="rotate-[-45deg]" />
                 </Link>
               </MagneticButton>
-
               <MagneticButton>
-                <a
-                  href="/resume.pdf"
-                  download
-                  title="Mayank Panchal Resume"
-                  className="btn-base btn-outline"
-                >
-                  Download CV
-                  <BsDownload />
-                </a>
+                <Link href="/projects" className="btn btn-ghost" data-cursor="hover" data-cursor-magnetic>
+                  Selected work
+                </Link>
               </MagneticButton>
+              <a href="/resume.pdf" target="_blank" rel="noreferrer" className="btn btn-hair" data-cursor="hover">
+                Résumé (PDF)
+              </a>
 
-              <div className="flex items-center gap-3 ml-2">
+              <div className="ml-2 flex items-center gap-2">
                 <a
-                  href="https://www.linkedin.com/in/mayankpanchal01/"
+                  href={socials[0].url}
                   target="_blank"
                   rel="noreferrer"
-                  title="LinkedIn"
-                  className="w-10 h-10 rounded-full border border-ash flex items-center justify-center text-mist hover:text-chalk hover:border-mist transition-colors text-[1.1rem]"
-                  data-cursor="link"
+                  aria-label="LinkedIn"
+                  className="w-11 h-11 rounded-full border border-fog flex items-center justify-center text-pearl hover:text-obsidian hover:bg-acid hover:border-acid transition-colors"
+                  data-cursor="hover"
                 >
                   <BsLinkedin />
                 </a>
                 <a
-                  href="https://github.com/munkpanchal"
+                  href={socials[1].url}
                   target="_blank"
                   rel="noreferrer"
-                  title="GitHub"
-                  className="w-10 h-10 rounded-full border border-ash flex items-center justify-center text-mist hover:text-chalk hover:border-mist transition-colors text-[1.1rem]"
-                  data-cursor="link"
+                  aria-label="GitHub"
+                  className="w-11 h-11 rounded-full border border-fog flex items-center justify-center text-pearl hover:text-obsidian hover:bg-acid hover:border-acid transition-colors"
+                  data-cursor="hover"
                 >
                   <BsGithub />
                 </a>
@@ -188,70 +219,42 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT — photo */}
-          <div
-            ref={photoWrapRef}
-            className="relative mx-auto lg:mx-0 flex-shrink-0"
-            style={{ width: 260, height: 260 }}
-            data-cursor="image"
-          >
-            {/* Teal glow behind photo */}
-            <div
-              className="absolute inset-0 rounded-full pointer-events-none"
-              style={{
-                background: 'radial-gradient(circle, rgba(20,184,166,0.35) 0%, transparent 70%)',
-                transform: 'scale(1.4)',
-              }}
-              aria-hidden="true"
-            />
-
-            {/* Orbit ring — animated SVG */}
-            <SvgOrbit
-              radius={136}
-              strokeColor="rgba(20,184,166,0.4)"
-              strokeWidth={1}
-              duration={1.2}
-              delay={0.8}
-              className="-inset-[8px]"
-            />
-            <SvgOrbit
-              radius={148}
-              strokeColor="rgba(245,158,11,0.2)"
-              strokeWidth={1}
-              duration={1.5}
-              delay={1.0}
-              className="-inset-[20px]"
-            />
-
-            {/* Profile photo */}
-            <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-ash">
-              <Image
-                src="/bannerDp.jpg"
-                alt="Mayank Panchal"
-                fill
-                sizes="260px"
-                className="object-cover"
+          {/* Portrait */}
+          <div className="relative mx-auto lg:mx-0 lg:mt-4 flex-shrink-0" style={{ width: "min(380px, 82vw)" }}>
+            <figure>
+              <ImageReveal
+                src="/mayank.jpeg"
+                alt="Portrait of Mayank Panchal"
+                className="aspect-square border border-fog"
+                sizes="(max-width: 1024px) 80vw, 380px"
                 priority
+                parallax
+                from="bottom"
               />
-            </div>
-
-            {/* Wave emoji */}
-            <span
-              ref={emojiRef}
-              className="absolute -bottom-1 -right-1 text-3xl select-none pointer-events-none"
-              aria-hidden="true"
-            >
-              👋
-            </span>
+              <figcaption className="mt-3 flex items-baseline justify-between">
+                <span className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-ash">
+                  Fig. 01 — The author
+                </span>
+                <span className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-ash">
+                  BLR · 2026
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-          <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-mist">Scroll</span>
-          <div className="w-px h-10 bg-gradient-to-b from-mist to-transparent" />
+        {/* Scroll hint */}
+        <div
+          ref={scrollHintRef}
+          className="mt-16 md:mt-24 flex items-center gap-4"
+        >
+          <span className="h-px w-16 bg-acid" aria-hidden />
+          <span className="eyebrow eyebrow--acid">Scroll to explore</span>
+          <span data-arrow className="text-acid inline-flex">
+            <BsArrowDown />
+          </span>
         </div>
       </div>
     </section>
-  )
+  );
 }

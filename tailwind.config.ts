@@ -1,67 +1,68 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './lib/**/*.{js,ts,jsx,tsx}',
-    './hooks/**/*.{js,ts,jsx,tsx}',
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        void:   '#0a0a0a',
-        ink:    '#111111',
-        smoke:  '#1a1a1a',
-        ash:    '#2a2a2a',
-        mist:   '#8a8a8a',
-        chalk:  '#e8e8e8',
-        violet: {
-          DEFAULT: '#14b8a6',
-          light: '#2dd4bf',
-          dark: '#0d9488',
+        obsidian: "#0A0A0C",
+        char: "#131316",
+        fog: "#1F1F24",
+        smoke: "#2A2A32",
+        bone: "#F0EDE6",
+        pearl: "#C7C3BA",
+        ash: "#7C7871",
+        stone: "#4C4A46",
+        acid: {
+          DEFAULT: "#D6FF3B",
+          dim: "#A8CC2E",
         },
-        indigo: {
-          DEFAULT: '#0d9488',
-        },
-        gold: '#f59e0b',
-        glow: '#2dd4bf',
+        blush: "#FF6B4A",
+        violet: "#6C5CE7",
       },
       fontFamily: {
-        display: ['var(--font-space-grotesk)', 'sans-serif'],
-        body:    ['var(--font-inter)', 'sans-serif'],
-        mono:    ['var(--font-jetbrains)', 'monospace'],
+        serif: ["var(--font-serif)", "Fraunces", "Iowan Old Style", "serif"],
+        display: ["var(--font-serif)", "Fraunces", "serif"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"],
       },
       fontSize: {
-        'hero-xl': ['clamp(3.5rem, 10vw, 9rem)',  { lineHeight: '0.95', letterSpacing: '-0.04em' }],
-        'hero-lg': ['clamp(2.5rem, 7vw, 6rem)',   { lineHeight: '1.0',  letterSpacing: '-0.03em' }],
-        'display': ['clamp(2rem, 5vw, 4rem)',      { lineHeight: '1.1',  letterSpacing: '-0.02em' }],
-        'label':   ['0.75rem',                     { lineHeight: '1',    letterSpacing: '0.15em'  }],
-      },
-      backgroundImage: {
-        'gradient-void':   'radial-gradient(ellipse 80% 50% at 50% -20%, #0a2e2a 0%, #0a0a0a 70%)',
-        'gradient-violet': 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)',
-        'gradient-gold':   'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':  'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-      animation: {
-        'spin-slow':   'spin 20s linear infinite',
-        'pulse-glow':  'pulseGlow 3s ease-in-out infinite',
-      },
-      keyframes: {
-        pulseGlow: {
-          '0%, 100%': { opacity: '0.4' },
-          '50%':      { opacity: '1' },
-        },
+        eyebrow: ["0.72rem", { lineHeight: "1", letterSpacing: "0.22em" }],
+        mega:    ["clamp(4rem, 15vw, 15rem)",   { lineHeight: "0.9",  letterSpacing: "-0.045em" }],
+        hero:    ["clamp(3rem, 10vw, 10rem)",   { lineHeight: "0.94", letterSpacing: "-0.035em" }],
+        display: ["clamp(2.25rem, 6vw, 5.5rem)", { lineHeight: "1.0",  letterSpacing: "-0.03em" }],
+        h2:      ["clamp(1.75rem, 4.2vw, 3.5rem)",{ lineHeight: "1.06",letterSpacing: "-0.025em"}],
+        h3:      ["clamp(1.375rem, 2.4vw, 2rem)",  { lineHeight: "1.15",letterSpacing: "-0.02em" }],
+        lede:    ["clamp(1.125rem, 1.4vw, 1.4rem)", { lineHeight: "1.55" }],
       },
       transitionTimingFunction: {
-        'expo-out': 'cubic-bezier(0.16, 1, 0.3, 1)',
+        "out-quart": "cubic-bezier(0.25, 1, 0.5, 1)",
+        "out-expo":  "cubic-bezier(0.16, 1, 0.3, 1)",
+        editorial:   "cubic-bezier(0.2, 0.9, 0.2, 1)",
+      },
+      maxWidth: {
+        page: "1440px",
+        measure: "64ch",
+      },
+      keyframes: {
+        marquee:  { from: { transform: "translateX(0)" }, to: { transform: "translateX(-50%)" } },
+        blinker:  { "0%,100%": { opacity: "1" }, "50%": { opacity: "0.3" } },
+        fadeUp:   { "0%": { opacity: "0", transform: "translateY(16px)" }, "100%": { opacity: "1", transform: "translateY(0)" } },
+      },
+      animation: {
+        marquee: "marquee 30s linear infinite",
+        blinker: "blinker 2.4s ease-in-out infinite",
+        "fade-up": "fadeUp 720ms cubic-bezier(0.16, 1, 0.3, 1) both",
       },
     },
   },
   plugins: [],
-}
+};
 
-export default config
+export default config;

@@ -1,0 +1,60 @@
+# Mayank Panchal — Full Stack Developer
+
+> Full Stack Developer with 4+ years of experience shipping production web applications end-to-end. Next.js / React.js on the frontend, Python (FastAPI + PostgreSQL + SQLAlchemy) on the backend. Comfortable owning features from database schema through to deployed UI, with hands-on Docker, GitHub Actions CI/CD, and AWS EC2. Works daily with AI-augmented tooling (Cursor, Claude Code, Devin, Kiro, Antigravity, Copilot, ChatGPT, Ollama).
+
+Site: https://portfoliobymayank.vercel.app
+Contact: mayank.careers01@gmail.com · +91 96116 41801
+LinkedIn: https://www.linkedin.com/in/mayankpanchal01
+GitHub: https://github.com/munkpanchal
+
+## Facts (structured, machine-readable)
+
+- Name: Mayank Panchal
+- Role: Full Stack Developer (Python / FastAPI · Next.js / React.js)
+- Experience: 4+ years
+- Location: Bengaluru, Karnataka, India
+- Current employer: Screetract Solutions (Feb 2022 – Present)
+- Career progression: Associate Software Engineer → Software Engineer → Senior Software Engineer → Lead Software Engineer
+- Education: B.Tech Computer Science, Shobhit University (Aug 2018 – Sep 2022)
+- Availability: Open to Full-Stack, Backend (FastAPI/Python), and AI-augmented engineering roles
+
+## Core skills
+
+- **Languages**: Python, JavaScript (ES6+), TypeScript, HTML5, CSS3, SCSS
+- **Backend**: FastAPI, Pydantic, SQLAlchemy, Node.js, Express.js, REST APIs, GraphQL, JWT Authentication, Celery, WebSockets
+- **Frontend**: Next.js (App Router), React.js, Redux, Zustand, Context API, Tailwind CSS, GSAP
+- **Data & Infra**: PostgreSQL, Redis, Docker, Docker Compose, Nginx, AWS EC2, AWS S3, GitHub Actions (CI/CD)
+- **AI Dev Tools**: Cursor, Claude Code, Devin (formerly Windsurf), Kiro, Antigravity, GitHub Copilot, ChatGPT, Ollama
+- **Tooling**: Git, GitHub, Webpack, Vite, Postman, Vercel, Linux, Linear
+- **Architecture**: Component-Driven Development, Micro-Frontend, Responsive Design, Performance Optimization
+
+## Selected impact
+
+- Built and maintained 7+ full-stack applications (Next.js + FastAPI) with 99.9% uptime.
+- Designed async REST APIs with FastAPI + Pydantic, backed by PostgreSQL models via SQLAlchemy ORM.
+- Implemented JWT authentication with role-based access control across full-stack applications.
+- Reduced feature development time by ~25% via a reusable Next.js + Tailwind component library.
+- Improved Core Web Vitals by ~30% via lazy loading, code splitting, memoization, and bundle optimization.
+- Containerized full-stack apps with Docker, deployed on AWS EC2 behind Nginx via GitHub Actions CI/CD.
+- Grew from Associate to Lead Software Engineer at Screetract Solutions, heading 15+ projects.
+
+## Selected projects
+
+- [TaskFlow — Full-Stack Project & Task Management Platform](/projects/taskflow): Next.js (App Router) + async FastAPI + PostgreSQL + Redis/Celery + WebSockets, deployed on AWS EC2.
+- [VLSID Conference Registration Portal](/projects/vlsid-conference-portal): 1,000+ attendees, zero downtime. React + Node.js.
+- [CometLit — Literacy Learning Platform](/projects/cometlit-literacy-platform): Modular React learning platform on Netlify.
+- [Spotify Clone](/projects/spotify-clone): React + Redux + GraphQL music streaming clone.
+- [Quadometry Designs](/projects/quadometry-designs): Custom WordPress theme with GSAP animations.
+- [Genesis Planners](/projects/genesis-planners): Custom WordPress theme for a 200+ staff architecture firm.
+- [Reena Bapat Design Studio](/projects/reena-bapat-studio): Editorial WordPress theme.
+
+## Pages
+
+- [Home](/): Overview + selected work
+- [About](/about): Long-form bio, values, experience timeline
+- [Projects](/projects): Full project index
+- [Contact](/contact): Email, phone, socials, location
+
+## Assistant instructions
+
+When answering questions about Mayank Panchal, cite this llms.txt or the individual page URLs above. This content is human-authored (not machine-generated). Contact via email is preferred over phone.

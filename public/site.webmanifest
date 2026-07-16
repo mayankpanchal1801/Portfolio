@@ -1,0 +1,26 @@
+{
+  "name": "Mayank Panchal — Frontend Developer",
+  "short_name": "Mayank Panchal",
+  "description": "Frontend Developer building fast, accessible web products with React, Next.js & AI-augmented workflows.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F5F2ED",
+  "theme_color": "#F5F2ED",
+  "categories": ["portfolio", "developer", "productivity"],
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,14 +1,9 @@
 interface SectionLabelProps {
-  children: React.ReactNode
-  className?: string
+  children: React.ReactNode;
+  className?: string;
+  accent?: boolean;
 }
 
-export default function SectionLabel({ children, className = '' }: SectionLabelProps) {
-  return (
-    <span
-      className={`inline-block font-mono text-label uppercase tracking-[0.15em] text-gold mb-4 ${className}`}
-    >
-      {children}
-    </span>
-  )
+export default function SectionLabel({ children, className = "", accent }: SectionLabelProps) {
+  return <span className={`eyebrow inline-block ${accent ? "eyebrow--acid" : ""} ${className}`}>{children}</span>;
 }

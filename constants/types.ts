@@ -1,3 +1,3 @@
 import { navLinksArr } from "./links";
 
-export type SectionName = (typeof navLinksArr)[number]["name"];
+export type NavLinkName = (typeof navLinksArr)[number]["name"];

@@ -1,20 +1,18 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, type ReactNode } from 'react'
 import { gsap } from '@/lib/gsap-config'
 
 interface MagneticButtonProps {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
   strength?: number
-  as?: keyof JSX.IntrinsicElements
 }
 
 export default function MagneticButton({
   children,
   className = '',
   strength = 0.45,
-  as: Tag = 'div',
 }: MagneticButtonProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const innerRef = useRef<HTMLDivElement>(null)

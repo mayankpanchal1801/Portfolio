@@ -1,0 +1,16 @@
+/* TEAM */
+Frontend Developer: Mayank Panchal
+Contact: mayank.careers01 [at] gmail.com
+LinkedIn: https://www.linkedin.com/in/mayankpanchal01
+GitHub: https://github.com/munkpanchal
+From: Bengaluru, Karnataka, India
+
+/* SITE */
+Built with: Next.js, TypeScript, Tailwind CSS, GSAP
+Hosted on: Vercel
+Standards: HTML5, WAI-ARIA, WCAG 2.2 AA
+Doctype: HTML5
+Language: English
+
+/* THANKS */
+To every OSS maintainer whose work quietly makes the web possible.
