@@ -1,5 +1,6 @@
 "use client";
 
+import PageRibbon from "@/components/shared/PageRibbon";
 import { projectsArr, type Project } from "@/constants/projects";
 import { gsap } from "@/lib/gsap-config";
 import { splitText } from "@/lib/text-splitter";
@@ -41,13 +42,24 @@ export default function ProjectsList() {
   }, [filter]);
 
   return (
-    <main className="pt-32 md:pt-40">
-      <section className="container mb-14 md:mb-20" aria-labelledby="projects-title">
-        <p className="eyebrow eyebrow--acid">Projects · An index</p>
+    <main className="pt-24 md:pt-32">
+      <section className="container relative mb-12 md:mb-16" aria-labelledby="projects-title">
+        <span className="ghost-num right-[-2rem] top-0">P</span>
+
+        <PageRibbon
+          section="Projects"
+          index="P"
+          right={
+            <span className="tabular-nums">
+              {String(projectsArr.length).padStart(2, "0")} entries
+            </span>
+          }
+        />
+
         <h1
           ref={titleRef}
           id="projects-title"
-          className="mt-6 font-serif text-bone leading-[0.94]"
+          className="mt-10 md:mt-14 font-serif text-bone leading-[0.94]"
           style={{ fontSize: "clamp(2.5rem, 9vw, 8rem)", letterSpacing: "-0.04em" }}
         >
           Selected work, <em className="italic-wonk text-acid">chronologically</em>.
@@ -60,7 +72,7 @@ export default function ProjectsList() {
       {/* Filter bar */}
       <section className="container mb-10">
         <div className="flex flex-wrap items-center gap-2 border-y border-fog py-4">
-          <span className="eyebrow mr-4">Filter</span>
+          <span className="eyebrow mr-4">P1 · Filter</span>
           {FILTERS.map((f) => (
             <button
               key={f}
@@ -78,8 +90,8 @@ export default function ProjectsList() {
               {f}
             </button>
           ))}
-          <span className="ml-auto font-mono text-[0.7rem] text-ash">
-            {String(filtered.length).padStart(2, "0")} entries
+          <span className="ml-auto font-mono text-[0.7rem] uppercase tracking-[0.2em] text-ash tabular-nums">
+            Showing {String(filtered.length).padStart(2, "0")} / {String(projectsArr.length).padStart(2, "0")}
           </span>
         </div>
       </section>

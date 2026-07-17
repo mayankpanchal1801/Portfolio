@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maylance | Engineering Digital Reality</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN for single-file dynamism) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#050505',
+                            surface: '#0D0D0D',
+                            card: 'rgba(255,255,255,0.03)',
+                            border: 'rgba(255,255,255,0.08)',
+                            primary: '#FFFFFF',
+                            secondary: '#B6B6B6',
+                            accent1: '#00E5FF',
+                            accent2: '#8B5CF6',
+                            accent3: '#06B6D4'
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'hero-glow': 'radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.15) 0%, rgba(5, 5, 5, 0) 50%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --cursor-size: 20px;
+        }
+
+        body {
+            background-color: #050505;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            cursor: none;
+            /* Custom cursor */
+        }
+
+        /* WebGL Canvas Background */
+        #webgl-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Smooth Scrolling (Lenis required styles) */
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            transition: opacity 0.2s;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s, transform 0.1s ease-out;
+            will-change: width, height, transform, border;
+        }
+
+        /* Cursor Hover States */
+        body:has(.hover-target:hover) .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(2px);
+            border-color: transparent;
+        }
+
+        body:has(.hover-target:hover) .cursor-dot {
+            opacity: 0;
+        }
+
+        /* Utility Classes */
+        .glass-panel {
+            background: var(--tw-colors-brand-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--tw-colors-brand-border);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #00E5FF, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .clip-text-reveal {
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+        }
+
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* Works Section Horizontal Scroll */
+        .works-wrapper {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .works-container {
+            width: fit-content;
+            height: 100%;
+            display: flex;
+            flex-wrap: nowrap;
+            padding: 0 10vw;
+        }
+
+        /* Code Editor Typing */
+        .code-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1em;
+            background-color: #00E5FF;
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Magnetic Button Wrapper */
+        .magnetic-wrap {
+            display: inline-block;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body class="text-brand-primary font-sans selection:bg-brand-accent2 selection:text-white">
+
+    <!-- WebGL Background -->
+    <div id="webgl-container"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Navigation -->
+    <nav
+        class="fixed top-0 left-0 w-full z-50 px-6 py-6 mix-blend-difference flex justify-between items-center pointer-events-none">
+        <div class="text-xl font-bold tracking-tighter pointer-events-auto hover-target cursor-pointer">MAYLANCE.</div>
+        <div class="pointer-events-auto flex gap-6 text-sm font-medium">
+            <a href="#expertise" class="hover-target hover:text-brand-accent1 transition-colors">Expertise</a>
+            <a href="#works" class="hover-target hover:text-brand-accent1 transition-colors">Works</a>
+            <a href="#contact" class="hover-target hover:text-brand-accent1 transition-colors">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <main id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <!-- HERO SECTION -->
+            <section id="hero"
+                class="relative w-full h-screen flex flex-col justify-center items-center text-center px-4 overflow-hidden">
+                <div class="absolute inset-0 bg-hero-glow z-0"></div>
+
+                <div class="z-10 max-w-5xl mx-auto flex flex-col items-center">
+                    <h1
+                        class="hero-title text-6xl md:text-8xl lg:text-[140px] font-bold tracking-tighter leading-[0.9] mb-4 will-change-transform">
+                        <span class="block overflow-hidden"><span
+                                class="block clip-text-reveal text-line">MAYLANCE</span></span>
+                    </h1>
+
+                    <h2 class="hero-subtitle text-xl md:text-3xl font-medium text-brand-secondary mb-8 overflow-hidden">
+                        <span class="block clip-text-reveal text-line">Engineering Digital Reality.</span>
+                    </h2>
+
+                    <p
+                        class="hero-desc max-w-2xl text-base md:text-lg text-brand-secondary/80 mb-12 opacity-0 font-light">
+                        An independent development studio architecting high-performance web systems and crafting
+                        pixel-perfect application experiences from the ground up.
+                    </p>
+
+                    <div class="hero-cta flex flex-col sm:flex-row gap-6 opacity-0">
+                        <div class="magnetic-wrap">
+                            <a href="#works"
+                                class="hover-target glass-panel px-8 py-4 rounded-full flex items-center gap-2 hover:bg-white/10 transition-colors duration-300 group">
+                                <span>View Selected Work</span>
+                                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="magnetic-wrap">
+                            <a href="#contact"
+                                class="hover-target relative px-8 py-4 rounded-full overflow-hidden group border border-brand-accent1/30">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-r from-brand-accent1 to-brand-accent2 opacity-20 group-hover:opacity-40 transition-opacity duration-300">
+                                </div>
+                                <span class="relative z-10 text-white font-medium">Start a Project</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scroll indicator -->
+                <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+                    <span class="text-xs uppercase tracking-widest">Scroll</span>
+                    <div class="w-[1px] h-12 bg-white/30 overflow-hidden relative">
+                        <div class="absolute top-0 left-0 w-full h-1/2 bg-white scroll-line"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EXPERTISE SECTION -->
+            <section id="expertise" class="w-full py-32 md:py-48 relative">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="mb-24 md:mb-40 text-center md:text-left">
+                        <p class="text-brand-accent1 text-sm tracking-widest uppercase mb-4 uppercase-reveal">Our Core
+                            Disciplines</p>
+                        <h2 class="text-4xl md:text-7xl font-bold tracking-tight section-title-reveal">
+                            Architectural<br>Excellence.</h2>
+                    </div>
+
+                    <div class="flex flex-col gap-32 md:gap-48">
+                        <!-- Expertise 1 -->
+                        <div class="expertise-item flex flex-col md:flex-row items-center gap-12 lg:gap-24">
+                            <div class="w-full md:w-1/2 flex flex-col items-start relative z-10">
+                                <h3 class="text-3xl md:text-5xl font-bold mb-6">Web Platforms</h3>
+                                <p class="text-brand-secondary text-lg mb-8 leading-relaxed max-w-md">
+                                    We build scalable, high-performance web applications using modern stacks. From
+                                    immersive WebGL experiences to robust enterprise dashboards, every line of code is
+                                    optimized.
+                                </p>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="px-4 py-2 text-sm rounded-full border border-white/10 bg-white/5">React
+                                        & Next.js</span>
+                                    <span
+                                        class="px-4 py-2 text-sm rounded-full border border-white/10 bg-white/5">Three.js</span>
+                                    <span
+                                        class="px-4 py-2 text-sm rounded-full border border-white/10 bg-white/5">Tailwind
+                                        CSS</span>
+                                </div>
+                            </div>
+                            <div
+                                class="w-full md:w-1/2 aspect-square md:aspect-[4/3] glass-panel rounded-3xl relative overflow-hidden flex items-center justify-center group expertise-visual">
+                                <!-- Abstract CSS representation of web layout -->
+                                <div
+                                    class="w-3/4 h-2/3 border border-brand-accent1/30 rounded-lg relative transition-transform duration-700 group-hover:scale-105 group-hover:-rotate-2">
+                                    <div
+                                        class="absolute top-0 w-full h-8 border-b border-brand-accent1/20 flex items-center px-4 gap-2">
+                                        <div class="w-2 h-2 rounded-full bg-red-500/50"></div>
+                                        <div class="w-2 h-2 rounded-full bg-yellow-500/50"></div>
+                                        <div class="w-2 h-2 rounded-full bg-green-500/50"></div>
+                                    </div>
+                                    <div class="p-6 pt-12 flex flex-col gap-4 h-full">
+                                        <div class="w-full h-1/2 bg-white/5 rounded-md animate-pulse"></div>
+                                        <div class="flex gap-4 h-1/2">
+                                            <div class="w-1/2 h-full bg-white/5 rounded-md"></div>
+                                            <div class="w-1/2 h-full bg-white/5 rounded-md"></div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-tr from-brand-accent1/10 to-transparent pointer-events-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expertise 2 -->
+                        <div class="expertise-item flex flex-col md:flex-row-reverse items-center gap-12 lg:gap-24">
+                            <div class="w-full md:w-1/2 flex flex-col items-start relative z-10">
+                                <h3 class="text-3xl md:text-5xl font-bold mb-6">Backend Systems</h3>
+                                <p class="text-brand-secondary text-lg mb-8 leading-relaxed max-w-md">
+                                    Secure, scalable, and lightning-fast server architectures. We engineer the invisible
+                                    backbone that powers your digital products, ensuring flawless data flow and
+                                    stability.
+                                </p>
+                                <div class="flex flex-wrap gap-3">
+                                    <span
+                                        class="px-4 py-2 text-sm rounded-full border border-white/10 bg-white/5">Node.js</span>
+                                    <span
+                                        class="px-4 py-2 text-sm rounded-full border border-white/10 bg-white/5">PostgreSQL</span>
+                                    <span class="px-4 py-2 text-sm rounded-full border border-white/10 bg-white/5">Cloud
+                                        Infrastructure</span>
+                                </div>
+                            </div>
+                            <div
+                                class="w-full md:w-1/2 aspect-square md:aspect-[4/3] glass-panel rounded-3xl relative overflow-hidden flex items-center justify-center group expertise-visual">
+                                <!-- Abstract CSS representation of servers/nodes -->
+                                <div
+                                    class="relative w-full h-full flex items-center justify-center perspective-[1000px]">
+                                    <div
+                                        class="flex flex-col gap-6 transform transition-transform duration-700 group-hover:rotate-x-12 group-hover:rotate-y-12">
+                                        <div
+                                            class="w-64 h-16 border border-brand-accent2/40 bg-brand-accent2/5 rounded-lg flex items-center px-6 relative overflow-hidden">
+                                            <div class="absolute left-0 w-1 h-full bg-brand-accent2 animate-pulse">
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <div class="w-2 h-2 rounded-full bg-brand-accent2/80"></div>
+                                                <div class="w-2 h-2 rounded-full bg-brand-accent2/40"></div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="w-64 h-16 border border-brand-accent1/40 bg-brand-accent1/5 rounded-lg flex items-center px-6 relative overflow-hidden translate-x-4">
+                                            <div class="absolute left-0 w-1 h-full bg-brand-accent1 animate-pulse"
+                                                style="animation-delay: 0.5s"></div>
+                                            <div class="flex gap-2">
+                                                <div class="w-2 h-2 rounded-full bg-brand-accent1/80"></div>
+                                                <div class="w-2 h-2 rounded-full bg-brand-accent1/40"></div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="w-64 h-16 border border-brand-accent3/40 bg-brand-accent3/5 rounded-lg flex items-center px-6 relative overflow-hidden -translate-x-2">
+                                            <div class="absolute left-0 w-1 h-full bg-brand-accent3 animate-pulse"
+                                                style="animation-delay: 1s"></div>
+                                            <div class="flex gap-2">
+                                                <div class="w-2 h-2 rounded-full bg-brand-accent3/80"></div>
+                                                <div class="w-2 h-2 rounded-full bg-brand-accent3/40"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-brand-accent2/5 to-transparent pointer-events-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SELECTED WORKS (Horizontal Scroll) -->
+            <section id="works" class="works-section relative bg-brand-surface w-full">
+                <div class="sticky top-0 h-screen works-wrapper flex flex-col justify-center">
+
+                    <div class="absolute top-12 md:top-24 left-6 md:left-12 z-20 mix-blend-difference">
+                        <h2 class="text-4xl md:text-6xl font-bold tracking-tight">Selected<br>Works.</h2>
+                    </div>
+
+                    <div class="works-container items-center gap-10 md:gap-32">
+
+                        <!-- Empty spacer for initial sticky padding -->
+                        <div class="w-[10vw] flex-shrink-0"></div>
+
+                        <!-- Project 1 -->
+                        <div
+                            class="work-card w-[85vw] md:w-[60vw] h-[60vh] md:h-[70vh] flex-shrink-0 relative group cursor-pointer hover-target">
+                            <div
+                                class="w-full h-full glass-panel rounded-2xl overflow-hidden relative border border-white/5 group-hover:border-white/20 transition-colors duration-500">
+                                <!-- Abstract visual placeholder for project image -->
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-br from-[#0f172a] to-[#020617] scale-100 group-hover:scale-105 transition-transform duration-1000 ease-out">
+                                    <div
+                                        class="absolute inset-0 opacity-30 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')]">
+                                    </div>
+                                    <!-- Decorative elements -->
+                                    <div
+                                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border border-brand-accent1/20 rounded-full rotate-45 group-hover:rotate-90 transition-transform duration-1000">
+                                    </div>
+                                    <div
+                                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-brand-accent2/20 rounded-full -rotate-45 group-hover:-rotate-90 transition-transform duration-1000">
+                                    </div>
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-500">
+                                </div>
+
+                                <div
+                                    class="absolute bottom-0 left-0 w-full p-8 md:p-12 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                    <div
+                                        class="flex gap-3 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                        <span
+                                            class="text-xs uppercase tracking-widest text-brand-accent1">Fintech</span>
+                                        <span class="text-xs uppercase tracking-widest text-white/50">Dashboard</span>
+                                    </div>
+                                    <h3 class="text-3xl md:text-5xl font-bold mb-2">Nexus Analytics</h3>
+                                    <p
+                                        class="text-brand-secondary max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                                        Real-time financial data visualization platform built with React, Three.js, and
+                                        WebSockets.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 2 -->
+                        <div
+                            class="work-card w-[85vw] md:w-[60vw] h-[60vh] md:h-[70vh] flex-shrink-0 relative group cursor-pointer hover-target">
+                            <div
+                                class="w-full h-full glass-panel rounded-2xl overflow-hidden relative border border-white/5 group-hover:border-white/20 transition-colors duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-tr from-[#2e1065] to-[#0f172a] scale-100 group-hover:scale-105 transition-transform duration-1000 ease-out">
+                                    <div
+                                        class="absolute inset-0 opacity-30 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')]">
+                                    </div>
+                                    <div
+                                        class="absolute right-10 bottom-10 w-48 h-48 bg-brand-accent2/20 blur-3xl rounded-full group-hover:bg-brand-accent2/40 transition-colors duration-700">
+                                    </div>
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-500">
+                                </div>
+
+                                <div
+                                    class="absolute bottom-0 left-0 w-full p-8 md:p-12 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                    <div
+                                        class="flex gap-3 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                        <span
+                                            class="text-xs uppercase tracking-widest text-brand-accent2">E-Commerce</span>
+                                        <span class="text-xs uppercase tracking-widest text-white/50">Mobile
+                                            Engine</span>
+                                    </div>
+                                    <h3 class="text-3xl md:text-5xl font-bold mb-2">Aura Platform</h3>
+                                    <p
+                                        class="text-brand-secondary max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                                        High-conversion headless commerce frontend architectures focusing on
+                                        micro-interactions.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 3 -->
+                        <div
+                            class="work-card w-[85vw] md:w-[60vw] h-[60vh] md:h-[70vh] flex-shrink-0 relative group cursor-pointer hover-target">
+                            <div
+                                class="w-full h-full glass-panel rounded-2xl overflow-hidden relative border border-white/5 group-hover:border-white/20 transition-colors duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-b from-[#082f49] to-[#020617] scale-100 group-hover:scale-105 transition-transform duration-1000 ease-out">
+                                    <div class="absolute inset-0 flex items-center justify-center opacity-20">
+                                        <!-- Grid pattern -->
+                                        <div class="w-full h-full"
+                                            style="background-image: linear-gradient(#06B6D4 1px, transparent 1px), linear-gradient(90deg, #06B6D4 1px, transparent 1px); background-size: 40px 40px;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-500">
+                                </div>
+
+                                <div
+                                    class="absolute bottom-0 left-0 w-full p-8 md:p-12 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                    <div
+                                        class="flex gap-3 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                        <span class="text-xs uppercase tracking-widest text-brand-accent3">SaaS</span>
+                                        <span class="text-xs uppercase tracking-widest text-white/50">System
+                                            Design</span>
+                                    </div>
+                                    <h3 class="text-3xl md:text-5xl font-bold mb-2">Vortex Cloud</h3>
+                                    <p
+                                        class="text-brand-secondary max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                                        Scalable cloud resource management interface with intricate data visualizations.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Spacer for end of scroll -->
+                        <div class="w-[20vw] flex-shrink-0 flex items-center justify-center">
+                            <p class="text-white/20 uppercase tracking-[0.3em] text-sm rotate-90">View Archive</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHILOSOPHY / CODE SECTION -->
+            <section id="philosophy" class="w-full py-32 md:py-48 relative overflow-hidden border-t border-white/5">
+                <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center">
+
+                    <div class="flex flex-col z-10">
+                        <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-tight">We write
+                            logic<br><span class="text-brand-secondary">that looks like poetry.</span></h2>
+                        <p class="text-brand-secondary text-lg max-w-md mb-12">
+                            Clean architecture isn't just about functionality; it's about craft. We believe in
+                            engineering systems that are as beautiful under the hood as they are on the screen.
+                        </p>
+
+                        <!-- Stats Counters -->
+                        <div class="grid grid-cols-2 gap-8">
+                            <div class="stat-block">
+                                <div class="text-4xl md:text-5xl font-bold text-white mb-2 flex"><span class="counter"
+                                        data-target="100">0</span><span class="text-brand-accent1">%</span></div>
+                                <div class="text-sm text-brand-secondary uppercase tracking-widest">In-house Execution
+                                </div>
+                            </div>
+                            <div class="stat-block">
+                                <div class="text-4xl md:text-5xl font-bold text-white mb-2 flex"><span class="counter"
+                                        data-target="60">0</span><span class="text-brand-accent2">FPS</span></div>
+                                <div class="text-sm text-brand-secondary uppercase tracking-widest">Target Performance
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Code Editor Visualization -->
+                    <div
+                        class="glass-panel rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative z-10 font-mono text-sm md:text-base leading-relaxed">
+                        <!-- Editor Header -->
+                        <div class="bg-black/50 border-b border-white/5 px-4 py-3 flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                            <div class="ml-4 text-xs text-brand-secondary font-sans">maylance.config.js</div>
+                        </div>
+                        <!-- Editor Body -->
+                        <div class="p-6 md:p-8 min-h-[400px] text-white/80" id="code-block">
+                            <!-- Code will be typed here by JS -->
+                        </div>
+                        <!-- Hidden raw code text for the typing effect -->
+                        <div id="raw-code" class="hidden">
+                            const MaylanceStudio = {
+                            founder: "Mayank Panchal",
+                            role: "Full Stack Architect",
+                            focus: [
+                            "Scalable Web Systems",
+                            "Cross-platform Apps",
+                            "Premium UI/UX"
+                            ],
+                            build: async (vision) => {
+                            await architect(vision);
+                            await engineer(vision);
+                            return launch("Success");
+                            }
+                            };</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTACT / FOOTER -->
+            <section id="contact"
+                class="w-full min-h-screen flex flex-col justify-between relative overflow-hidden pt-32">
+                <!-- Background gradient flare -->
+                <div
+                    class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[50vh] bg-hero-glow opacity-30 pointer-events-none">
+                </div>
+
+                <div
+                    class="max-w-7xl mx-auto px-6 flex-1 flex flex-col justify-center items-center text-center z-10 w-full">
+                    <h2 class="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter mb-12 footer-title">
+                        Let's Build<br>Something <span class="text-gradient">Iconic.</span>
+                    </h2>
+
+                    <div class="magnetic-wrap mb-24">
+                        <a href="mailto:hello@maylance.dev"
+                            class="hover-target glass-panel px-10 py-5 rounded-full text-xl md:text-2xl font-medium border border-brand-accent1/30 hover:bg-brand-accent1/10 transition-colors inline-block relative overflow-hidden group">
+                            <span class="relative z-10">hello@maylance.dev</span>
+                        </a>
+                    </div>
+
+                    <div class="flex gap-8 mb-16">
+                        <a href="#"
+                            class="hover-target text-brand-secondary hover:text-white transition-colors uppercase tracking-widest text-sm relative group">
+                            GitHub
+                            <span
+                                class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a href="#"
+                            class="hover-target text-brand-secondary hover:text-white transition-colors uppercase tracking-widest text-sm relative group">
+                            LinkedIn
+                            <span
+                                class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a href="#"
+                            class="hover-target text-brand-secondary hover:text-white transition-colors uppercase tracking-widest text-sm relative group">
+                            X (Twitter)
+                            <span
+                                class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Footer Bottom -->
+                <footer class="w-full border-t border-white/10 glass-panel py-6 z-10 relative">
+                    <div
+                        class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-brand-secondary">
+                        <p>© 2026 Maylance Studio. All rights reserved.</p>
+                        <p>Designed & Engineered by <span class="text-white">Mayank Panchal</span></p>
+                    </div>
+                </footer>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.32/dist/lenis.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- 1. Lenis Smooth Scroll Setup ---
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // --- 2. Custom Cursor Logic ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        let mouseX = 0, mouseY = 0;
+        let outlineX = 0, outlineY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            // Instantly move dot
+            cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        });
+
+        // Smooth trailing for outline
+        function animateCursor() {
+            let distX = mouseX - outlineX;
+            let distY = mouseY - outlineY;
+
+            outlineX = outlineX + (distX * 0.15);
+            outlineY = outlineY + (distY * 0.15);
+
+            cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px)`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Magnetic Buttons logic
+        const magneticElements = document.querySelectorAll('.magnetic-wrap');
+        magneticElements.forEach(elem => {
+            const inner = elem.children[0];
+
+            elem.addEventListener('mousemove', (e) => {
+                const rect = elem.getBoundingClientRect();
+                const h = rect.width / 2;
+
+                const x = e.clientX - rect.left - h;
+                const y = e.clientY - rect.top - h;
+
+                gsap.to(inner, {
+                    x: x * 0.3,
+                    y: y * 0.3,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+            });
+
+            elem.addEventListener('mouseleave', () => {
+                gsap.to(inner, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.7,
+                    ease: "elastic.out(1, 0.3)"
+                });
+            });
+        });
+
+
+        // --- 3. Three.js Background Implementation ---
+        const initThreeJS = () => {
+            const canvasContainer = document.getElementById('webgl-container');
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x050505, 0.002); // Match background
+
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Optimize for high DPI
+            canvasContainer.appendChild(renderer.domElement);
+
+            // Create abstract particle network
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 3000;
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for (let i = 0; i < particlesCount * 3; i++) {
+                // Spherical distribution
+                const radius = 25;
+                const theta = Math.random() * 2 * Math.PI;
+                const phi = Math.acos((Math.random() * 2) - 1);
+
+                let x = radius * Math.sin(phi) * Math.cos(theta);
+                let y = radius * Math.sin(phi) * Math.sin(theta);
+                let z = radius * Math.cos(phi);
+
+                // Add some noise
+                posArray[i] = x + (Math.random() - 0.5) * 5;
+                posArray[i + 1] = y + (Math.random() - 0.5) * 5;
+                posArray[i + 2] = z + (Math.random() - 0.5) * 5;
+                i += 2;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            // Custom shader-like material using points
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.05,
+                color: 0x00E5FF, // Brand accent 1
+                transparent: true,
+                opacity: 0.6,
+                blending: THREE.AdditiveBlending
+            });
+
+            const particleMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particleMesh);
+
+            // Add secondary ambient dust particles
+            const dustGeo = new THREE.BufferGeometry();
+            const dustCount = 1000;
+            const dustArray = new Float32Array(dustCount * 3);
+            for (let i = 0; i < dustCount * 3; i++) {
+                dustArray[i] = (Math.random() - 0.5) * 100;
+            }
+            dustGeo.setAttribute('position', new THREE.BufferAttribute(dustArray, 3));
+            const dustMat = new THREE.PointsMaterial({
+                size: 0.02,
+                color: 0x8B5CF6,
+                transparent: true,
+                opacity: 0.3
+            });
+            const dustMesh = new THREE.Points(dustGeo, dustMat);
+            scene.add(dustMesh);
+
+            // Mouse interaction variables
+            let targetX = 0;
+            let targetY = 0;
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            document.addEventListener('mousemove', (event) => {
+                targetX = (event.clientX - windowHalfX) * 0.001;
+                targetY = (event.clientY - windowHalfY) * 0.001;
+            });
+
+            // Animation Loop
+            const clock = new THREE.Clock();
+
+            const tick = () => {
+                const elapsedTime = clock.getElapsedTime();
+
+                // Rotate main sphere slowly
+                particleMesh.rotation.y = elapsedTime * 0.05;
+                particleMesh.rotation.x = elapsedTime * 0.02;
+
+                // Slow ambient movement for dust
+                dustMesh.rotation.y = elapsedTime * 0.02;
+
+                // Mouse parallax effect
+                camera.position.x += (targetX * 5 - camera.position.x) * 0.02;
+                camera.position.y += (-targetY * 5 - camera.position.y) * 0.02;
+                camera.lookAt(scene.position);
+
+                // Scroll parallax (tie camera Z and Y to scroll progress)
+                const scrollY = window.scrollY;
+                camera.position.z = 30 - (scrollY * 0.005);
+
+                // Pulse effect on material
+                particlesMaterial.size = 0.05 + Math.sin(elapsedTime * 2) * 0.02;
+
+                renderer.render(scene, camera);
+                window.requestAnimationFrame(tick);
+            }
+
+            tick();
+
+            // Resize handling
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        // Initialize ThreeJS after a tiny delay to ensure DOM is ready
+        setTimeout(initThreeJS, 100);
+
+        // --- 4. GSAP Animations & ScrollTrigger ---
+
+        // Hero Intro Animation
+        const heroTl = gsap.timeline({ delay: 0.2 });
+
+        // Custom simple text reveal since we can't load SplitType easily
+        heroTl.to('.hero-title .text-line', {
+            y: '0%',
+            clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)', // Reveal clip
+            duration: 1.2,
+            ease: 'power4.out',
+            stagger: 0.1
+        })
+            .to('.hero-subtitle .text-line', {
+                y: '0%',
+                clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
+                duration: 1,
+                ease: 'power3.out'
+            }, "-=0.8")
+            .to('.hero-desc', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power2.out'
+            }, "-=0.6")
+            .to('.hero-cta', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power2.out'
+            }, "-=0.8");
+
+        // Scroll Indicator animation
+        gsap.to('.scroll-line', {
+            y: 24, // Move down
+            repeat: -1,
+            duration: 1.5,
+            ease: 'power2.inOut',
+            opacity: 0,
+            yoyo: true
+        });
+
+        // Expertise Section Staggers
+        gsap.utils.toArray('.expertise-item').forEach((item, i) => {
+            gsap.from(item, {
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+
+        // Works Horizontal Scroll
+        const worksWrapper = document.querySelector('.works-wrapper');
+        const worksContainer = document.querySelector('.works-container');
+
+        // Calculate total width to scroll
+        function getScrollAmount() {
+            let worksWidth = worksContainer.scrollWidth;
+            return -(worksWidth - window.innerWidth);
+        }
+
+        const tween = gsap.to(worksContainer, {
+            x: getScrollAmount,
+            ease: "none"
+        });
+
+        ScrollTrigger.create({
+            trigger: ".works-section",
+            start: "top top",
+            end: () => `+=${getScrollAmount() * -1}`, // Scroll distance = width
+            pin: true,
+            animation: tween,
+            scrub: 1, // Smooth scrubbing
+            invalidateOnRefresh: true
+        });
+
+        // Philosophy Stats Counters
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            ScrollTrigger.create({
+                trigger: counter,
+                start: "top 85%",
+                once: true,
+                onEnter: () => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    gsap.to(counter, {
+                        innerHTML: target,
+                        duration: 2,
+                        ease: "power2.out",
+                        snap: { innerHTML: 1 }, // Ensure integers
+                        onUpdate: function () {
+                            counter.innerHTML = Math.round(this.targets()[0].innerHTML);
+                        }
+                    });
+                }
+            });
+        });
+
+        // Code Typing Effect
+        const rawCode = document.getElementById('raw-code').innerText.trim();
+        const codeBlock = document.getElementById('code-block');
+        let codeIndex = 0;
+        let isTyping = false;
+
+        // Syntax highlighting formatter logic
+        function formatCode(text) {
+            let formatted = text
+                .replace(/const|async|await|return/g, '<span class="text-brand-accent2">$&</span>')
+                .replace(/MaylanceStudio/g, '<span class="text-brand-accent1">$&</span>')
+                .replace(/"[^"]*"/g, '<span class="text-green-400">$&</span>')
+                .replace(/[\[\]{}]/g, '<span class="text-brand-secondary">$&</span>')
+                .replace(/\n/g, '<br>')
+                .replace(/  /g, '&nbsp;&nbsp;');
+            return formatted;
+        }
+
+        function typeCode() {
+            if (codeIndex < rawCode.length) {
+                // Add character
+                let currentText = rawCode.substring(0, codeIndex + 1);
+                codeBlock.innerHTML = formatCode(currentText) + '<span class="code-cursor"></span>';
+                codeIndex++;
+
+                // Randomize typing speed slightly for realism
+                setTimeout(typeCode, Math.random() * 20 + 10);
+            } else {
+                // Keep cursor blinking at end
+                codeBlock.innerHTML = formatCode(rawCode) + '<span class="code-cursor"></span>';
+            }
+        }
+
+        ScrollTrigger.create({
+            trigger: "#philosophy",
+            start: "top 60%",
+            once: true,
+            onEnter: () => {
+                if (!isTyping) {
+                    isTyping = true;
+                    typeCode();
+                }
+            }
+        });
+
+        // Footer reveal parallax
+        gsap.from('.footer-title', {
+            scrollTrigger: {
+                trigger: "#contact",
+                start: "top 80%",
+                end: "bottom bottom",
+                scrub: 1
+            },
+            y: 100,
+            scale: 0.9,
+            opacity: 0,
+            ease: "none"
+        });
+
+    </script>
+</body>
+
+</html>

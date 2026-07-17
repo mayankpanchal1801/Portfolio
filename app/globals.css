@@ -355,7 +355,11 @@ h1, h2, h3 {
   align-items: flex-end;
   justify-content: flex-start;
   padding: clamp(1.5rem, 5vw, 3rem);
+  will-change: transform;
 }
+
+/* Repeat visits within a session — inline script sets this before body renders */
+html[data-loaded="1"] .site-loader { display: none !important; }
 
 /* Scroll progress */
 .scroll-progress {

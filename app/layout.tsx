@@ -4,6 +4,7 @@ import CustomCursor from "@/components/ui/CustomCursor";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import SiteLoader from "@/components/ui/SiteLoader";
 import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
+import WebGLBackground from "@/components/ui/WebGLBackground";
 import { about, contact, seoKeywords, site, socials } from "@/constants/personal";
 import { skillsFlat } from "@/constants/skills";
 import type { Metadata, Viewport } from "next";
@@ -370,8 +371,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="author" href="/humans.txt" />
         <link rel="me" href={socials[0].url} />
         <link rel="me" href={socials[1].url} />
+        {/* Suppress the site loader on repeat visits within a session — runs before
+            body renders so there's no flash. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem("portfolio.loaded")==="1")document.documentElement.setAttribute("data-loaded","1");}catch(e){}`,
+          }}
+        />
       </head>
-      <body className="bg-obsidian text-bone antialiased">
+      <body className="bg-obsidian text-bone antialiased isolate">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-acid focus:text-obsidian focus:px-4 focus:py-2 focus:rounded"
@@ -379,6 +387,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
 
+        <WebGLBackground />
         <SiteLoader />
         <CustomCursor />
         <ScrollProgress />
