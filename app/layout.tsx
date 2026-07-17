@@ -8,6 +8,7 @@ import WebGLBackground from "@/components/ui/WebGLBackground";
 import { about, contact, seoKeywords, site, socials } from "@/constants/personal";
 import { skillsFlat } from "@/constants/skills";
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -403,6 +404,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="ld-person" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }} />
         <Script id="ld-website" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }} />
         <Script id="ld-service" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceLd) }} />
+
+        <Analytics />
       </body>
     </html>
   );
