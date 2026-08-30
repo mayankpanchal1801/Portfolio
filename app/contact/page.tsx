@@ -5,11 +5,11 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: `Get in touch with ${site.name} — ${site.role} in ${contact.city}, ${contact.country}. Email ${contact.email} or call ${contact.phone}. Open to full-time and freelance work, remote worldwide.`,
+  description: `Get in touch with ${site.name} — ${site.role} in ${contact.city}, ${contact.country}. Email ${contact.email} or call ${contact.phone}.`,
   alternates: { canonical: "/contact" },
   openGraph: {
     title: `Contact — ${site.name}`,
-    description: `Open to full-stack, backend, and AI-augmented engineering roles. Based in ${contact.city} — happy to work remote.`,
+    description: `Get in touch with ${site.name} — ${site.role} based in ${contact.city}, ${contact.country}.`,
     url: `${site.url}/contact`,
     type: "website",
   },

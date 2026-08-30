@@ -20,22 +20,51 @@ export default function SelectedWork() {
         intro="Enterprise dashboards, event platforms, studio websites — a cross-section of the last four years."
       />
 
-      <ul className="mt-14 border-t border-rule md:mt-20">
+      <ul className="mt-10 border-t border-rule md:mt-20">
         {shipped.map((p, i) => (
           <li key={p.slug} className="group relative border-b border-rule">
             <Link
               href={`/projects/${p.slug}`}
-              className="grid-12 items-center gap-y-2 py-7 transition-colors duration-300 md:py-9"
+              className="block py-6 transition-colors duration-300 md:grid-12 md:items-center md:gap-y-2 md:py-9"
             >
-              <span className="marginal col-span-2 md:col-span-1">
+              {/* Mobile View */}
+              <div className="flex flex-col gap-2.5 md:hidden">
+                <div className="flex items-center justify-between">
+                  <span className="marginal text-accent-ink font-semibold">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="marginal tabular-nums">{p.year}</span>
+                </div>
+
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="font-display text-[1.35rem] font-medium leading-snug text-ink transition-colors group-hover:text-accent-ink">
+                    {p.title}
+                  </h3>
+                  <span
+                    aria-hidden
+                    className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-rule text-xs text-ink-3 transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-white"
+                  >
+                    ↗
+                  </span>
+                </div>
+
+                <p className="text-xs text-ink-3">
+                  <span className="text-ink-2">{p.category}</span>
+                  <span aria-hidden className="px-1.5 text-rule-strong">/</span>
+                  <span>{p.client ?? p.role}</span>
+                </p>
+              </div>
+
+              {/* Desktop View (md+) */}
+              <span className="marginal hidden md:col-span-1 md:block">
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              <h3 className="col-span-10 font-display text-d3 text-ink transition-colors group-hover:text-accent-ink md:col-span-5">
+              <h3 className="hidden font-display text-d3 text-ink transition-colors group-hover:text-accent-ink md:col-span-5 md:block">
                 {p.title}
               </h3>
 
-              <p className="col-span-12 pl-[16.6%] text-sm text-ink-3 md:col-span-3 md:pl-0">
+              <p className="hidden text-sm text-ink-3 md:col-span-3 md:block">
                 {p.category}
                 <span aria-hidden className="px-2 text-rule-strong">
                   /
@@ -43,13 +72,13 @@ export default function SelectedWork() {
                 {p.client ?? p.role}
               </p>
 
-              <span className="marginal col-span-12 pl-[16.6%] md:col-span-2 md:pl-0 md:text-right">
+              <span className="marginal hidden md:col-span-2 md:block md:text-right">
                 {p.year}
               </span>
 
               <span
                 aria-hidden
-                className="col-span-12 hidden justify-end md:col-span-1 md:flex"
+                className="hidden justify-end md:col-span-1 md:flex"
               >
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-rule-strong text-ink-3 transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-white">
                   ↗
@@ -77,8 +106,8 @@ export default function SelectedWork() {
         ))}
       </ul>
 
-      <Reveal mode="fade" className="mt-10 flex justify-end">
-        <Link href="/projects" className="btn btn-outline">
+      <Reveal mode="fade" className="mt-8 md:mt-10 flex justify-end">
+        <Link href="/projects" className="btn btn-outline w-full sm:w-auto text-center">
           All projects ↗
         </Link>
       </Reveal>

@@ -37,41 +37,46 @@ export default function ProjectsIndex() {
         Project index
       </h2>
 
-      {/* Filter bar */}
-      <div className="flex flex-wrap items-center gap-2 border-y border-rule py-4">
-        <span className="tag mr-3">Filter</span>
-        {FILTERS.map((f) => (
-          <button
-            key={f}
-            type="button"
-            onClick={() => setFilter(f)}
-            aria-pressed={filter === f}
-            disabled={counts[f] === 0}
-            className={clsx(
-              "rounded-full border px-3.5 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.12em] transition-colors",
-              "disabled:cursor-not-allowed disabled:opacity-40",
-              filter === f
-                ? "border-accent bg-accent text-white"
-                : "border-rule text-ink-2 hover:border-ink hover:text-ink",
-            )}
-          >
-            {f}
-            <span className="ml-2 tabular-nums opacity-60">{counts[f]}</span>
-          </button>
-        ))}
-        <span className="tag ml-auto tabular-nums">
-          {String(visible.length).padStart(2, "0")} /{" "}
-          {String(projectsArr.length).padStart(2, "0")}
-        </span>
+      {/* Filter bar - with horizontal scroll on mobile */}
+      <div className="border-y border-rule py-3">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+            <span className="tag mr-2 shrink-0">Filter</span>
+            {FILTERS.map((f) => (
+              <button
+                key={f}
+                type="button"
+                onClick={() => setFilter(f)}
+                aria-pressed={filter === f}
+                disabled={counts[f] === 0}
+                className={clsx(
+                  "shrink-0 rounded-full border px-3.5 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.12em] transition-colors cursor-pointer",
+                  "disabled:cursor-not-allowed disabled:opacity-40",
+                  filter === f
+                    ? "border-accent bg-accent text-white"
+                    : "border-rule text-ink-2 hover:border-ink hover:text-ink bg-paper",
+                )}
+              >
+                {f}
+                <span className="ml-1.5 tabular-nums opacity-75">{counts[f]}</span>
+              </button>
+            ))}
+          </div>
+
+          <span className="tag ml-auto shrink-0 hidden sm:block tabular-nums">
+            {String(visible.length).padStart(2, "0")} /{" "}
+            {String(projectsArr.length).padStart(2, "0")}
+          </span>
+        </div>
       </div>
 
       {/* Grid */}
-      <ul className="mt-14 grid gap-x-10 gap-y-16 md:grid-cols-2">
+      <ul className="mt-10 sm:mt-14 grid gap-x-10 gap-y-12 sm:gap-y-16 md:grid-cols-2">
         {visible.map((p, i) => {
           const inert = Boolean(p.placeholder);
           const Card = (
             <>
-              <div className="relative aspect-[4/3] overflow-hidden border border-rule bg-paper-2 transition-colors group-hover:border-rule-strong">
+              <div className="relative aspect-[16/10] sm:aspect-[4/3] overflow-hidden border border-rule bg-paper-2 transition-colors group-hover:border-rule-strong">
                 {p.imgSrc ? (
                   <Image
                     src={p.imgSrc}
@@ -83,7 +88,7 @@ export default function ProjectsIndex() {
                 ) : (
                   <span
                     aria-hidden
-                    className="absolute inset-0 flex items-center justify-center font-display text-[5rem] text-rule-strong"
+                    className="absolute inset-0 flex items-center justify-center font-display text-[4rem] sm:text-[5rem] text-rule-strong"
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -96,32 +101,32 @@ export default function ProjectsIndex() {
                 )}
               </div>
 
-              <div className="mt-5 flex items-baseline justify-between gap-4 border-t border-rule pt-4">
+              <div className="mt-4 sm:mt-5 flex items-baseline justify-between gap-4 border-t border-rule pt-3 sm:pt-4">
                 <span className="marginal text-accent-ink">{p.category}</span>
                 <span className="marginal tabular-nums">{p.year}</span>
               </div>
 
               <h3
                 className={clsx(
-                  "mt-3 font-display text-d3",
+                  "mt-2.5 sm:mt-3 font-display text-xl sm:text-d3",
                   inert ? "text-ink-3" : "text-ink transition-colors group-hover:text-accent-ink",
                 )}
               >
                 {p.title}
               </h3>
 
-              <p className="mt-3 text-ink-2">{p.description}</p>
+              <p className="mt-2 text-sm sm:text-base text-ink-2 leading-relaxed">{p.description}</p>
 
-              <p className="mt-4 flex flex-wrap gap-x-3 gap-y-1">
+              <p className="mt-3.5 flex flex-wrap gap-x-2.5 gap-y-1">
                 {p.tags.slice(0, 5).map((t) => (
-                  <span key={t} className="marginal">
+                  <span key={t} className="marginal text-[0.65rem]">
                     {t}
                   </span>
                 ))}
               </p>
 
               {!inert && (
-                <span className="mt-5 inline-flex items-center gap-1.5 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-ink transition-colors group-hover:text-accent-ink">
+                <span className="mt-4 inline-flex items-center gap-1.5 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-ink transition-colors group-hover:text-accent-ink">
                   Case study ↗
                 </span>
               )}

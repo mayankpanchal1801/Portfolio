@@ -16,7 +16,6 @@ export default function Footer() {
       <div className="border-b border-inverse-ink/15 py-7">
         <Drift
           items={[
-            "Available for work",
             "Full-stack engineering",
             "Next.js · FastAPI · PostgreSQL",
             "Docker · AWS · CI/CD",
@@ -27,24 +26,24 @@ export default function Footer() {
         />
       </div>
 
-      <div className="shell py-16 md:py-24">
+      <div className="shell py-12 sm:py-16 md:py-24">
         <p className="tag text-inverse-ink/55">Start a conversation</p>
 
         <Reveal
           as="a"
           mode="words"
           href={`mailto:${contact.email}`}
-          className="mt-6 block font-display text-[clamp(1.75rem,6.5vw,5rem)] leading-[0.95] tracking-[-0.04em] break-words transition-colors hover:text-accent"
+          className="mt-5 sm:mt-6 block font-display text-[clamp(1.5rem,6.5vw,5rem)] leading-[0.95] tracking-[-0.04em] break-words transition-colors hover:text-accent"
         >
           {contact.email}
         </Reveal>
 
-        <p className="measure mt-7 text-inverse-ink/70">
+        <p className="measure mt-5 sm:mt-7 text-sm sm:text-base text-inverse-ink/70 leading-relaxed">
           Hiring, freelancing, or just curious about the stack — a short note is
           enough. I reply within a business day.
         </p>
 
-        <div className="mt-16 grid grid-cols-2 gap-10 border-t border-inverse-ink/15 pt-10 md:grid-cols-4 md:gap-6">
+        <div className="mt-12 sm:mt-16 grid grid-cols-2 gap-8 border-t border-inverse-ink/15 pt-8 sm:pt-10 md:grid-cols-4 md:gap-6">
           <nav aria-label="Footer">
             <p className="tag text-inverse-ink/55">Navigate</p>
             <ul className="mt-4 space-y-2.5">
@@ -55,11 +54,6 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <a href="/resume.pdf" target="_blank" rel="noreferrer" className="uline">
-                  Résumé (PDF)
-                </a>
-              </li>
             </ul>
           </nav>
 
@@ -112,7 +106,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-inverse-ink/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 sm:mt-14 flex flex-col gap-3 border-t border-inverse-ink/15 pt-6 sm:flex-row sm:items-center sm:justify-between text-xs">
           <p className="tag text-inverse-ink/55">
             © {year} · {site.name}
           </p>

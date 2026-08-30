@@ -3,9 +3,6 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   compress: true,
-  experimental: {
-    optimizePackageImports: ["react-icons"],
-  },
   async headers() {
     const security = [
       { key: "X-Content-Type-Options", value: "nosniff" },

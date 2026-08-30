@@ -42,8 +42,8 @@ export const contact = {
   regionCode: "IN-KA",
   timezone: "Asia/Kolkata",
   coords: {
-    lat: 12.9716,
-    lng: 77.5946,
+    lat: 12.9784,
+    lng: 77.6408,
   },
   availability:
     "Open to Full-Stack, Backend (FastAPI/Python), and AI-augmented engineering roles",

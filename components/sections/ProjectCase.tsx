@@ -77,14 +77,14 @@ export default function ProjectCase({ project, nextProject }: Props) {
             mode="fade"
             delay={0.36}
             immediate
-            className="mt-9 flex flex-wrap items-center gap-3"
+            className="mt-8 sm:mt-9 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3"
           >
             {project.url && (
               <a
                 href={project.url}
                 target="_blank"
                 rel="noreferrer"
-                className="btn btn-solid"
+                className="btn btn-solid text-center"
                 itemProp="url"
               >
                 Visit live ↗
@@ -95,12 +95,12 @@ export default function ProjectCase({ project, nextProject }: Props) {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="btn btn-outline"
+                className="btn btn-outline text-center"
               >
                 Source ↗
               </a>
             )}
-            <Link href="/projects" className="btn btn-quiet">
+            <Link href="/projects" className="btn btn-quiet text-center">
               ← All projects
             </Link>
           </Reveal>

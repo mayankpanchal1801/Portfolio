@@ -74,16 +74,18 @@ export default function ContactForm() {
         />
       </label>
 
-      <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
-        <button type="submit" className="btn btn-solid">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+        <button type="submit" className="btn btn-solid w-full sm:w-auto text-center cursor-pointer">
           Send message ↗
         </button>
-        <p aria-live="polite" className="tag tag--accent">
-          {handedOff ? "Your mail client should have opened" : ""}
-        </p>
+        {handedOff && (
+          <p aria-live="polite" className="tag tag--accent text-xs">
+            ✓ Your mail client should have opened
+          </p>
+        )}
       </div>
 
-      <p className="text-sm text-ink-3">
+      <p className="text-xs sm:text-sm text-ink-3">
         This form composes the message in your own email client — nothing is sent
         to a server, and nothing is stored.
       </p>

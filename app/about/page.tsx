@@ -66,7 +66,7 @@ const FACTS = [
   { k: "Based in", v: `${contact.city}, ${contact.country}` },
   { k: "Timezone", v: contact.timezone },
   { k: "Education", v: `${about.education.degree}, ${about.education.school}` },
-  { k: "Availability", v: contact.availability },
+  { k: "Focus", v: "Full-Stack & Systems" },
 ];
 
 export default function AboutPage() {
@@ -135,14 +135,6 @@ export default function AboutPage() {
             </div>
 
             <Reveal mode="fade" className="mt-10 flex flex-wrap gap-3">
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn-solid"
-              >
-                Résumé (PDF) ↗
-              </a>
               {socials.map((s) => (
                 <a
                   key={s.label}

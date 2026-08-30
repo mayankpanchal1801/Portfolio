@@ -183,14 +183,6 @@ const personLd = {
     { "@type": "Language", name: "English", alternateName: "en" },
     { "@type": "Language", name: "Hindi", alternateName: "hi" },
   ],
-  seeks: {
-    "@type": "Demand",
-    name: contact.availability,
-    availableAtOrFrom: {
-      "@type": "Place",
-      name: `${contact.city}, ${contact.country} (Remote)`,
-    },
-  },
   sameAs: socials.filter((s) => s.label !== "Email").map((s) => s.url),
 };
 

@@ -1,3 +1,12 @@
+import threeDVisualImg from "@/public/projects/3dvisual.png";
+import basicsCoImg from "@/public/projects/basics-co.png";
+import bizwebifyImg from "@/public/projects/bizwebify.png";
+import codesefodImg from "@/public/projects/codesefod.png";
+import excelPrecastImg from "@/public/projects/excel-precast.png";
+import travelKampanyImg from "@/public/projects/travel-kampany.png";
+import vlsid2026Img from "@/public/projects/vlsid-2026.png";
+import vlsid2027Img from "@/public/projects/vlsid-2027.png";
+import workosImg from "@/public/projects/workos.png";
 import type { StaticImageData } from "next/image";
 
 export type ProjectType = "inhouse" | "client";
@@ -85,6 +94,7 @@ export const projectsArr: Project[] = [
       "API Engineering",
       "Domain Modeling",
     ],
+    imgSrc: workosImg,
     url: "https://workos.dsgnphy.com/",
     color: "from-sky-500/30 to-sky-950/25",
     accentColor: "text-sky-300",
@@ -115,6 +125,7 @@ export const projectsArr: Project[] = [
       "Enquiry routing for general, sponsorship, TPC, and registration desks",
     ],
     services: ["Web Design", "Web Development", "CMS Integration", "Conference UX"],
+    imgSrc: vlsid2027Img,
     url: "https://vlsid.org/",
     color: "from-indigo-500/30 to-indigo-950/25",
     accentColor: "text-indigo-300",
@@ -145,6 +156,7 @@ export const projectsArr: Project[] = [
       "Sub-second navigation via aggressive caching",
     ],
     services: ["Product Strategy", "UI/UX Design", "Full-Stack Development", "Payment Integration"],
+    imgSrc: travelKampanyImg,
     url: "https://travelkampany.in/",
     color: "from-cyan-500/30 to-cyan-900/20",
     accentColor: "text-cyan-300",
@@ -175,6 +187,7 @@ export const projectsArr: Project[] = [
       "Optimised for organic search and lead capture",
     ],
     services: ["Web Design", "Web Development", "CMS Integration", "SEO Setup"],
+    imgSrc: excelPrecastImg,
     url: "https://excelprecast.com/",
     color: "from-amber-500/30 to-amber-900/20",
     accentColor: "text-amber-300",
@@ -205,6 +218,7 @@ export const projectsArr: Project[] = [
       "Sponsorship, exhibitor, and registration flows for VSI’s sister-DAC event",
     ],
     services: ["Web Design", "Web Development", "CMS Integration", "Event Platforms"],
+    imgSrc: vlsid2026Img,
     url: "https://2026.vlsid.org/",
     color: "from-teal-500/30 to-teal-950/25",
     accentColor: "text-teal-300",
@@ -235,6 +249,7 @@ export const projectsArr: Project[] = [
       "Modular block system for fast content updates",
     ],
     services: ["Web Design", "WordPress Theme Development", "Animation", "Performance Tuning"],
+    imgSrc: basicsCoImg,
     url: "https://basics.co.in/",
     color: "from-purple-500/30 to-purple-900/20",
     accentColor: "text-purple-300",
@@ -265,6 +280,7 @@ export const projectsArr: Project[] = [
       "Direct multi-channel consultation and project inquiry workflows",
     ],
     services: ["Web Design", "Web Development", "Custom WordPress Theme", "Performance Tuning"],
+    imgSrc: threeDVisualImg,
     url: "https://3dvisual.in/",
     color: "from-emerald-500/30 to-emerald-950/25",
     accentColor: "text-emerald-300",
@@ -295,6 +311,7 @@ export const projectsArr: Project[] = [
       "AWS deployment tuned for Core Web Vitals",
     ],
     services: ["Platform Architecture", "Full-Stack Development", "SEO Engineering", "AWS Deployment"],
+    imgSrc: codesefodImg,
     url: "https://codesefod.com/",
     color: "from-blue-500/30 to-blue-900/20",
     accentColor: "text-blue-300",
@@ -325,6 +342,7 @@ export const projectsArr: Project[] = [
       "A/B-ready CTA components",
     ],
     services: ["Web Design", "WordPress Development", "Conversion Optimisation", "Performance & CDN"],
+    imgSrc: bizwebifyImg,
     url: "https://bizwebify.com/",
     color: "from-rose-500/30 to-rose-900/20",
     accentColor: "text-rose-300",

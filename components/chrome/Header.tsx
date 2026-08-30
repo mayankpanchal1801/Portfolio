@@ -2,7 +2,7 @@
 
 import ThemeToggle from "@/components/chrome/ThemeToggle";
 import { navLinksArr } from "@/constants/links";
-import { contact, site } from "@/constants/personal";
+import { contact, site, socials } from "@/constants/personal";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -42,15 +42,20 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-[900] border-b border-rule bg-paper/85 backdrop-blur-md">
-      <div className="shell flex h-[var(--header-h)] items-center justify-between gap-6">
+    <header className="sticky top-0 z-[900] border-b border-rule bg-paper/90 backdrop-blur-md transition-colors">
+      <div className="shell flex h-[var(--header-h)] items-center justify-between gap-4 sm:gap-6">
         {/* Wordmark */}
-        <Link href="/" aria-label={`${site.name} — home`} className="group flex items-baseline gap-3">
-          <span className="font-display text-[1.0625rem] font-semibold tracking-[-0.02em] text-ink">
+        <Link
+          href="/"
+          aria-label={`${site.name} — home`}
+          onClick={() => setOpen(false)}
+          className="group flex items-baseline gap-2 sm:gap-3 shrink-0"
+        >
+          <span className="font-display text-[1.05rem] sm:text-[1.125rem] font-semibold tracking-[-0.02em] text-ink transition-colors group-hover:text-accent-ink">
             {site.name}
           </span>
           <span aria-hidden className="hidden h-3 w-px bg-rule-strong sm:block" />
-          <span className="tag hidden sm:block">{site.role}</span>
+          <span className="tag hidden sm:block text-[0.65rem]">{site.role}</span>
         </Link>
 
         {/* Desktop nav */}
@@ -68,7 +73,7 @@ export default function Header() {
                       active ? "text-ink" : "text-ink-3 hover:text-ink",
                     )}
                   >
-                    <span className={clsx(active ? "text-accent-ink" : "text-ink-3/70")}>
+                    <span className={clsx(active ? "text-accent-ink font-semibold" : "text-ink-3/70")}>
                       {item.num}
                     </span>
                     <span className="relative pb-1">
@@ -88,43 +93,61 @@ export default function Header() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
 
           <Link href="/contact" className="btn btn-solid hidden py-2.5 md:inline-flex">
             Get in touch
           </Link>
 
+          {/* Mobile hamburger button - 44px touch target */}
           <button
             type="button"
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}
-            className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] md:hidden"
+            className="relative flex h-11 w-11 items-center justify-center rounded-sm text-ink hover:bg-paper-2 md:hidden"
           >
-            <span
-              aria-hidden
-              className="h-px w-5 origin-center bg-ink transition-transform duration-300"
-              style={{ transform: open ? "translateY(3px) rotate(45deg)" : "none" }}
-            />
-            <span
-              aria-hidden
-              className="h-px w-5 origin-center bg-ink transition-transform duration-300"
-              style={{ transform: open ? "translateY(-3px) rotate(-45deg)" : "none" }}
-            />
+            <span className="relative flex h-4 w-5 flex-col justify-between">
+              <span
+                aria-hidden
+                className={clsx(
+                  "block h-0.5 w-5 bg-ink transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                  open ? "translate-y-[7px] rotate-45" : "translate-y-0",
+                )}
+              />
+              <span
+                aria-hidden
+                className={clsx(
+                  "block h-0.5 w-5 bg-ink transition-opacity duration-200",
+                  open ? "opacity-0" : "opacity-100",
+                )}
+              />
+              <span
+                aria-hidden
+                className={clsx(
+                  "block h-0.5 w-5 bg-ink transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                  open ? "-translate-y-[7px] -rotate-45" : "translate-y-0",
+                )}
+              />
+            </span>
           </button>
         </div>
       </div>
 
-      {/* Mobile panel */}
+      {/* Mobile Drawer Panel */}
       <div
         id="mobile-nav"
         hidden={!open}
-        className="fixed inset-x-0 bottom-0 top-[var(--header-h)] z-[899] border-t border-rule bg-paper md:hidden"
+        className={clsx(
+          "fixed inset-x-0 bottom-0 top-[var(--header-h)] z-[899] overflow-y-auto border-t border-rule bg-paper md:hidden transition-opacity duration-300",
+          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+        )}
       >
-        <div className="shell flex h-full flex-col justify-between py-10">
-          <nav aria-label="Mobile">
+        <div className="shell flex min-h-[calc(100dvh-var(--header-h))] flex-col justify-between py-8">
+          <nav aria-label="Mobile Navigation">
+            <p className="tag tag--accent mb-2">Menu</p>
             <ul>
               {NAV.map((item) => {
                 const active = isActive(pathname, item.url);
@@ -134,35 +157,73 @@ export default function Header() {
                       href={item.url}
                       onClick={() => setOpen(false)}
                       aria-current={active ? "page" : undefined}
-                      className="flex items-baseline gap-5 py-5"
+                      className="flex items-baseline justify-between py-4.5 group"
                     >
-                      <span className="marginal">{item.num}</span>
-                      <span
-                        className={clsx(
-                          "font-display text-d2",
-                          active ? "text-accent-ink" : "text-ink",
-                        )}
-                      >
-                        {item.name}
-                      </span>
+                      <div className="flex items-baseline gap-4">
+                        <span className={clsx("marginal", active ? "text-accent-ink font-bold" : "text-ink-3")}>
+                          {item.num}
+                        </span>
+                        <span
+                          className={clsx(
+                            "font-display text-[clamp(1.75rem,5vw,2.5rem)] font-medium leading-tight transition-colors",
+                            active ? "text-accent-ink" : "text-ink group-hover:text-accent-ink",
+                          )}
+                        >
+                          {item.name}
+                        </span>
+                      </div>
+                      {active && (
+                        <span className="font-mono text-xs text-accent-ink font-semibold uppercase tracking-wider">
+                          Current
+                        </span>
+                      )}
                     </Link>
                   </li>
                 );
               })}
             </ul>
+
+            <div className="mt-6 pt-2">
+              <Link
+                href="/contact"
+                onClick={() => setOpen(false)}
+                className="btn btn-solid w-full justify-center py-3 text-center text-sm"
+              >
+                Get in touch ↗
+              </Link>
+            </div>
           </nav>
 
-          <div className="border-t border-rule pt-6">
-            <p className="tag tag--accent">Direct</p>
-            <a
-              href={`mailto:${contact.email}`}
-              className="uline mt-3 block font-display text-lg text-ink"
-            >
-              {contact.email}
-            </a>
-            <a href={contact.phoneHref} className="mt-1 block font-mono text-sm text-ink-2">
-              {contact.phone}
-            </a>
+          <div className="border-t border-rule pt-6 mt-8 space-y-6">
+            <div>
+              <p className="tag tag--accent">Direct Contact</p>
+              <a
+                href={`mailto:${contact.email}`}
+                className="uline mt-2.5 block font-display text-lg text-ink break-all"
+              >
+                {contact.email}
+              </a>
+              <a href={contact.phoneHref} className="mt-1 block font-mono text-sm text-ink-2">
+                {contact.phone}
+              </a>
+            </div>
+
+            <div className="border-t border-rule/60 pt-4">
+              <p className="tag text-ink-3">Elsewhere</p>
+              <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-2">
+                {socials.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-mono text-xs text-ink-2 hover:text-accent-ink transition-colors"
+                  >
+                    {s.label} ↗
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

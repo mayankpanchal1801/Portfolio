@@ -33,7 +33,7 @@ export default function SectionHead({
           <span className="marginal md:mt-2 md:block">{label}</span>
         </div>
 
-        <div className="col-span-12 md:col-span-9 lg:col-span-10 mt-6 md:mt-0">
+        <div className="col-span-12 md:col-span-9 lg:col-span-10 mt-4 sm:mt-6 md:mt-0">
           <Reveal
             as="h2"
             mode="words"
@@ -48,7 +48,7 @@ export default function SectionHead({
               as="p"
               mode="fade"
               delay={0.12}
-              className="mt-6 measure text-lede text-ink-2"
+              className="mt-4 sm:mt-6 measure text-base sm:text-lede text-ink-2 leading-relaxed"
             >
               {intro}
             </Reveal>
