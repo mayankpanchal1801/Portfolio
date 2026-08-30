@@ -2,31 +2,35 @@ import Link from "next/link";
 
 export const metadata = {
   title: "404 — Not found",
-  description: "The page you were looking for doesn't exist. Head back home or browse the projects index.",
+  description:
+    "The page you were looking for doesn't exist. Head back home or browse the projects index.",
   robots: { index: false, follow: true },
 };
 
 export default function NotFound() {
   return (
-    <main className="min-h-[80vh] flex items-center pt-32 md:pt-40">
-      <div className="container relative">
-        <span className="ghost-num right-[-4rem] top-[-4rem]">404</span>
-        <p className="eyebrow eyebrow--acid">Error · 404</p>
-        <h1
-          className="mt-6 font-serif text-bone leading-[0.94]"
-          style={{ fontSize: "clamp(3rem, 14vw, 12rem)", letterSpacing: "-0.045em" }}
-        >
-          Not <em className="italic-wonk text-acid">found</em>.
+    <section className="ruled flex min-h-[70vh] items-center py-20">
+      <div className="shell relative z-[1]">
+        <p className="tag tag--accent">Error · 404</p>
+        <h1 className="mt-6 font-display text-mark font-semibold text-ink">
+          Not found<span className="text-accent">.</span>
         </h1>
-        <p className="mt-6 max-w-measure text-lede text-pearl">
-          The page you were looking for doesn&rsquo;t exist — probably moved, renamed, or never lived here at all.
+        <p className="measure mt-8 text-lede text-ink-2">
+          This page doesn&rsquo;t exist — moved, renamed, or it never lived here
+          at all.
         </p>
         <div className="mt-10 flex flex-wrap gap-3">
-          <Link href="/" className="btn btn-primary" data-cursor="hover">Back to home</Link>
-          <Link href="/projects" className="btn btn-hair" data-cursor="hover">Browse projects</Link>
-          <Link href="/contact" className="btn btn-hair" data-cursor="hover">Report a broken link</Link>
+          <Link href="/" className="btn btn-solid">
+            Back home
+          </Link>
+          <Link href="/projects" className="btn btn-outline">
+            Browse projects
+          </Link>
+          <Link href="/contact" className="btn btn-quiet">
+            Report a broken link
+          </Link>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

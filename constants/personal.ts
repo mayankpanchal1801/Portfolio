@@ -26,9 +26,9 @@ export const site = {
   locale: "en_IN",
   yearFounded: 2022,
   twitterHandle: "@mayankpanchal01",
-  ogImage: "/og.png",
+  /** Social card is generated at build time by app/opengraph-image.tsx. */
   portrait: "/mayank.jpeg",
-  themeColor: "#0A0A0C",
+  themeColor: "#FBF8F3",
 } as const;
 
 export const contact = {

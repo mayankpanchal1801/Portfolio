@@ -1,22 +1,38 @@
-import Hero from "@/components/Hero";
-import AboutStrip from "@/components/home/AboutStrip";
-import ContactStrip from "@/components/home/ContactStrip";
-import ExperienceStrip from "@/components/home/ExperienceStrip";
-import SelectedWork from "@/components/home/SelectedWork";
-import SkillsStrip from "@/components/home/SkillsStrip";
-import Marquee from "@/components/ui/Marquee";
-import { about, site } from "@/constants/personal";
+import Approach from "@/components/sections/Approach";
+import Chronology from "@/components/sections/Chronology";
+import ContactCta from "@/components/sections/ContactCta";
+import Hero from "@/components/sections/Hero";
+import SelectedWork from "@/components/sections/SelectedWork";
+import Toolkit from "@/components/sections/Toolkit";
+import Drift from "@/components/primitives/Drift";
+import { about, faqs, site } from "@/constants/personal";
 import { projectsArr } from "@/constants/projects";
-import Script from "next/script";
 
-const homeLd = {
+const STACK_TICKER = [
+  "Next.js",
+  "React",
+  "TypeScript",
+  "Python",
+  "FastAPI",
+  "Pydantic",
+  "SQLAlchemy",
+  "PostgreSQL",
+  "Redis",
+  "Celery",
+  "Docker",
+  "AWS EC2",
+  "Nginx",
+  "GitHub Actions",
+];
+
+const profileLd = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
   "@id": `${site.url}/#home`,
   url: site.url,
   name: `${site.name} — ${site.role}`,
   description: about.intro,
-  primaryImageOfPage: { "@type": "ImageObject", url: `${site.url}/mayank.jpeg` },
+  primaryImageOfPage: { "@type": "ImageObject", url: `${site.url}${site.portrait}` },
   mainEntity: { "@id": `${site.url}/#person` },
   breadcrumb: {
     "@type": "BreadcrumbList",
@@ -24,7 +40,7 @@ const homeLd = {
   },
 };
 
-const itemListLd = {
+const workLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Selected work",
@@ -38,63 +54,48 @@ const itemListLd = {
     })),
 };
 
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${site.url}/#faq`,
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 export default function Home() {
   return (
-    <main>
+    <>
       <Hero />
 
-      <div className="py-8 border-y border-fog bg-obsidian">
-        <Marquee
-          items={[
-            "Next.js",
-            "React",
-            "TypeScript",
-            "Python",
-            "FastAPI",
-            "Pydantic",
-            "SQLAlchemy",
-            "PostgreSQL",
-            "Redis",
-            "Celery",
-            "Docker",
-            "AWS EC2",
-            "GitHub Actions",
-            "Cursor",
-            "Claude Code",
-            "Devin",
-          ]}
-          speed={38}
-          direction={-1}
-          itemClassName="text-3xl md:text-5xl"
-          separator="/"
+      <div className="border-b border-rule bg-paper-2 py-5">
+        <Drift
+          items={STACK_TICKER}
+          duration={64}
+          itemClassName="font-mono text-tag uppercase text-ink-3"
         />
       </div>
 
       <SelectedWork />
-      <AboutStrip />
-      <SkillsStrip />
+      <Approach />
+      <Toolkit />
+      <Chronology />
+      <ContactCta />
 
-      <div className="py-8 border-y border-fog bg-obsidian">
-        <Marquee
-          items={[
-            "Available for work",
-            "Full Stack Developer",
-            "Python · FastAPI · Next.js",
-            "Bengaluru → World",
-            "Human-in-the-loop AI",
-            "Ships end-to-end",
-          ]}
-          speed={45}
-          direction={1}
-          itemClassName="text-3xl md:text-5xl"
-        />
-      </div>
-
-      <ExperienceStrip />
-      <ContactStrip />
-
-      <Script id="ld-home" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeLd) }} />
-      <Script id="ld-itemlist" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
-    </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profileLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(workLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
+    </>
   );
 }

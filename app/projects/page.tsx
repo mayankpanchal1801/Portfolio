@@ -1,25 +1,25 @@
-import ProjectsList from "@/components/pages/ProjectsList";
-import { projectsArr } from "@/constants/projects";
+import ContactCta from "@/components/sections/ContactCta";
+import ProjectsIndex from "@/components/sections/ProjectsIndex";
+import PageHeader from "@/components/primitives/PageHeader";
 import { site } from "@/constants/personal";
+import { projectsArr } from "@/constants/projects";
 import type { Metadata } from "next";
-import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "A selection of production products and websites built by Mayank Panchal across React, Next.js, WordPress, and AI/LLM stacks.",
+    "Production products and websites built by Mayank Panchal across Next.js, FastAPI, React, WordPress, and AI/LLM stacks.",
   alternates: { canonical: "/projects" },
   openGraph: {
     title: `Projects — ${site.name}`,
     description:
-      "Selected work — React, Next.js, WordPress, and AI/LLM projects by Mayank Panchal.",
+      "Selected work — Next.js, FastAPI, React, WordPress, and AI/LLM projects.",
     url: `${site.url}/projects`,
     type: "website",
-    images: [{ url: site.ogImage, width: 1200, height: 630, alt: `Projects — ${site.name}` }],
   },
 };
 
-const itemListLd = {
+const collectionLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "@id": `${site.url}/projects#page`,
@@ -46,14 +46,29 @@ const itemListLd = {
 };
 
 export default function ProjectsPage() {
+  const shipped = projectsArr.filter((p) => !p.placeholder).length;
+
   return (
     <>
-      <ProjectsList />
-      <Script
-        id="ld-projects"
+      <PageHeader
+        index="P"
+        label="Projects"
+        headingId="projects-heading"
+        meta={`${shipped} shipped · ${projectsArr.length} total`}
+        title={
+          <>
+            Selected work, <em className="text-accent-ink">chronologically</em>.
+          </>
+        }
+        intro="An index of shipped production work, plus a few AI experiments still in progress. Each shipped entry links to a case study."
+      />
+
+      <ProjectsIndex />
+      <ContactCta index="P1" headingId="projects-contact-heading" />
+
+      <script
         type="application/ld+json"
-        strategy="beforeInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }}
       />
     </>
   );

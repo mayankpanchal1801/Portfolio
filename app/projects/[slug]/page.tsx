@@ -1,51 +1,61 @@
-import ProjectDetail from "@/components/pages/ProjectDetail";
+import ProjectCase from "@/components/sections/ProjectCase";
 import { site } from "@/constants/personal";
 import { projectsArr } from "@/constants/projects";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 
 type Params = { slug: string };
 
+/** Only shipped projects get a case-study route. */
+const shipped = projectsArr.filter((p) => !p.placeholder);
+
 export function generateStaticParams() {
-  return projectsArr.filter((p) => !p.placeholder).map((p) => ({ slug: p.slug }));
+  return shipped.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+export const dynamicParams = false;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>;
+}): Promise<Metadata> {
   const { slug } = await params;
-  const project = projectsArr.find((p) => p.slug === slug);
+  const project = shipped.find((p) => p.slug === slug);
   if (!project) return {};
+
   const url = `${site.url}/projects/${project.slug}`;
   return {
     title: project.title,
     description: project.description,
+    keywords: project.tags,
     alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {
       title: `${project.title} — ${site.name}`,
       description: project.description,
       url,
       type: "article",
-      images: [{ url: site.ogImage, width: 1200, height: 630, alt: project.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${project.title} — ${site.name}`,
       description: project.description,
-      images: [site.ogImage],
     },
-    keywords: project.tags,
   };
 }
 
-export default async function ProjectDetailPage({ params }: { params: Promise<Params> }) {
+export default async function ProjectCaseStudyPage({
+  params,
+}: {
+  params: Promise<Params>;
+}) {
   const { slug } = await params;
-  const idx = projectsArr.findIndex((p) => p.slug === slug);
-  if (idx === -1) notFound();
+  const index = shipped.findIndex((p) => p.slug === slug);
+  if (index === -1) notFound();
 
-  const project = projectsArr[idx];
-  if (project.placeholder) notFound();
-
-  const nextProject = projectsArr[(idx + 1) % projectsArr.length];
+  const project = shipped[index];
+  // Wrap within shipped projects only, so "next" can never be a dead link.
+  const nextProject = shipped[(index + 1) % shipped.length];
   const url = `${site.url}/projects/${project.slug}`;
 
   const projectLd = {
@@ -63,7 +73,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<Pa
     dateCreated: project.year,
     genre: project.category,
     keywords: project.tags.join(", "),
-    ...(project.imgSrc ? { image: `${site.url}${(project.imgSrc as { src: string }).src ?? ""}` } : {}),
+    ...(project.imgSrc ? { image: `${site.url}${project.imgSrc.src}` } : {}),
     ...(project.url ? { sameAs: [project.url] } : {}),
     ...(project.githubUrl ? { codeRepository: project.githubUrl } : {}),
   };
@@ -80,17 +90,13 @@ export default async function ProjectDetailPage({ params }: { params: Promise<Pa
 
   return (
     <>
-      <ProjectDetail project={project} nextProject={nextProject} />
-      <Script
-        id={`ld-project-${project.slug}`}
+      <ProjectCase project={project} nextProject={nextProject} />
+      <script
         type="application/ld+json"
-        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(projectLd) }}
       />
-      <Script
-        id={`ld-crumbs-${project.slug}`}
+      <script
         type="application/ld+json"
-        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
     </>

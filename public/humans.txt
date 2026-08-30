@@ -1,15 +1,16 @@
 /* TEAM */
-Frontend Developer: Mayank Panchal
+Full Stack Developer: Mayank Panchal
 Contact: mayank.careers01 [at] gmail.com
 LinkedIn: https://www.linkedin.com/in/mayankpanchal01
 GitHub: https://github.com/munkpanchal
 From: Bengaluru, Karnataka, India
 
 /* SITE */
-Built with: Next.js, TypeScript, Tailwind CSS, GSAP
+Built with: Next.js (App Router), TypeScript, Tailwind CSS v4, GSAP, Lenis
+Typography: Space Grotesk, Source Serif 4, IBM Plex Mono
 Hosted on: Vercel
 Standards: HTML5, WAI-ARIA, WCAG 2.2 AA
-Doctype: HTML5
+Themes: Light and dark, following the system preference by default
 Language: English
 
 /* THANKS */

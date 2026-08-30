@@ -1,26 +1,16 @@
 {
-  "name": "Mayank Panchal — Frontend Developer",
+  "name": "Mayank Panchal — Full Stack Developer",
   "short_name": "Mayank Panchal",
-  "description": "Frontend Developer building fast, accessible web products with React, Next.js & AI-augmented workflows.",
+  "description": "Full Stack Developer in Bengaluru building production web apps with Next.js, FastAPI, PostgreSQL, Docker and AWS.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#F5F2ED",
-  "theme_color": "#F5F2ED",
+  "background_color": "#FBF8F3",
+  "theme_color": "#FBF8F3",
   "categories": ["portfolio", "developer", "productivity"],
   "lang": "en",
   "icons": [
-    {
-      "src": "/icon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/apple-icon.png",
-      "sizes": "180x180",
-      "type": "image/png"
-    }
+    { "src": "/icon", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/apple-icon", "sizes": "180x180", "type": "image/png" }
   ]
 }

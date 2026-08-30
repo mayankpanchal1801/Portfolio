@@ -40,13 +40,15 @@ GitHub: https://github.com/munkpanchal
 
 ## Selected projects
 
-- [TaskFlow — Full-Stack Project & Task Management Platform](/projects/taskflow): Next.js (App Router) + async FastAPI + PostgreSQL + Redis/Celery + WebSockets, deployed on AWS EC2.
-- [VLSID Conference Registration Portal](/projects/vlsid-conference-portal): 1,000+ attendees, zero downtime. React + Node.js.
-- [CometLit — Literacy Learning Platform](/projects/cometlit-literacy-platform): Modular React learning platform on Netlify.
-- [Spotify Clone](/projects/spotify-clone): React + Redux + GraphQL music streaming clone.
-- [Quadometry Designs](/projects/quadometry-designs): Custom WordPress theme with GSAP animations.
-- [Genesis Planners](/projects/genesis-planners): Custom WordPress theme for a 200+ staff architecture firm.
-- [Reena Bapat Design Studio](/projects/reena-bapat-studio): Editorial WordPress theme.
+- [Work OS — Workspace & Project Management SaaS](/projects/workos): Next.js 15, React 19, FastAPI, PostgreSQL 16, Redis 7, Zustand, React Query, PWA.
+- [VLSID 2027 — 40th International VLSI Design Conference](/projects/vlsid-2027): Official digital platform for the 40th VLSI Design Conference in Bengaluru.
+- [Travel Kampany](/projects/travel-kampany): Dynamic travel platform with itinerary builder and secure payment gateways.
+- [Excel Precast](/projects/excel-precast): Premium manufacturing & product catalog platform for precast concrete.
+- [VLSID 2026 — 39th International VLSI Design Conference](/projects/vlsid-2026): Official dual-venue conference platform in Pune.
+- [Basics Architect.](/projects/basics-co): Editorial branding & architectural studio portfolio with Vite and custom WordPress.
+- [3D Visual Solutions](/projects/3dvisual): Architectural visualization, 3D renders, walkthroughs, and drone mapping platform.
+- [Codesefod](/projects/codesefod): Laravel-powered IT services and technical blog platform on AWS.
+- [Bizwebify](/projects/bizwebify): High-conversion digital marketing & agency platform with custom plugins on Cloudflare.
 
 ## Pages
 

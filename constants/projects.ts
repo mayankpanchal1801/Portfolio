@@ -1,267 +1,367 @@
-import genesis from "@/public/projects/genesis.png";
-import quadDesign from "@/public/projects/quad.png";
-import reena from "@/public/projects/reena.png";
-import spotifyImage from "@/public/projects/spotifyByMe.png";
 import type { StaticImageData } from "next/image";
 
+export type ProjectType = "inhouse" | "client";
+export type ProjectStatus = "live" | "beta" | "coming-soon";
+
 export type Project = {
+  id: number;
   slug: string;
   title: string;
+  subtitle: string;
+  tag: string;
+  category: string;
+  type?: ProjectType;
+  status?: ProjectStatus;
   year: string;
   role: string;
-  category: "AI / LLM" | "Full Stack" | "React App" | "WordPress" | "Platform";
+  client?: string;
   description: string;
   longDescription: string;
   highlights: string[];
+  tech: string[];
   tags: string[];
+  services?: string[];
   imgSrc?: StaticImageData;
   url?: string;
   githubUrl?: string;
-  /** True while the entry is a scaffolded placeholder (user to fill in later). */
   placeholder?: boolean;
-  /** Optional client / location line (used in project cards). */
-  client?: string;
   featured?: boolean;
+  color?: string;
+  accentColor?: string;
+  accentSolid?: string;
 };
 
 export const projectsArr: Project[] = [
-  //
-  // ─── FLAGSHIP FULL-STACK ─────────────────────────────────────────────
-  //
   {
-    slug: "taskflow",
-    title: "TaskFlow — Full-Stack Project & Task Management Platform",
+    id: 1,
+    type: "inhouse",
+    status: "live",
+    slug: "workos",
+    title: "Work OS",
+    subtitle: "Workspace & Project Management SaaS",
+    tag: "In-House App",
+    category: "In-House App",
     year: "2025",
-    role: "Full Stack Developer",
-    category: "Full Stack",
-    client: "Personal",
+    role: "System Architect & Full-Stack Developer",
+    client: "In-House SaaS",
     description:
-      "Full-stack task management platform — Next.js (App Router) frontend, async FastAPI backend, PostgreSQL storage, WebSockets for real-time updates.",
+      "Enterprise-grade monorepo workspace engine featuring Next.js 15, React 19, Zustand & PWA on the frontend with a 28-module FastAPI, PostgreSQL 16 & Redis 7 backend.",
     longDescription:
-      "TaskFlow is a full-stack project & task management platform built end-to-end: a Next.js (App Router) frontend backed by an async FastAPI service, PostgreSQL for persistence, Redis + Celery for background work, and Docker + Nginx on AWS EC2 for deployment. It ships real-time task updates via WebSockets, JWT auth with role-based permissions, and Pydantic-validated REST APIs on SQLAlchemy models — the same architectural pattern I use across production Screetract work.",
-    highlights: [
-      "Next.js (App Router) frontend paired with an async FastAPI backend — one repo, one deploy, one engineer.",
-      "PostgreSQL data models with SQLAlchemy ORM and Pydantic schemas for typed, validated REST endpoints.",
-      "JWT authentication with role-based access control — same pattern hardened in production Screetract apps.",
-      "Real-time task updates via WebSockets; background jobs (notifications, digests) handled by Celery + Redis.",
-      "Dockerized full-stack (frontend + backend + Postgres + Redis) with docker-compose; deployed on AWS EC2 behind Nginx via GitHub Actions.",
-    ],
-    tags: [
-      "Next.js",
-      "TypeScript",
+      "Work OS is an end-to-end workspace and project management platform architected as a modular monorepo. The web client (apps/web) is built on Next.js 15, React 19, Zustand, and React Query with offline PWA support, while the high-performance backend (apps/api) runs on FastAPI (Python) across 28 decoupled domain modules backed by PostgreSQL 16 and Redis 7. It powers real-time cross-component communication, strict schema validation, distributed caching, and end-to-end agency workflow orchestration without third-party bloat.",
+    tech: [
+      "Next.js 15",
+      "React 19",
       "FastAPI",
       "Python",
-      "PostgreSQL",
-      "SQLAlchemy",
-      "Redis",
-      "Celery",
-      "WebSockets",
-      "Docker",
-      "AWS EC2",
+      "PostgreSQL 16",
+      "Redis 7",
+      "Zustand",
+      "React Query",
+      "PWA",
+      "Tailwind CSS",
     ],
-    featured: true,
-  },
-
-  //
-  // ─── AI / LLM PROJECTS (placeholders — fill in details) ───────────────
-  //
-  {
-    slug: "ai-project-1",
-    title: "[AI Project 1 — Add title]",
-    year: "2025",
-    role: "Full Stack + LLM Engineer",
-    category: "AI / LLM",
-    client: "Personal / Client",
-    description:
-      "[One-line pitch — e.g. Retrieval-augmented chatbot that answers questions over your private documents.]",
-    longDescription:
-      "[Long-form description. What problem does it solve? Which LLM (Claude / GPT-4 / local Ollama)? Retrieval strategy? Eval harness? Add ~3–5 sentences.]",
+    tags: [
+      "Next.js 15",
+      "React 19",
+      "FastAPI",
+      "Python",
+      "PostgreSQL 16",
+      "Redis 7",
+      "Zustand",
+      "React Query",
+      "PWA",
+      "Tailwind CSS",
+    ],
     highlights: [
-      "[Highlight 1 — e.g. Streamed responses with SSE and citations to source chunks]",
-      "[Highlight 2 — e.g. Hybrid retrieval combining BM25 + vector embeddings via pgvector]",
-      "[Highlight 3 — e.g. Per-query eval harness with LLM-as-judge scoring]",
-      "[Highlight 4 — e.g. <100ms TTFB on cached queries via Redis + edge cache]",
-      "[Highlight 5 — e.g. Dockerized FastAPI + Next.js, deployed to AWS EC2 behind Nginx]",
+      "Next.js 15 & React 19 frontend with Zustand state & React Query caching",
+      "FastAPI backend architecture spanning 28 decoupled domain modules",
+      "PostgreSQL 16 relational persistence & Redis 7 distributed cache layer",
+      "Monorepo package boundaries with strict cross-component data flow & PWA",
     ],
-    tags: ["Next.js", "TypeScript", "FastAPI", "Python", "PostgreSQL", "pgvector", "LLM", "RAG"],
-    placeholder: true,
-    featured: true,
-  },
-  {
-    slug: "ai-project-2",
-    title: "[AI Project 2 — Add title]",
-    year: "2025",
-    role: "AI Engineer",
-    category: "AI / LLM",
-    client: "Personal",
-    description:
-      "[One-line pitch — e.g. Agentic developer assistant that reads a repo and drafts pull requests.]",
-    longDescription:
-      "[Long-form description. Tool-use loop? Which framework (Claude Agent SDK, custom)? How did you handle rate limits and cost? Guardrails?]",
-    highlights: [
-      "[Highlight 1 — e.g. Multi-step tool use with plan/act/verify loop]",
-      "[Highlight 2 — e.g. Sandboxed execution in ephemeral Docker containers]",
-      "[Highlight 3 — e.g. Token budget enforcement + graceful degradation]",
-      "[Highlight 4 — e.g. Prompt caching cut cost by ~70%]",
-      "[Highlight 5 — e.g. Structured tool outputs validated with Pydantic schemas]",
+    services: [
+      "System Architecture",
+      "UI/UX Design",
+      "Full-Stack Development",
+      "API Engineering",
+      "Domain Modeling",
     ],
-    tags: ["Python", "FastAPI", "Claude API", "Agents", "Docker"],
-    placeholder: true,
+    url: "https://workos.dsgnphy.com/",
+    color: "from-sky-500/30 to-sky-950/25",
+    accentColor: "text-sky-300",
+    accentSolid: "#38bdf8",
     featured: true,
   },
   {
-    slug: "ai-project-3",
-    title: "[AI Project 3 — Add title]",
-    year: "2025",
-    role: "Full Stack Developer",
-    category: "AI / LLM",
-    client: "Personal",
+    id: 2,
+    type: "client",
+    slug: "vlsid-2027",
+    title: "VLSID 2027",
+    subtitle: "40th International VLSI Design Conference",
+    tag: "Conference",
+    category: "Conference",
+    year: "2026",
+    role: "Lead Web Developer",
+    client: "VLSI Society of India",
     description:
-      "[One-line pitch — e.g. Local-first LLM playground running on Ollama with a Next.js UI.]",
+      "Official digital platform for the 40th International Conference on VLSI Design and the 26th International Conference on Embedded Systems — Bengaluru, January 2027.",
     longDescription:
-      "[Long-form description. Why local-first? Which models (Llama 3, Mistral, Qwen)? What UX affordances (streaming, tool use, chat history)?]",
+      "VLSID is India’s flagship VLSI and embedded-systems conference, a sister event of the Design Automation Conference and sponsored by the VLSI Society of India. For the 40th edition (2–6 January 2027, Sheraton Grand Whitefield, Bengaluru) we built the public site around the year’s theme — Artificial Intelligence to Physical Intelligence — covering call for papers, tutorials, SRF/PhD forum, tapeout contest, committee, archives, sponsorship, and registration. The platform has to carry 2,000+ engineers, faculty, industry, and government visitors through a dense programme without feeling like a brochure.",
+    tech: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
+    tags: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
     highlights: [
-      "[Highlight 1 — e.g. Streaming responses via Ollama's HTTP API]",
-      "[Highlight 2 — e.g. Model switching between Llama 3, Mistral, Qwen at runtime]",
-      "[Highlight 3 — e.g. Chat history stored in IndexedDB for local-first UX]",
-      "[Highlight 4 — e.g. Markdown + code fenced rendering with copy-to-clipboard]",
+      "Conference CMS for papers, tutorials, forums, and registration CTAs",
+      "Editorial homepage for the 40th-edition AI → Physical Intelligence theme",
+      "Committee, speakers, partners, and archive modules the organisers can update",
+      "Enquiry routing for general, sponsorship, TPC, and registration desks",
     ],
-    tags: ["Next.js", "TypeScript", "Ollama", "Tailwind CSS"],
-    placeholder: true,
+    services: ["Web Design", "Web Development", "CMS Integration", "Conference UX"],
+    url: "https://vlsid.org/",
+    color: "from-indigo-500/30 to-indigo-950/25",
+    accentColor: "text-indigo-300",
+    accentSolid: "#818cf8",
+    featured: true,
   },
-
-  //
-  // ─── SHIPPED PRODUCTION PROJECTS ─────────────────────────────────────
-  //
   {
-    slug: "vlsid-conference-portal",
-    title: "VLSID Conference Registration Portal",
+    id: 3,
+    type: "client",
+    slug: "travel-kampany",
+    title: "Travel Kampany",
+    subtitle: "Travel & Tourism",
+    tag: "Travel & Tourism",
+    category: "Travel & Tourism",
     year: "2024",
-    role: "Full Stack Developer",
-    category: "Full Stack",
-    client: "VLSID, Pune",
+    role: "Full-Stack Developer",
+    client: "Travel Kampany",
     description:
-      "Scalable registration and payment platform for a national conference, serving 1,000+ attendees with zero downtime.",
+      "A dynamic travel platform with itinerary builders, destination showcases, and secure payment gateways.",
     longDescription:
-      "A production registration and payment platform built for VLSID's annual conference in Pune. React on the frontend, Node.js REST APIs on the backend, and a hardened payment validation layer. Withstood peak-day registration traffic without a single incident.",
+      "Travel Kampany set out to make custom trip planning feel as effortless as booking a flight. We architected a dynamic platform around a flexible itinerary builder, destination showcases that double as marketing pages, and a hardened payment flow that supports multiple gateways. The stack is built for speed and scale — destinations and packages are managed entirely from a custom admin.",
+    tech: ["Custom PHP", "Node.js", "Tailwind CSS", "API Integrations"],
+    tags: ["Custom PHP", "Node.js", "Tailwind CSS", "API Integrations"],
     highlights: [
-      "Handled 1,000+ attendees across registration, payment, and check-in flows with zero downtime during the conference.",
-      "Optimized backend workflows and payment validation for reliable performance under peak load.",
-      "Role-based dashboards for organizers, delegates, and sponsors — each with tailored data access.",
-      "Automated confirmation emails and PDF badge generation on successful payment.",
-      "Deployed on Nginx behind Docker with GitHub Actions CI/CD.",
+      "Custom itinerary builder with drag-to-reorder days",
+      "Secure multi-gateway payments with retry logic",
+      "Destination CMS with SEO-friendly URLs",
+      "Sub-second navigation via aggressive caching",
     ],
-    tags: ["React.js", "Node.js", "Express.js", "REST APIs", "Docker", "Nginx"],
+    services: ["Product Strategy", "UI/UX Design", "Full-Stack Development", "Payment Integration"],
+    url: "https://travelkampany.in/",
+    color: "from-cyan-500/30 to-cyan-900/20",
+    accentColor: "text-cyan-300",
+    accentSolid: "#22d3ee",
     featured: true,
   },
   {
-    slug: "cometlit-literacy-platform",
-    title: "CometLit — Literacy Learning Platform",
-    year: "2023",
-    role: "Frontend Developer",
-    category: "React App",
-    client: "CometLit",
+    id: 4,
+    type: "client",
+    slug: "excel-precast",
+    title: "Excel Precast",
+    subtitle: "Construction & Manufacturing",
+    tag: "Manufacturing",
+    category: "Manufacturing",
+    year: "2024",
+    role: "Web Developer",
+    client: "Excel Precast",
     description:
-      "Responsive learning platform with vocabulary, reading, writing, quizzes, and progress tracking modules.",
+      "A premium website for Excel Precast highlighting their products, projects, and manufacturing capabilities.",
     longDescription:
-      "A responsive literacy platform built with React, structured around modular learning units — vocabulary, reading, writing, quizzes, and progress tracking. Built as a reusable component system with local state and clean, mobile-first UI. Deployed on Netlify.",
+      "Excel Precast needed a digital presence that matched the scale and precision of their precast concrete operations. We built a clean, content-first website that lets prospects browse the full product catalogue, explore completed projects by industry, and request quotes without friction. The custom WordPress theme keeps the marketing team fully autonomous — every page, image, and case study is editable in-CMS.",
+    tech: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
+    tags: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
     highlights: [
-      "Modular learning units — vocabulary, reading, writing, quizzes — each as a reusable React component.",
-      "Local state management for lesson progress and quiz scoring.",
-      "Mobile-first responsive design tested across breakpoints.",
-      "Deployed on Netlify with automated preview deploys per branch.",
+      "Custom WordPress theme tailored to product taxonomy",
+      "Fully responsive across desktop, tablet, and mobile",
+      "CMS-driven product and project galleries",
+      "Optimised for organic search and lead capture",
     ],
-    tags: ["React.js", "JavaScript", "CSS3", "Netlify"],
+    services: ["Web Design", "Web Development", "CMS Integration", "SEO Setup"],
+    url: "https://excelprecast.com/",
+    color: "from-amber-500/30 to-amber-900/20",
+    accentColor: "text-amber-300",
+    accentSolid: "#fbbf24",
+    featured: true,
   },
   {
-    slug: "spotify-clone",
-    title: "Spotify Clone",
-    year: "2023",
-    role: "Full Stack Developer",
-    category: "React App",
-    client: "Personal",
+    id: 5,
+    type: "client",
+    slug: "vlsid-2026",
+    title: "VLSID 2026",
+    subtitle: "39th International VLSI Design Conference",
+    tag: "Conference",
+    category: "Conference",
+    year: "2025",
+    role: "Web Developer",
+    client: "VLSI Society of India, Pune",
     description:
-      "Full-stack music streaming clone built with React, GraphQL, and Redux — real-time playback, playlists, and artist discovery.",
+      "Last year’s conference site for the 39th VLSI Design and 25th Embedded Systems editions — a dual-venue programme in Pune, January 2026.",
     longDescription:
-      "A full-stack clone that replicates Spotify's core experience — React on the frontend, GraphQL on the backend. Real-time playback, playlist management, artist discovery. Redux drives global playback and queue state; SCSS mirrors Spotify's visual language closely.",
+      "For VLSID 2026 we shipped the official site for Global Synergy in Silicon — VLSI and Embedded AI for next-gen electrified mobility. The programme split across MIT World Peace University (tutorials, 3–4 January) and JW Marriott Pune (main conference, 5–7 January), with 2,000+ attendees, keynotes, partners from Cadence, Intel, Qualcomm, Siemens, AMD, and a full author/forum stack. The build had to present two venues, a dense speaker roster, and sponsor tiers without burying Call for Papers, registration, or travel.",
+    tech: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
+    tags: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
     highlights: [
-      "Real-time music streaming with smooth playback controls and queue management.",
-      "GraphQL API with efficient data fetching and client-side caching.",
-      "Redux-powered global state for playback, playlists, and user library.",
-      "Responsive SCSS UI closely mirroring Spotify's design language.",
-      "Deployed on Netlify with automated CI/CD pipeline.",
+      "Dual-venue programme (MIT WPU tutorials + JW Marriott main conference)",
+      "Keynote, leader, and partner grids for a 2,000+ attendee edition",
+      "Author tracks: papers, tutorials, design contest, tape-out, fellowship",
+      "Sponsorship, exhibitor, and registration flows for VSI’s sister-DAC event",
     ],
-    tags: ["React.js", "Redux", "GraphQL", "SCSS"],
-    imgSrc: spotifyImage,
-    url: "https://spotifybymayank.netlify.app",
-    githubUrl: "https://github.com/munkpanchal",
+    services: ["Web Design", "Web Development", "CMS Integration", "Event Platforms"],
+    url: "https://2026.vlsid.org/",
+    color: "from-teal-500/30 to-teal-950/25",
+    accentColor: "text-teal-300",
+    accentSolid: "#2dd4bf",
+    featured: true,
   },
   {
-    slug: "quadometry-designs",
-    title: "Quadometry Designs",
+    id: 6,
+    type: "client",
+    slug: "basics-co",
+    title: "Basics Architect.",
+    subtitle: "Architecture & Design Studio",
+    tag: "Branding & Design",
+    category: "Branding & Design",
+    year: "2023",
+    role: "Frontend & WordPress Developer",
+    client: "Basics Co.",
+    description:
+      "A sleek portfolio website reflecting Basics Co.'s creative approach, work, services, and client testimonials.",
+    longDescription:
+      "Basics Co. is a branding-led studio with a sharp visual identity, and their site needed to feel like an extension of the work itself. We paired a custom WordPress theme with a Vite-powered front-end so the team gets editorial flexibility without sacrificing performance. Smooth scroll-driven animations and a modern aesthetic carry visitors through the work, services, and testimonials.",
+    tech: ["WordPress", "Custom Theme", "Vite", "Tailwind CSS"],
+    tags: ["WordPress", "Custom Theme", "Vite", "Tailwind CSS"],
+    highlights: [
+      "Custom WordPress theme with editorial flexibility",
+      "Vite-powered front-end for sub-second load times",
+      "Scroll-driven animations and case study modules",
+      "Modular block system for fast content updates",
+    ],
+    services: ["Web Design", "WordPress Theme Development", "Animation", "Performance Tuning"],
+    url: "https://basics.co.in/",
+    color: "from-purple-500/30 to-purple-900/20",
+    accentColor: "text-purple-300",
+    accentSolid: "#c084fc",
+    featured: true,
+  },
+  {
+    id: 7,
+    type: "client",
+    slug: "3dvisual",
+    title: "3D Visual Solutions",
+    subtitle: "Architectural Visualization & 3D Rendering",
+    tag: "3D Visualization",
+    category: "3D Visualization",
+    year: "2023",
+    role: "Web Developer",
+    client: "3D Visual Solutions, Bengaluru",
+    description:
+      "A premium digital platform showcasing photo-realistic architectural visualization, 3D renderings, walkthroughs, and drone mapping.",
+    longDescription:
+      "3D Visual Solutions is a Bengaluru-based architectural visualization studio delivering photorealistic 3D renders, cinematic walkthroughs, 2D/3D floor plans, and aerial drone mapping for architects, interior designers, and real estate developers. We crafted an immersive, media-rich website featuring smooth interactive video hero presentations, curated portfolio lightbox galleries, and frictionless project inquiry routing.",
+    tech: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS", "Vite"],
+    tags: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS", "Vite"],
+    highlights: [
+      "Interactive video-driven hero showcase with ambient typography",
+      "Categorized portfolio galleries for exterior, interior, walkthroughs, and drone mapping",
+      "Optimized responsive layouts with Lenis smooth scrolling",
+      "Direct multi-channel consultation and project inquiry workflows",
+    ],
+    services: ["Web Design", "Web Development", "Custom WordPress Theme", "Performance Tuning"],
+    url: "https://3dvisual.in/",
+    color: "from-emerald-500/30 to-emerald-950/25",
+    accentColor: "text-emerald-300",
+    accentSolid: "#34d399",
+    featured: true,
+  },
+  {
+    id: 8,
+    type: "client",
+    slug: "codesefod",
+    title: "Codesefod",
+    subtitle: "IT Services & Software",
+    tag: "IT & Software",
+    category: "IT & Software",
+    year: "2023",
+    role: "Full-Stack Developer",
+    client: "Codesefod",
+    description:
+      "A robust platform for Codesefod's services, case studies, and tech blog — engineered for performance and SEO.",
+    longDescription:
+      "Codesefod is an IT services company whose own website had to demonstrate the engineering quality they sell. We built a Laravel-powered platform with server-side rendering, a structured case-study system, and a developer-friendly blog. Everything is tuned for Core Web Vitals and SEO, and the entire stack is deployed on AWS for predictable performance under load.",
+    tech: ["Custom PHP", "Laravel", "Tailwind CSS", "AWS"],
+    tags: ["Custom PHP", "Laravel", "Tailwind CSS", "AWS"],
+    highlights: [
+      "Laravel back-end with structured content models",
+      "Server-side rendering for every page",
+      "Indexed case studies and technical blog",
+      "AWS deployment tuned for Core Web Vitals",
+    ],
+    services: ["Platform Architecture", "Full-Stack Development", "SEO Engineering", "AWS Deployment"],
+    url: "https://codesefod.com/",
+    color: "from-blue-500/30 to-blue-900/20",
+    accentColor: "text-blue-300",
+    accentSolid: "#60a5fa",
+    featured: true,
+  },
+  {
+    id: 9,
+    type: "client",
+    slug: "bizwebify",
+    title: "Bizwebify",
+    subtitle: "Digital Marketing & Web Solutions",
+    tag: "Digital Marketing",
+    category: "Digital Marketing",
     year: "2022",
     role: "WordPress Developer",
-    category: "WordPress",
-    client: "Quadometry Designs, Bengaluru",
+    client: "Bizwebify",
     description:
-      "Corporate website for an architectural firm — fully custom WordPress theme with cinematic GSAP scroll animations.",
+      "A business-focused website showcasing Bizwebify's services, team, and client success — engineered for lead generation.",
     longDescription:
-      "QUADOMETRY DESIGN is a Bengaluru-based architectural firm. This engagement was a fully custom WordPress theme built from scratch in PHP, with GSAP-powered scroll animations, a bespoke portfolio showcase, and a Webpack-optimized build pipeline.",
+      "Bizwebify is in the business of getting their clients leads, so their own site had to set the example. We built a high-conversion WordPress site with bespoke plugins powering the team, services, and case-study sections. Cloudflare keeps it fast worldwide; the CTA framework keeps it converting. Edit copy, swap heroes, or launch a campaign page — all without touching code.",
+    tech: ["WordPress", "Custom Plugins", "Elementor Pro", "Cloudflare"],
+    tags: ["WordPress", "Custom Plugins", "Elementor Pro", "Cloudflare"],
     highlights: [
-      "Custom WordPress theme built entirely from scratch in PHP.",
-      "GSAP-powered scroll animations and cinematic page transitions.",
-      "Responsive portfolio grid with lightbox for project photography.",
-      "Webpack build pipeline with SCSS compilation and JS bundling.",
-      "jQuery-based interactive carousels and smooth UI micro-interactions.",
+      "High-conversion landing page framework",
+      "Custom WordPress plugins for team and case studies",
+      "Cloudflare CDN with global edge caching",
+      "A/B-ready CTA components",
     ],
-    tags: ["WordPress", "PHP", "Bootstrap", "SCSS", "GSAP", "Webpack"],
-    imgSrc: quadDesign,
-    url: "https://quadometrydesigns.com",
-  },
-  {
-    slug: "genesis-planners",
-    title: "Genesis Planners",
-    year: "2022",
-    role: "WordPress Developer",
-    category: "WordPress",
-    client: "GPPL, Hyderabad",
-    description:
-      "Website for a multi-disciplinary architectural firm with 27+ years of experience — 200+ staff, six practice areas.",
-    longDescription:
-      "GPPL is a leading multi-disciplinary architectural firm based in Hyderabad. A high-performance custom WordPress theme was required to showcase a vast portfolio across multiple practice areas, with advanced filtering, custom post types, and animation.",
-    highlights: [
-      "Custom WordPress theme with advanced Custom Post Types for project portfolios.",
-      "GSAP scroll-triggered reveals for portfolio entries and section transitions.",
-      "Responsive mega-menu navigation spanning 6 architecture practice areas.",
-      "Performance-optimized image lazy loading and Webpack asset bundling.",
-      "Contact forms integrated with CRM via custom PHP action hooks.",
-    ],
-    tags: ["WordPress", "PHP", "Bootstrap", "SCSS", "GSAP", "Webpack"],
-    imgSrc: genesis,
-    url: "https://genesisplanners.in",
-  },
-  {
-    slug: "reena-bapat-studio",
-    title: "Reena Bapat Design Studio",
-    year: "2023",
-    role: "WordPress Developer",
-    category: "WordPress",
-    client: "Reena Bapat Studio, Bengaluru",
-    description:
-      "Boutique design studio website — editorial WordPress theme for a sustainable hospitality and interiors firm.",
-    longDescription:
-      "Reena Bapat Design Studio is a Bengaluru-based boutique studio specializing in bespoke, sustainable hospitality, landscape, interiors, master-planning, and residential projects. The site reflects their aesthetic — minimal, editorial, refined — with carefully considered typography and whitespace.",
-    highlights: [
-      "Editorial-style WordPress theme precisely mirroring the studio's design ethos.",
-      "Custom gallery grid with lightbox for high-resolution project photography.",
-      "Webpack + SCSS build system with PostCSS for optimized CSS delivery.",
-      "Mobile-first responsive breakpoints tested across all device sizes.",
-      "SEO-optimized semantic markup and structured data for local search.",
-    ],
-    tags: ["WordPress", "PHP", "Bootstrap", "SCSS", "Webpack"],
-    imgSrc: reena,
-    url: "https://reenabapat.studio",
+    services: ["Web Design", "WordPress Development", "Conversion Optimisation", "Performance & CDN"],
+    url: "https://bizwebify.com/",
+    color: "from-rose-500/30 to-rose-900/20",
+    accentColor: "text-rose-300",
+    accentSolid: "#fb7185",
+    featured: true,
   },
 ];
 
-export const featuredProjects = projectsArr.filter((p) => p.featured);
+/** Shipped work only — placeholders never surface as selected work. */
+export const featuredProjects = projectsArr.filter((p) => p.featured && !p.placeholder);
+
+export function getProjectBySlug(slug: string): Project | undefined {
+  return projectsArr.find((p) => p.slug === slug);
+}
+
+export function getProjectsByType(type?: ProjectType): Project[] {
+  if (!type) return projectsArr;
+  return projectsArr.filter((p) => (p.type ?? "client") === type);
+}
+
+export function getAdjacentProjects(slug: string): { prev: Project | null; next: Project | null } {
+  const count = projectsArr.length;
+  const idx = projectsArr.findIndex((p) => p.slug === slug);
+  if (idx === -1 || count < 2) return { prev: null, next: null };
+  return {
+    prev: projectsArr[(idx - 1 + count) % count],
+    next: projectsArr[(idx + 1) % count],
+  };
+}
+
+export function getClientNames(): string[] {
+  const names: string[] = [];
+  for (const project of projectsArr) {
+    const name = project.title;
+    if (name && !names.includes(name)) {
+      names.push(name);
+    }
+  }
+  return names;
+}
