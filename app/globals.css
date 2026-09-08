@@ -84,30 +84,34 @@
 }
 
 @theme {
-  --font-display: var(--font-grotesk), "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-body:    var(--font-serif), "Source Serif 4", Georgia, Cambria, serif;
+  --font-display: var(--font-fraunces), "Fraunces", Georgia, serif;
+  --font-body:    var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans:    var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif:   var(--font-fraunces), "Fraunces", Georgia, Cambria, serif;
   --font-mono:    var(--font-plex), "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-fraunces: var(--font-fraunces), "Fraunces", Georgia, serif;
+  --font-jakarta:  var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  /* Display scale — Space Grotesk, tight and structural */
+  /* Display scale — Fraunces, expressive editorial serif */
   --text-mark:  clamp(3.25rem, 11.5vw, 10.5rem);
-  --text-mark--line-height: 0.86;
-  --text-mark--letter-spacing: -0.045em;
+  --text-mark--line-height: 0.88;
+  --text-mark--letter-spacing: -0.035em;
 
   --text-d1: clamp(2.5rem, 7vw, 5.75rem);
-  --text-d1--line-height: 0.92;
-  --text-d1--letter-spacing: -0.038em;
+  --text-d1--line-height: 0.95;
+  --text-d1--letter-spacing: -0.028em;
 
   --text-d2: clamp(1.875rem, 4.4vw, 3.375rem);
-  --text-d2--line-height: 1.0;
-  --text-d2--letter-spacing: -0.03em;
+  --text-d2--line-height: 1.05;
+  --text-d2--letter-spacing: -0.022em;
 
   --text-d3: clamp(1.375rem, 2.4vw, 1.9rem);
-  --text-d3--line-height: 1.12;
-  --text-d3--letter-spacing: -0.022em;
+  --text-d3--line-height: 1.18;
+  --text-d3--letter-spacing: -0.015em;
 
-  /* Reading — Source Serif 4 */
+  /* Reading — Plus Jakarta Sans */
   --text-lede: clamp(1.125rem, 1.5vw, 1.3125rem);
-  --text-lede--line-height: 1.58;
+  --text-lede--line-height: 1.6;
 
   /* Data — IBM Plex Mono */
   --text-tag: 0.6875rem;

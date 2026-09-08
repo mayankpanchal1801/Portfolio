@@ -7,25 +7,26 @@ import { ThemeProvider } from "@/components/chrome/ThemeProvider";
 import { about, contact, seoKeywords, site, socials } from "@/constants/personal";
 import { skillsFlat } from "@/constants/skills";
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Source_Serif_4, Space_Grotesk } from "next/font/google";
+import { Fraunces, IBM_Plex_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 // ── Fonts ────────────────────────────────────────────────────────────
-// Display: Space Grotesk — technical grotesk, set tight at large sizes.
-// Reading: Source Serif 4 — warm, screen-tuned serif for body copy.
+// Display: Fraunces — expressive variable serif with optical sizing for headings & marks.
+// Body:    Plus Jakarta Sans — modern geometric grotesk for body copy & UI.
 // Data:    IBM Plex Mono — labels, figures, marginalia.
-const grotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: "variable",
-  variable: "--font-grotesk",
-  display: "swap",
-});
-
-const serif = Source_Serif_4({
+const fraunces = Fraunces({
   subsets: ["latin"],
   weight: "variable",
   style: ["normal", "italic"],
-  variable: "--font-serif",
+  variable: "--font-fraunces",
+  display: "swap",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  variable: "--font-jakarta",
   display: "swap",
 });
 
@@ -204,7 +205,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${grotesk.variable} ${serif.variable} ${plex.variable}`}
+      className={`${fraunces.variable} ${jakarta.variable} ${plex.variable}`}
       suppressHydrationWarning
     >
       <body>
