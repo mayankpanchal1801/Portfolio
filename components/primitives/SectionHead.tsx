@@ -26,19 +26,22 @@ export default function SectionHead({
   className,
 }: Props) {
   return (
-    <header className={clsx("border-t border-rule pt-5", className)}>
-      <div className="grid-12">
-        <div className="col-span-12 md:col-span-3 lg:col-span-2 flex items-baseline gap-3 md:block">
-          <span className="marginal text-accent-ink">{index}</span>
-          <span className="marginal md:mt-2 md:block">{label}</span>
+    <header className={clsx("border-t border-rule pt-8 md:pt-12", className)}>
+      <div className="grid-12 items-start">
+        <div className="col-span-12 md:col-span-3 lg:col-span-3 flex items-baseline gap-4 md:flex-col md:gap-3">
+          <span className="marginal flex items-center gap-2 text-accent-ink">
+            <span aria-hidden className="block h-px w-4 bg-accent-ink"></span>
+            {index}
+          </span>
+          <span className="tag text-ink-3 md:mt-2">{label}</span>
         </div>
 
-        <div className="col-span-12 md:col-span-9 lg:col-span-10 mt-4 sm:mt-6 md:mt-0">
+        <div className="col-span-12 md:col-span-9 lg:col-span-8 mt-6 md:mt-0">
           <Reveal
             as="h2"
             mode="words"
             id={headingId}
-            className="font-display text-d2 text-ink max-w-[19ch] lg:max-w-[24ch]"
+            className="font-display text-[clamp(2rem,6vw,4rem)] font-medium leading-[1.05] tracking-[-0.02em] text-ink"
           >
             {title}
           </Reveal>
@@ -48,7 +51,7 @@ export default function SectionHead({
               as="p"
               mode="fade"
               delay={0.12}
-              className="mt-4 sm:mt-6 measure text-base sm:text-lede text-ink-2 leading-relaxed"
+              className="mt-6 sm:mt-8 measure text-lg sm:text-xl text-ink-2 leading-relaxed"
             >
               {intro}
             </Reveal>

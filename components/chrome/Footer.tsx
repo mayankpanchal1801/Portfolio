@@ -12,8 +12,8 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative z-[1] bg-inverse text-inverse-ink">
-      <div className="border-b border-inverse-ink/15 py-7">
+    <footer className="relative z-[1] bg-paper text-ink">
+      <div className="border-b border-rule py-7">
         <Drift
           items={[
             "Full-stack engineering",
@@ -27,7 +27,7 @@ export default function Footer() {
       </div>
 
       <div className="shell py-12 sm:py-16 md:py-24">
-        <p className="tag text-inverse-ink/55">Start a conversation</p>
+        <p className="tag text-ink-3">Start a conversation</p>
 
         <Reveal
           as="a"
@@ -38,14 +38,14 @@ export default function Footer() {
           {contact.email}
         </Reveal>
 
-        <p className="measure mt-5 sm:mt-7 text-sm sm:text-base text-inverse-ink/70 leading-relaxed">
+        <p className="measure mt-5 sm:mt-7 text-sm sm:text-base text-ink-2 leading-relaxed">
           Hiring, freelancing, or just curious about the stack — a short note is
           enough. I reply within a business day.
         </p>
 
-        <div className="mt-12 sm:mt-16 grid grid-cols-2 gap-8 border-t border-inverse-ink/15 pt-8 sm:pt-10 md:grid-cols-4 md:gap-6">
+        <div className="mt-12 sm:mt-16 grid grid-cols-2 gap-8 border-t border-rule pt-8 sm:pt-10 md:grid-cols-4 md:gap-6">
           <nav aria-label="Footer">
-            <p className="tag text-inverse-ink/55">Navigate</p>
+            <p className="tag text-ink-3">Navigate</p>
             <ul className="mt-4 space-y-2.5">
               {navLinksArr.map((l) => (
                 <li key={l.url}>
@@ -58,7 +58,7 @@ export default function Footer() {
           </nav>
 
           <div>
-            <p className="tag text-inverse-ink/55">Elsewhere</p>
+            <p className="tag text-ink-3">Elsewhere</p>
             <ul className="mt-4 space-y-2.5">
               {socials.map((s) => (
                 <li key={s.label}>
@@ -76,41 +76,49 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="tag text-inverse-ink/55">Direct</p>
+            <p className="tag text-ink-3">Direct</p>
             <ul className="mt-4 space-y-2.5">
               <li>
                 <a href={`mailto:${contact.email}`} className="uline break-all">
                   {contact.email}
                 </a>
               </li>
-              <li>
-                <a href={contact.phoneHref} className="font-mono text-sm text-inverse-ink/80">
-                  {contact.phone}
-                </a>
-              </li>
+              {contact.phone && (
+                <li>
+                  <a
+                    href={contact.phoneHref}
+                    className="font-mono text-sm text-ink-2"
+                  >
+                    {contact.phone}
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
 
           <div>
-            <p className="tag text-inverse-ink/55">Based in</p>
+            <p className="tag text-ink-3">Based in</p>
             <address className="mt-4 space-y-1 not-italic">
               <p>{contact.city}</p>
-              <p className="text-sm text-inverse-ink/70">
+              <p className="text-sm text-ink-2">
                 {contact.region}, {contact.country}
               </p>
-              <p className="pt-2 font-mono text-xs text-inverse-ink/55 tabular-nums">
-                {contact.coords.lat.toFixed(4)}°N · {contact.coords.lng.toFixed(4)}°E
+              <p className="pt-2 font-mono text-xs text-ink-3 tabular-nums">
+                {contact.coords.lat.toFixed(4)}°N ·{" "}
+                {contact.coords.lng.toFixed(4)}°E
               </p>
-              <p className="font-mono text-xs text-inverse-ink/55">{contact.timezone}</p>
+              <p className="font-mono text-xs text-ink-3">
+                {contact.timezone}
+              </p>
             </address>
           </div>
         </div>
 
-        <div className="mt-10 sm:mt-14 flex flex-col gap-3 border-t border-inverse-ink/15 pt-6 sm:flex-row sm:items-center sm:justify-between text-xs">
-          <p className="tag text-inverse-ink/55">
+        <div className="mt-10 sm:mt-14 flex flex-col gap-3 border-t border-rule pt-6 sm:flex-row sm:items-center sm:justify-between text-xs">
+          <p className="tag text-ink-3">
             © {year} · {site.name}
           </p>
-          <p className="tag text-inverse-ink/55">
+          <p className="tag text-ink-3">
             Next.js · Tailwind · GSAP · Built in {contact.city}
           </p>
         </div>

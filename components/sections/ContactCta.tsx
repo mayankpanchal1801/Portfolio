@@ -39,9 +39,11 @@ export default function ContactCta({
           <a href={`mailto:${contact.email}`} className="uline font-display text-ink">
             {contact.email}
           </a>
-          <a href={contact.phoneHref} className="font-mono text-sm text-ink-3">
-            {contact.phone}
-          </a>
+          {contact.phone && (
+            <a href={contact.phoneHref} className="font-mono text-sm text-ink-3">
+              {contact.phone}
+            </a>
+          )}
         </div>
       </div>
     </section>

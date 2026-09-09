@@ -34,7 +34,7 @@ const aboutLd = {
     name: site.name,
     jobTitle: site.role,
     email: contact.email,
-    telephone: contact.phone,
+    telephone: contact.phone || undefined,
     address: {
       "@type": "PostalAddress",
       addressLocality: contact.city,
@@ -96,7 +96,7 @@ export default function AboutPage() {
           <aside className="col-span-12 lg:col-span-4">
             <figure>
               <Figure
-                src="/mayank.jpeg"
+                src="/profile.jpeg"
                 alt={`${site.name}, ${site.role}, photographed in ${contact.city}`}
                 className="aspect-[4/5] border border-rule-strong"
                 sizes="(max-width: 1024px) 100vw, 400px"

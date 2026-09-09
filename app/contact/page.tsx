@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: `Get in touch with ${site.name} — ${site.role} in ${contact.city}, ${contact.country}. Email ${contact.email} or call ${contact.phone}.`,
+  description: `Get in touch with ${site.name} — ${site.role} in ${contact.city}, ${contact.country}. Email ${contact.email}${contact.phone ? ` or call ${contact.phone}` : ""}.`,
   alternates: { canonical: "/contact" },
   openGraph: {
     title: `Contact — ${site.name}`,

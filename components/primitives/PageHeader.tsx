@@ -22,11 +22,12 @@ export default function PageHeader({
   meta,
 }: Props) {
   return (
-    <header className="ruled border-b border-rule pb-14 pt-12 md:pb-20 md:pt-16">
+    <header className="ruled border-b border-rule pb-16 pt-10 md:pb-24 md:pt-16">
       <div className="shell relative z-[1]">
-        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-rule pb-4">
-          <p className="tag tag--accent">
-            {label} · {index}
+        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 pb-8">
+          <p className="tag tag--accent flex items-center gap-2">
+            <span className="block h-1.5 w-1.5 rounded-full bg-accent" />
+            {label} <span className="opacity-50 mx-1">/</span> {index}
           </p>
           {meta && <p className="tag hidden md:block">{meta}</p>}
           <p className="tag flex items-center gap-2 tabular-nums">
@@ -38,27 +39,29 @@ export default function PageHeader({
           </p>
         </div>
 
-        <Reveal
-          as="h1"
-          id={headingId}
-          mode="words"
-          immediate
-          className="-ml-[0.045em] mt-10 max-w-[16ch] font-display text-d1 font-semibold text-ink md:mt-14"
-        >
-          {title}
-        </Reveal>
-
-        {intro && (
+        <div className="border-t border-rule pt-10 md:pt-16">
           <Reveal
-            as="p"
-            mode="rise"
-            delay={0.24}
+            as="h1"
+            id={headingId}
+            mode="words"
             immediate
-            className="measure mt-7 text-lede text-ink-2"
+            className="font-display text-[clamp(3.5rem,10vw,8rem)] font-medium leading-[0.9] tracking-[-0.03em] text-ink"
           >
-            {intro}
+            {title}
           </Reveal>
-        )}
+
+          {intro && (
+            <Reveal
+              as="p"
+              mode="rise"
+              delay={0.24}
+              immediate
+              className="measure mt-10 text-xl sm:text-2xl font-display leading-tight text-ink-2"
+            >
+              {intro}
+            </Reveal>
+          )}
+        </div>
       </div>
     </header>
   );

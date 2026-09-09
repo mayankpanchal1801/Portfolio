@@ -27,14 +27,14 @@ export const site = {
   yearFounded: 2022,
   twitterHandle: "@mayankpanchal01",
   /** Social card is generated at build time by app/opengraph-image.tsx. */
-  portrait: "/mayank.jpeg",
+  portrait: "/profile.jpeg",
   themeColor: "#FBF8F3",
 } as const;
 
 export const contact = {
   email: "mayank.careers01@gmail.com",
-  phone: "+91 96116 41801",
-  phoneHref: "tel:+919611641801",
+  phone: "", // "+91 96116 41801",
+  phoneHref: "", // "tel:+919611641801",
   city: "Bengaluru",
   region: "Karnataka",
   country: "India",
@@ -176,7 +176,7 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: "How can I contact Mayank Panchal?",
-    a: "Email is fastest: mayank.careers01@gmail.com. Phone / WhatsApp: +91 96116 41801. LinkedIn: linkedin.com/in/mayankpanchal01. GitHub: github.com/munkpanchal.",
+    a: "Email is fastest: mayank.careers01@gmail.com. LinkedIn: linkedin.com/in/mayankpanchal01. GitHub: github.com/munkpanchal.",
   },
   {
     q: "Does Mayank Panchal work with AI tools?",

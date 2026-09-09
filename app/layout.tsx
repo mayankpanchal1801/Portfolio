@@ -129,7 +129,7 @@ const personLd = {
     caption: `Portrait of ${site.name} — ${site.role}`,
   },
   email: `mailto:${contact.email}`,
-  telephone: contact.phone,
+  telephone: contact.phone || undefined,
   nationality: { "@type": "Country", name: "India" },
   address: {
     "@type": "PostalAddress",

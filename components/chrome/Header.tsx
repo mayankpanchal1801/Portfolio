@@ -203,9 +203,11 @@ export default function Header() {
               >
                 {contact.email}
               </a>
-              <a href={contact.phoneHref} className="mt-1 block font-mono text-sm text-ink-2">
-                {contact.phone}
-              </a>
+              {contact.phone && (
+                <a href={contact.phoneHref} className="mt-1 block font-mono text-sm text-ink-2">
+                  {contact.phone}
+                </a>
+              )}
             </div>
 
             <div className="border-t border-rule/60 pt-4">
