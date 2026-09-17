@@ -1,15 +1,15 @@
-import ContactForm from "@/components/sections/ContactForm";
 import PageHeader from "@/components/primitives/PageHeader";
+import ContactForm from "@/components/sections/ContactForm";
 import { contact, faqs, site, socials } from "@/constants/personal";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: `Get in touch with ${site.name} — ${site.role} in ${contact.city}, ${contact.country}. Email ${contact.email}${contact.phone ? ` or call ${contact.phone}` : ""}.`,
+  description: `Get in touch with ${site.name} - ${site.role} in ${contact.city}, ${contact.country}. Email ${contact.email}${contact.phone ? ` or call ${contact.phone}` : ""}.`,
   alternates: { canonical: "/contact" },
   openGraph: {
-    title: `Contact — ${site.name}`,
-    description: `Get in touch with ${site.name} — ${site.role} based in ${contact.city}, ${contact.country}.`,
+    title: `Contact - ${site.name}`,
+    description: `Get in touch with ${site.name} - ${site.role} based in ${contact.city}, ${contact.country}.`,
     url: `${site.url}/contact`,
     type: "website",
   },
@@ -20,7 +20,7 @@ const contactLd = {
   "@type": "ContactPage",
   "@id": `${site.url}/contact#page`,
   url: `${site.url}/contact`,
-  name: `Contact — ${site.name}`,
+  name: `Contact - ${site.name}`,
   mainEntity: { "@id": `${site.url}/#person` },
   breadcrumb: {
     "@type": "BreadcrumbList",

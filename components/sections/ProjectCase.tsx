@@ -112,7 +112,7 @@ export default function ProjectCase({ project, nextProject }: Props) {
         <div className="shell pt-14 md:pt-20">
           <Figure
             src={project.imgSrc}
-            alt={`${project.title} — interface screenshot`}
+            alt={`${project.title} - interface screenshot`}
             className="aspect-[16/9] border border-rule"
             sizes="(max-width: 1320px) 100vw, 1320px"
             priority

@@ -8,7 +8,7 @@ const INTERACTIVE = 'a, button, [role="button"], input, textarea, select, [data-
 
 /**
  * A soft accent ring that trails the pointer and swells over anything
- * clickable. The native cursor is deliberately left visible — if this
+ * clickable. The native cursor is deliberately left visible - if this
  * script never runs, or the device is touch, nothing is lost.
  */
 export default function Cursor() {

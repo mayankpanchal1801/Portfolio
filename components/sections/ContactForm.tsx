@@ -86,7 +86,7 @@ export default function ContactForm() {
       </div>
 
       <p className="text-xs sm:text-sm text-ink-3">
-        This form composes the message in your own email client — nothing is sent
+        This form composes the message in your own email client - nothing is sent
         to a server, and nothing is stored.
       </p>
     </form>

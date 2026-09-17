@@ -1,9 +1,8 @@
+import PageHeader from "@/components/primitives/PageHeader";
+import Reveal from "@/components/primitives/Reveal";
 import Chronology from "@/components/sections/Chronology";
 import ContactCta from "@/components/sections/ContactCta";
 import Toolkit from "@/components/sections/Toolkit";
-import Figure from "@/components/primitives/Figure";
-import PageHeader from "@/components/primitives/PageHeader";
-import Reveal from "@/components/primitives/Reveal";
 import { experienceArr } from "@/constants/experience";
 import { about, contact, site, socials } from "@/constants/personal";
 import { skillsFlat } from "@/constants/skills";
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
   description: about.intro,
   alternates: { canonical: "/about" },
   openGraph: {
-    title: `About — ${site.name}`,
+    title: `About - ${site.name}`,
     description: about.intro,
     url: `${site.url}/about`,
     type: "profile",
@@ -26,7 +25,7 @@ const aboutLd = {
   "@type": "AboutPage",
   "@id": `${site.url}/about#page`,
   url: `${site.url}/about`,
-  name: `About — ${site.name}`,
+  name: `About - ${site.name}`,
   description: about.intro,
   mainEntity: {
     "@type": "Person",
@@ -79,14 +78,14 @@ export default function AboutPage() {
         meta="Full-stack · Bengaluru"
         title={
           <>
-            A developer who ships end to end — with AI as a{" "}
+            A developer who ships end to end - with AI as a{" "}
             <em className="text-accent-ink">tool</em>, not a shortcut.
           </>
         }
         intro={about.headline}
       />
 
-      {/* ── Portrait, facts, and the long version ── */}
+      {/* ── Facts and the long version ── */}
       <section className="band shell" aria-labelledby="bio-heading">
         <h2 id="bio-heading" className="sr-only">
           Biography
@@ -94,23 +93,7 @@ export default function AboutPage() {
 
         <div className="grid-12">
           <aside className="col-span-12 lg:col-span-4">
-            <figure>
-              <Figure
-                src="/profile.jpeg"
-                alt={`${site.name}, ${site.role}, photographed in ${contact.city}`}
-                className="aspect-[4/5] border border-rule-strong"
-                sizes="(max-width: 1024px) 100vw, 400px"
-                priority
-              />
-              <figcaption className="mt-4 flex items-baseline justify-between border-t border-rule pt-3">
-                <span className="marginal">Fig. A</span>
-                <span className="marginal text-ink tabular-nums">
-                  {contact.coords.lat.toFixed(2)}°N · {contact.coords.lng.toFixed(2)}°E
-                </span>
-              </figcaption>
-            </figure>
-
-            <dl className="mt-10">
+            <dl>
               {FACTS.map((f) => (
                 <div key={f.k} className="grid grid-cols-3 gap-4 border-t border-rule py-3.5">
                   <dt className="tag col-span-1 pt-1">{f.k}</dt>

@@ -1,10 +1,10 @@
+import Drift from "@/components/primitives/Drift";
 import Approach from "@/components/sections/Approach";
 import Chronology from "@/components/sections/Chronology";
 import ContactCta from "@/components/sections/ContactCta";
 import Hero from "@/components/sections/Hero";
 import SelectedWork from "@/components/sections/SelectedWork";
 import Toolkit from "@/components/sections/Toolkit";
-import Drift from "@/components/primitives/Drift";
 import { about, faqs, site } from "@/constants/personal";
 import { projectsArr } from "@/constants/projects";
 
@@ -30,9 +30,8 @@ const profileLd = {
   "@type": "ProfilePage",
   "@id": `${site.url}/#home`,
   url: site.url,
-  name: `${site.name} — ${site.role}`,
+  name: `${site.name} - ${site.role}`,
   description: about.intro,
-  primaryImageOfPage: { "@type": "ImageObject", url: `${site.url}${site.portrait}` },
   mainEntity: { "@id": `${site.url}/#person` },
   breadcrumb: {
     "@type": "BreadcrumbList",

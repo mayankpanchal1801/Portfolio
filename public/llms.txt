@@ -1,4 +1,4 @@
-# Mayank Panchal — Full Stack Developer
+# Mayank Panchal - Full Stack Developer
 
 > Full Stack Developer with 4+ years of experience shipping production web applications end-to-end. Next.js / React.js on the frontend, Python (FastAPI + PostgreSQL + SQLAlchemy) on the backend. Comfortable owning features from database schema through to deployed UI, with hands-on Docker, GitHub Actions CI/CD, and AWS EC2. Works daily with AI-augmented tooling (Cursor, Claude Code, Devin, Kiro, Antigravity, Copilot, ChatGPT, Ollama).
 
@@ -40,11 +40,11 @@ GitHub: https://github.com/munkpanchal
 
 ## Selected projects
 
-- [Work OS — Workspace & Project Management SaaS](/projects/workos): Next.js 15, React 19, FastAPI, PostgreSQL 16, Redis 7, Zustand, React Query, PWA.
-- [VLSID 2027 — 40th International VLSI Design Conference](/projects/vlsid-2027): Official digital platform for the 40th VLSI Design Conference in Bengaluru.
+- [Work OS - Workspace & Project Management SaaS](/projects/workos): Next.js 15, React 19, FastAPI, PostgreSQL 16, Redis 7, Zustand, React Query, PWA.
+- [VLSID 2027 - 40th International VLSI Design Conference](/projects/vlsid-2027): Official digital platform for the 40th VLSI Design Conference in Bengaluru.
 - [Travel Kampany](/projects/travel-kampany): Dynamic travel platform with itinerary builder and secure payment gateways.
 - [Excel Precast](/projects/excel-precast): Premium manufacturing & product catalog platform for precast concrete.
-- [VLSID 2026 — 39th International VLSI Design Conference](/projects/vlsid-2026): Official dual-venue conference platform in Pune.
+- [VLSID 2026 - 39th International VLSI Design Conference](/projects/vlsid-2026): Official dual-venue conference platform in Pune.
 - [Basics Architect.](/projects/basics-co): Editorial branding & architectural studio portfolio with Vite and custom WordPress.
 - [3D Visual Solutions](/projects/3dvisual): Architectural visualization, 3D renders, walkthroughs, and drone mapping platform.
 - [Codesefod](/projects/codesefod): Laravel-powered IT services and technical blog platform on AWS.

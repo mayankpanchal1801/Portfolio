@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 /**
  * Enables Lenis smooth scrolling, except where the visitor has asked for
- * reduced motion — there, native scrolling is the correct behaviour.
+ * reduced motion - there, native scrolling is the correct behaviour.
  */
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {

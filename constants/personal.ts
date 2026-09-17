@@ -6,17 +6,17 @@
 
 export const site = {
   name: "Mayank Panchal",
-  shortName: "Mayank Panchal — Full Stack Developer",
+  shortName: "Mayank Panchal - Full Stack Developer",
   role: "Full Stack Developer",
   roleDetail: "Python (FastAPI) · Next.js / React.js",
 
-  /** ~155 char meta description — resume-language + impact numbers + primary keywords. */
+  /** ~155 char meta description - resume-language + impact numbers + primary keywords. */
   tagline:
     "Full Stack Developer in Bengaluru with 4+ years shipping Next.js + FastAPI + PostgreSQL apps. Docker, AWS EC2, CI/CD. AI-augmented workflows with Cursor & Claude Code.",
 
   /** Shorter variant used where description length is capped (Twitter card, OG summary). */
   taglineShort:
-    "Full Stack Developer — Next.js, FastAPI, PostgreSQL, Docker & AWS. AI-augmented with Cursor + Claude Code. Bengaluru, India.",
+    "Full Stack Developer - Next.js, FastAPI, PostgreSQL, Docker & AWS. AI-augmented with Cursor + Claude Code. Bengaluru, India.",
 
   /** ~60 char title suffix / hero eyebrow. */
   headlineSuffix: "Next.js · FastAPI · PostgreSQL · AWS",
@@ -27,7 +27,6 @@ export const site = {
   yearFounded: 2022,
   twitterHandle: "@mayankpanchal01",
   /** Social card is generated at build time by app/opengraph-image.tsx. */
-  portrait: "/profile.jpeg",
   themeColor: "#FBF8F3",
 } as const;
 
@@ -69,16 +68,16 @@ export const socials = [
 
 export const about = {
   headline:
-    "I build production web apps end-to-end — Next.js on top, FastAPI + PostgreSQL underneath.",
+    "I build production web apps end-to-end - Next.js on top, FastAPI + PostgreSQL underneath.",
   intro:
-    "I'm a Full Stack Developer with 4+ years of experience owning features from database schema to deployed UI. Comfortable across Next.js / React.js on the frontend and Python (FastAPI + PostgreSQL + SQLAlchemy) on the backend — with hands-on Docker, CI/CD, and AWS to get things live.",
+    "I'm a Full Stack Developer with 4+ years of experience owning features from database schema to deployed UI. Comfortable across Next.js / React.js on the frontend and Python (FastAPI + PostgreSQL + SQLAlchemy) on the backend - with hands-on Docker, CI/CD, and AWS to get things live.",
   workingWith:
-    "I work daily with AI-native tooling — Cursor, Claude Code, Devin (formerly Windsurf), Kiro, Antigravity, GitHub Copilot, ChatGPT, and local Ollama models — to accelerate implementation, refactoring, and code review while keeping engineering rigor intact.",
+    "I work daily with AI-native tooling - Cursor, Claude Code, Devin (formerly Windsurf), Kiro, Antigravity, GitHub Copilot, ChatGPT, and local Ollama models - to accelerate implementation, refactoring, and code review while keeping engineering rigor intact.",
   bio: [
-    "Full Stack Developer based in Bengaluru with 4+ years of experience shipping production web applications end-to-end. Comfortable owning a feature all the way through — from PostgreSQL schema, to async FastAPI + Pydantic APIs, to a type-safe Next.js UI, to a Docker container on AWS EC2 behind Nginx.",
-    "On the frontend I build with Next.js (App Router), React.js, TypeScript, and Tailwind — with deep experience in state (Redux, Zustand, Context) and performance work (Core Web Vitals up ~30% via lazy loading, code splitting, memoization, bundle work). On the backend I design async REST APIs with FastAPI + Pydantic + SQLAlchemy, secured with JWT and role-based access control, backed by PostgreSQL and Redis, with Celery for background jobs and WebSockets for real-time surfaces.",
-    "At Screetract Solutions I've grown from Associate to Lead Software Engineer across 15+ shipped projects — reusable Tailwind + Next.js component libraries that cut feature time ~25%, containerized full-stack apps deployed via GitHub Actions to AWS, and a mentoring role across code reviews and architecture calls.",
-    "I lean heavily on AI-augmented workflows — Cursor, Claude Code, Devin (Windsurf), Kiro, Antigravity, Copilot, ChatGPT, Ollama — for implementation, debugging, refactoring, documentation, and code review. AI is a force multiplier, not a substitute for engineering judgement; I verify what it produces and keep humans in the loop.",
+    "Full Stack Developer based in Bengaluru with 4+ years of experience shipping production web applications end-to-end. Comfortable owning a feature all the way through - from PostgreSQL schema, to async FastAPI + Pydantic APIs, to a type-safe Next.js UI, to a Docker container on AWS EC2 behind Nginx.",
+    "On the frontend I build with Next.js (App Router), React.js, TypeScript, and Tailwind - with deep experience in state (Redux, Zustand, Context) and performance work (Core Web Vitals up ~30% via lazy loading, code splitting, memoization, bundle work). On the backend I design async REST APIs with FastAPI + Pydantic + SQLAlchemy, secured with JWT and role-based access control, backed by PostgreSQL and Redis, with Celery for background jobs and WebSockets for real-time surfaces.",
+    "At Screetract Solutions I've grown from Associate to Lead Software Engineer across 15+ shipped projects - reusable Tailwind + Next.js component libraries that cut feature time ~25%, containerized full-stack apps deployed via GitHub Actions to AWS, and a mentoring role across code reviews and architecture calls.",
+    "I lean heavily on AI-augmented workflows - Cursor, Claude Code, Devin (Windsurf), Kiro, Antigravity, Copilot, ChatGPT, Ollama - for implementation, debugging, refactoring, documentation, and code review. AI is a force multiplier, not a substitute for engineering judgement; I verify what it produces and keep humans in the loop.",
     "Outside client work I've solved 350+ DSA problems on LeetCode and HackerRank, and I spend time exploring new AI dev tools as they land.",
   ],
   values: [
@@ -92,7 +91,7 @@ export const about = {
     },
     {
       title: "Performance is a feature",
-      body: "Core Web Vitals, bundle budgets, async-first APIs, cached queries — shipped features, not afterthoughts.",
+      body: "Core Web Vitals, bundle budgets, async-first APIs, cached queries - shipped features, not afterthoughts.",
     },
     {
       title: "Boring, obvious code",
@@ -114,7 +113,7 @@ export const about = {
 } as const;
 
 /**
- * Extended keyword set — prioritized for SEO relevance.
+ * Extended keyword set - prioritized for SEO relevance.
  * Order matters: leading keywords carry more weight.
  * Blends resume tech, job-title variants, and location modifiers.
  */
@@ -159,7 +158,7 @@ export const seoKeywords = [
 /**
  * FAQ used for FAQPage JSON-LD (highly cited by AI answer engines
  * like Google SGE, Perplexity, ChatGPT search, Bing Copilot).
- * Keep answers direct and factual — <300 chars each is ideal.
+ * Keep answers direct and factual - <300 chars each is ideal.
  */
 export const faqs: { q: string; a: string }[] = [
   {
@@ -172,7 +171,7 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: "Where is Mayank Panchal located and is he available for remote work?",
-    a: "Bengaluru, Karnataka, India (Asia/Kolkata / IST). Available for full-time and freelance full-stack, backend (FastAPI/Python), and AI-augmented engineering roles — happy to work remotely with teams anywhere in the world.",
+    a: "Bengaluru, Karnataka, India (Asia/Kolkata / IST). Available for full-time and freelance full-stack, backend (FastAPI/Python), and AI-augmented engineering roles - happy to work remotely with teams anywhere in the world.",
   },
   {
     q: "How can I contact Mayank Panchal?",
@@ -180,7 +179,7 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: "Does Mayank Panchal work with AI tools?",
-    a: "Yes — daily. Cursor, Claude Code, Devin (formerly Windsurf), Kiro, Antigravity, GitHub Copilot, ChatGPT, and local Ollama models are integrated into implementation, debugging, refactoring, documentation, and code review — with humans firmly in the loop.",
+    a: "Yes - daily. Cursor, Claude Code, Devin (formerly Windsurf), Kiro, Antigravity, GitHub Copilot, ChatGPT, and local Ollama models are integrated into implementation, debugging, refactoring, documentation, and code review - with humans firmly in the loop.",
   },
   {
     q: "What has Mayank Panchal built?",

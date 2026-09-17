@@ -6,7 +6,7 @@ import { projectsArr } from "@/constants/projects";
 import Image from "next/image";
 import Link from "next/link";
 
-/** Shipped work only — in-progress stubs live on the projects index. */
+/** Shipped work only - in-progress stubs live on the projects index. */
 const shipped = projectsArr.filter((p) => !p.placeholder).slice(0, 6);
 
 export default function SelectedWork() {
@@ -22,7 +22,7 @@ export default function SelectedWork() {
             I have <em className="italic">helped ship.</em>
           </>
         }
-        intro="Enterprise dashboards, event platforms, studio websites — a cross-section of the last four years."
+        intro="Enterprise dashboards, event platforms, studio websites - a cross-section of the last four years."
       />
 
       <ul className="mt-14 md:mt-24 border-t border-rule">

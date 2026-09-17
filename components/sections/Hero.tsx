@@ -2,7 +2,6 @@ import LocalTime from "@/components/primitives/LocalTime";
 import Reveal from "@/components/primitives/Reveal";
 import { about, contact, site } from "@/constants/personal";
 import clsx from "clsx";
-import Image from "next/image";
 import Link from "next/link";
 
 const SPEC = [
@@ -45,26 +44,8 @@ export default function Hero() {
         </div>
 
         <div className="grid-12 mt-4 md:mt-8 border-t border-rule pt-10 md:pt-16">
-          {/* ── Portrait ── */}
-          <figure className="col-span-12 lg:col-span-5 order-2 lg:order-1 mt-10 lg:mt-0">
-            <div className="relative aspect-[3/4] w-full max-w-lg mx-auto lg:max-w-none overflow-hidden rounded-sm border border-rule bg-paper-2 group">
-              <Image
-                src="/profile.jpeg"
-                alt={`${site.name}, ${site.role}, photographed in ${contact.city}`}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-700"
-              />
-            </div>
-            <figcaption className="mt-4 flex items-baseline justify-between border-t border-rule pt-3">
-              <span className="marginal">Fig. 01 — {site.name}</span>
-              <span className="marginal text-ink">{contact.city}, {contact.country}</span>
-            </figcaption>
-          </figure>
-
           {/* ── Lede & Specs ── */}
-          <div className="col-span-12 lg:col-span-6 lg:col-start-7 order-1 lg:order-2 flex flex-col justify-between">
+          <div className="col-span-12 lg:col-span-7 flex flex-col justify-between">
             <div>
               <Reveal
                 as="h2"
@@ -83,7 +64,7 @@ export default function Hero() {
                 immediate
                 className="measure text-lede text-ink-2 mb-10"
               >
-                I build production web applications end to end — a typed{" "}
+                I build production web applications end to end - a typed{" "}
                 <em className="text-ink font-medium">Next.js</em> interface on top, an async{" "}
                 <em className="text-ink font-medium">FastAPI</em> and{" "}
                 <em className="text-ink font-medium">PostgreSQL</em> service underneath, and the

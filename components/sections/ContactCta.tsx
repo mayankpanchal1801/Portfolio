@@ -27,7 +27,7 @@ export default function ContactCta({
           </Reveal>
 
           <Reveal as="p" mode="fade" delay={0.12} className="measure mt-6 text-lede text-ink-2">
-            Email is fastest. Based in {contact.city} — happy to work remote with
+            Email is fastest. Based in {contact.city} - happy to work remote with
             teams anywhere.
           </Reveal>
         </div>

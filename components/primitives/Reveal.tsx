@@ -27,8 +27,8 @@ type Props = {
  * The one reveal primitive the site uses.
  *
  * Content renders visible and unmodified. The animation only claims an
- * element once the script is running, so with JS off — or under
- * `prefers-reduced-motion` — everything is simply readable.
+ * element once the script is running, so with JS off - or under
+ * `prefers-reduced-motion` - everything is simply readable.
  */
 export default function Reveal({
   as: Tag = "div",

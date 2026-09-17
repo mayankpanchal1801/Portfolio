@@ -4,7 +4,7 @@ export type ExperienceItem = {
   company: string;
   location: string;
   date: string;
-  dateStart: string; // ISO 8601 (YYYY-MM) — for structured data
+  dateStart: string; // ISO 8601 (YYYY-MM) - for structured data
   dateEnd?: string;  // omit if present role
   description: string;
   bullets: string[];
@@ -14,7 +14,7 @@ export type ExperienceItem = {
 
 /**
  * Chronological work history at Screen Interactiv (Screetract OPC),
- * Feb 2022 → Nov 2025 — sourced from LinkedIn profile.
+ * Feb 2022 → Nov 2025 - sourced from LinkedIn profile.
  * Ordered newest-first for editorial timelines.
  */
 export const experienceArr: ExperienceItem[] = [
@@ -31,7 +31,7 @@ export const experienceArr: ExperienceItem[] = [
     bullets: [
       "Headed development for 15+ projects, leading a team of frontend engineers through the full delivery cycle.",
       "Introduced Core Web Vitals monitoring and hit top industry benchmarks for speed on every shipped surface.",
-      "Ran regular code reviews and workshops — fostered continuous learning and raised the team's engineering bar.",
+      "Ran regular code reviews and workshops - fostered continuous learning and raised the team's engineering bar.",
       "Set technical strategy, standardized the design system, and enforced a11y + SEO baselines across the portfolio.",
     ],
     stack: ["Next.js", "React", "TypeScript", "Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Redis", "Redux Toolkit", "Zustand", "TanStack Query", "Tailwind CSS", "Docker", "AWS EC2", "GitHub Actions"],
@@ -81,7 +81,7 @@ export const experienceArr: ExperienceItem[] = [
     dateStart: "2022-02",
     dateEnd: "2023-04",
     description:
-      "Built responsive web applications with React.js, Next.js, and Tailwind CSS — translating Figma designs into pixel-perfect UIs. Shipped reusable components, tuned state management with Redux and Context API, and collaborated across teams on accessibility and SEO.",
+      "Built responsive web applications with React.js, Next.js, and Tailwind CSS - translating Figma designs into pixel-perfect UIs. Shipped reusable components, tuned state management with Redux and Context API, and collaborated across teams on accessibility and SEO.",
     bullets: [
       "Delivered 5+ successful projects focused on UI performance and accessibility.",
       "Applied code splitting and lazy loading to accelerate first paint and interaction.",
@@ -99,7 +99,7 @@ export const experienceArr: ExperienceItem[] = [
     dateStart: "2018-08",
     dateEnd: "2022-08",
     description:
-      "Four-year undergraduate program in Computer Science — data structures, algorithms, systems fundamentals, and software engineering.",
+      "Four-year undergraduate program in Computer Science - data structures, algorithms, systems fundamentals, and software engineering.",
     bullets: [],
   },
 ];

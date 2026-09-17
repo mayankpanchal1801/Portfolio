@@ -31,14 +31,14 @@ export async function generateMetadata({
     keywords: project.tags,
     alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {
-      title: `${project.title} — ${site.name}`,
+      title: `${project.title} - ${site.name}`,
       description: project.description,
       url,
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.title} — ${site.name}`,
+      title: `${project.title} - ${site.name}`,
       description: project.description,
     },
   };

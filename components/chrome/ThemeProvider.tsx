@@ -37,7 +37,7 @@ function readChoice(): ThemeChoice {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw === "light" || raw === "dark") return raw;
   } catch {
-    // storage blocked (private mode, cookie policy) — fall through to default
+    // storage blocked (private mode, cookie policy) - fall through to default
   }
   return "light";
 }
@@ -85,7 +85,7 @@ export function setThemeChoice(next: ThemeChoice) {
   try {
     localStorage.setItem(STORAGE_KEY, next);
   } catch {
-    // non-fatal — the choice still applies for this page view
+    // non-fatal - the choice still applies for this page view
   }
   commit({ choice: next, theme: resolve(next) });
 }
@@ -95,7 +95,7 @@ export function setThemeChoice(next: ThemeChoice) {
    ──────────────────────────────────────────────────────────────── */
 
 type ThemeContextValue = {
-  /** What the visitor picked — may be "system". */
+  /** What the visitor picked - may be "system". */
   choice: ThemeChoice;
   /** What is actually on screen right now. */
   theme: ResolvedTheme;

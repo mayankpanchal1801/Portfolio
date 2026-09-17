@@ -11,9 +11,9 @@ import { Fraunces, IBM_Plex_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 // ── Fonts ────────────────────────────────────────────────────────────
-// Display: Fraunces — expressive variable serif with optical sizing for headings & marks.
-// Body:    Plus Jakarta Sans — modern geometric grotesk for body copy & UI.
-// Data:    IBM Plex Mono — labels, figures, marginalia.
+// Display: Fraunces - expressive variable serif with optical sizing for headings & marks.
+// Body:    Plus Jakarta Sans - modern geometric grotesk for body copy & UI.
+// Data:    IBM Plex Mono - labels, figures, marginalia.
 const fraunces = Fraunces({
   subsets: ["latin"],
   weight: "variable",
@@ -38,13 +38,13 @@ const plex = IBM_Plex_Mono({
 });
 
 // ── Metadata ─────────────────────────────────────────────────────────
-// Icons and OG images come from the file conventions in app/ —
-// icon.tsx, apple-icon.tsx, opengraph-image.tsx — so they always exist.
+// Icons and OG images come from the file conventions in app/ -
+// icon.tsx, apple-icon.tsx, opengraph-image.tsx - so they always exist.
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — ${site.role} · Next.js, FastAPI, PostgreSQL`,
-    template: `%s · ${site.name} — ${site.role}`,
+    default: `${site.name} - ${site.role} · Next.js, FastAPI, PostgreSQL`,
+    template: `%s · ${site.name} - ${site.role}`,
   },
   description: site.tagline,
   applicationName: site.name,
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     alternateLocale: ["en_US"],
     url: site.url,
     siteName: site.name,
-    title: `${site.name} — ${site.role} · Bengaluru, India`,
+    title: `${site.name} - ${site.role} · Bengaluru, India`,
     description: site.tagline,
     firstName: "Mayank",
     lastName: "Panchal",
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — ${site.role}`,
+    title: `${site.name} - ${site.role}`,
     description: site.taglineShort,
     creator: site.twitterHandle,
     site: site.twitterHandle,
@@ -123,11 +123,6 @@ const personLd = {
   disambiguatingDescription: site.tagline,
   url: site.url,
   mainEntityOfPage: site.url,
-  image: {
-    "@type": "ImageObject",
-    url: `${site.url}${site.portrait}`,
-    caption: `Portrait of ${site.name} — ${site.role}`,
-  },
   email: `mailto:${contact.email}`,
   telephone: contact.phone || undefined,
   nationality: { "@type": "Country", name: "India" },
@@ -160,7 +155,7 @@ const personLd = {
     "@type": "Occupation",
     name: site.role,
     description:
-      "Full Stack Developer designing async REST APIs with FastAPI + PostgreSQL, and shipping type-safe Next.js / React frontends. Owns features end-to-end — schema, API, UI, container, deploy.",
+      "Full Stack Developer designing async REST APIs with FastAPI + PostgreSQL, and shipping type-safe Next.js / React frontends. Owns features end-to-end - schema, API, UI, container, deploy.",
     occupationLocation: [
       { "@type": "City", name: contact.city },
       { "@type": "Country", name: contact.country },

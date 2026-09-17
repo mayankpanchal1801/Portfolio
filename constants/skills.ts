@@ -7,7 +7,7 @@ export type SkillGroup = {
 export const skillsArr: SkillGroup[] = [
   {
     category: "Languages",
-    caption: "The core toolbox — day-to-day.",
+    caption: "The core toolbox - day-to-day.",
     items: ["Python", "JavaScript (ES6+)", "TypeScript", "HTML5", "CSS3", "SCSS"],
   },
   {
@@ -41,7 +41,7 @@ export const skillsArr: SkillGroup[] = [
   },
   {
     category: "Data & Infra",
-    caption: "Where the state lives — and how it ships.",
+    caption: "Where the state lives - and how it ships.",
     items: [
       "PostgreSQL",
       "Redis",
@@ -55,7 +55,7 @@ export const skillsArr: SkillGroup[] = [
   },
   {
     category: "AI Developer Tools",
-    caption: "AI-native workflow — used daily, not for demos.",
+    caption: "AI-native workflow - used daily, not for demos.",
     items: [
       "Cursor",
       "Claude Code",

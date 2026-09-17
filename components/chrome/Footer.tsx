@@ -5,7 +5,7 @@ import { contact, site, socials } from "@/constants/personal";
 import Link from "next/link";
 
 /**
- * The one inverted surface on the site — an ink slab that closes every
+ * The one inverted surface on the site - an ink slab that closes every
  * page, with the email set as the largest thing on it.
  */
 export default function Footer() {
@@ -39,7 +39,7 @@ export default function Footer() {
         </Reveal>
 
         <p className="measure mt-5 sm:mt-7 text-sm sm:text-base text-ink-2 leading-relaxed">
-          Hiring, freelancing, or just curious about the stack — a short note is
+          Hiring, freelancing, or just curious about the stack - a short note is
           enough. I reply within a business day.
         </p>
 

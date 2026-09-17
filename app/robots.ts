@@ -4,7 +4,7 @@ import type { MetadataRoute } from "next";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      // Default — allow everything for standard search crawlers.
+      // Default - allow everything for standard search crawlers.
       {
         userAgent: "*",
         allow: "/",

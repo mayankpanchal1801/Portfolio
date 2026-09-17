@@ -113,9 +113,9 @@ export const projectsArr: Project[] = [
     role: "Lead Web Developer",
     client: "VLSI Society of India",
     description:
-      "Official digital platform for the 40th International Conference on VLSI Design and the 26th International Conference on Embedded Systems — Bengaluru, January 2027.",
+      "Official digital platform for the 40th International Conference on VLSI Design and the 26th International Conference on Embedded Systems - Bengaluru, January 2027.",
     longDescription:
-      "VLSID is India’s flagship VLSI and embedded-systems conference, a sister event of the Design Automation Conference and sponsored by the VLSI Society of India. For the 40th edition (2–6 January 2027, Sheraton Grand Whitefield, Bengaluru) we built the public site around the year’s theme — Artificial Intelligence to Physical Intelligence — covering call for papers, tutorials, SRF/PhD forum, tapeout contest, committee, archives, sponsorship, and registration. The platform has to carry 2,000+ engineers, faculty, industry, and government visitors through a dense programme without feeling like a brochure.",
+      "VLSID is India’s flagship VLSI and embedded-systems conference, a sister event of the Design Automation Conference and sponsored by the VLSI Society of India. For the 40th edition (2–6 January 2027, Sheraton Grand Whitefield, Bengaluru) we built the public site around the year’s theme - Artificial Intelligence to Physical Intelligence - covering call for papers, tutorials, SRF/PhD forum, tapeout contest, committee, archives, sponsorship, and registration. The platform has to carry 2,000+ engineers, faculty, industry, and government visitors through a dense programme without feeling like a brochure.",
     tech: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
     tags: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
     highlights: [
@@ -146,7 +146,7 @@ export const projectsArr: Project[] = [
     description:
       "A dynamic travel platform with itinerary builders, destination showcases, and secure payment gateways.",
     longDescription:
-      "Travel Kampany set out to make custom trip planning feel as effortless as booking a flight. We architected a dynamic platform around a flexible itinerary builder, destination showcases that double as marketing pages, and a hardened payment flow that supports multiple gateways. The stack is built for speed and scale — destinations and packages are managed entirely from a custom admin.",
+      "Travel Kampany set out to make custom trip planning feel as effortless as booking a flight. We architected a dynamic platform around a flexible itinerary builder, destination showcases that double as marketing pages, and a hardened payment flow that supports multiple gateways. The stack is built for speed and scale - destinations and packages are managed entirely from a custom admin.",
     tech: ["Custom PHP", "Node.js", "Tailwind CSS", "API Integrations"],
     tags: ["Custom PHP", "Node.js", "Tailwind CSS", "API Integrations"],
     highlights: [
@@ -177,7 +177,7 @@ export const projectsArr: Project[] = [
     description:
       "A premium website for Excel Precast highlighting their products, projects, and manufacturing capabilities.",
     longDescription:
-      "Excel Precast needed a digital presence that matched the scale and precision of their precast concrete operations. We built a clean, content-first website that lets prospects browse the full product catalogue, explore completed projects by industry, and request quotes without friction. The custom WordPress theme keeps the marketing team fully autonomous — every page, image, and case study is editable in-CMS.",
+      "Excel Precast needed a digital presence that matched the scale and precision of their precast concrete operations. We built a clean, content-first website that lets prospects browse the full product catalogue, explore completed projects by industry, and request quotes without friction. The custom WordPress theme keeps the marketing team fully autonomous - every page, image, and case study is editable in-CMS.",
     tech: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
     tags: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
     highlights: [
@@ -206,9 +206,9 @@ export const projectsArr: Project[] = [
     role: "Web Developer",
     client: "VLSI Society of India, Pune",
     description:
-      "Last year’s conference site for the 39th VLSI Design and 25th Embedded Systems editions — a dual-venue programme in Pune, January 2026.",
+      "Last year’s conference site for the 39th VLSI Design and 25th Embedded Systems editions - a dual-venue programme in Pune, January 2026.",
     longDescription:
-      "For VLSID 2026 we shipped the official site for Global Synergy in Silicon — VLSI and Embedded AI for next-gen electrified mobility. The programme split across MIT World Peace University (tutorials, 3–4 January) and JW Marriott Pune (main conference, 5–7 January), with 2,000+ attendees, keynotes, partners from Cadence, Intel, Qualcomm, Siemens, AMD, and a full author/forum stack. The build had to present two venues, a dense speaker roster, and sponsor tiers without burying Call for Papers, registration, or travel.",
+      "For VLSID 2026 we shipped the official site for Global Synergy in Silicon - VLSI and Embedded AI for next-gen electrified mobility. The programme split across MIT World Peace University (tutorials, 3–4 January) and JW Marriott Pune (main conference, 5–7 January), with 2,000+ attendees, keynotes, partners from Cadence, Intel, Qualcomm, Siemens, AMD, and a full author/forum stack. The build had to present two venues, a dense speaker roster, and sponsor tiers without burying Call for Papers, registration, or travel.",
     tech: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
     tags: ["WordPress", "Custom Theme", "PHP", "Tailwind CSS"],
     highlights: [
@@ -299,7 +299,7 @@ export const projectsArr: Project[] = [
     role: "Full-Stack Developer",
     client: "Codesefod",
     description:
-      "A robust platform for Codesefod's services, case studies, and tech blog — engineered for performance and SEO.",
+      "A robust platform for Codesefod's services, case studies, and tech blog - engineered for performance and SEO.",
     longDescription:
       "Codesefod is an IT services company whose own website had to demonstrate the engineering quality they sell. We built a Laravel-powered platform with server-side rendering, a structured case-study system, and a developer-friendly blog. Everything is tuned for Core Web Vitals and SEO, and the entire stack is deployed on AWS for predictable performance under load.",
     tech: ["Custom PHP", "Laravel", "Tailwind CSS", "AWS"],
@@ -330,9 +330,9 @@ export const projectsArr: Project[] = [
     role: "WordPress Developer",
     client: "Bizwebify",
     description:
-      "A business-focused website showcasing Bizwebify's services, team, and client success — engineered for lead generation.",
+      "A business-focused website showcasing Bizwebify's services, team, and client success - engineered for lead generation.",
     longDescription:
-      "Bizwebify is in the business of getting their clients leads, so their own site had to set the example. We built a high-conversion WordPress site with bespoke plugins powering the team, services, and case-study sections. Cloudflare keeps it fast worldwide; the CTA framework keeps it converting. Edit copy, swap heroes, or launch a campaign page — all without touching code.",
+      "Bizwebify is in the business of getting their clients leads, so their own site had to set the example. We built a high-conversion WordPress site with bespoke plugins powering the team, services, and case-study sections. Cloudflare keeps it fast worldwide; the CTA framework keeps it converting. Edit copy, swap heroes, or launch a campaign page - all without touching code.",
     tech: ["WordPress", "Custom Plugins", "Elementor Pro", "Cloudflare"],
     tags: ["WordPress", "Custom Plugins", "Elementor Pro", "Cloudflare"],
     highlights: [
@@ -351,7 +351,7 @@ export const projectsArr: Project[] = [
   },
 ];
 
-/** Shipped work only — placeholders never surface as selected work. */
+/** Shipped work only - placeholders never surface as selected work. */
 export const featuredProjects = projectsArr.filter((p) => p.featured && !p.placeholder);
 
 export function getProjectBySlug(slug: string): Project | undefined {

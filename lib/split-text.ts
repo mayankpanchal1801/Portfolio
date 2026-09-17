@@ -5,7 +5,7 @@ const SPLIT_FLAG = "mpSplit";
  * "rise from the baseline" reveal.
  *
  * Unlike a naive `textContent` rewrite, this walks the tree and only
- * replaces text nodes — so nested markup (an accented `<em>`, a `<br>`,
+ * replaces text nodes - so nested markup (an accented `<em>`, a `<br>`,
  * a link) survives the split intact.
  *
  * The original text is copied onto `aria-label` so assistive tech reads
@@ -28,7 +28,7 @@ export function splitWords(el: HTMLElement): HTMLElement[] {
   const words: HTMLElement[] = [];
 
   const walk = (node: Node) => {
-    // Snapshot first — the loop mutates the child list.
+    // Snapshot first - the loop mutates the child list.
     for (const child of Array.from(node.childNodes)) {
       if (child.nodeType === Node.ELEMENT_NODE) {
         walk(child);

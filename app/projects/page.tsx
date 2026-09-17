@@ -1,6 +1,6 @@
+import PageHeader from "@/components/primitives/PageHeader";
 import ContactCta from "@/components/sections/ContactCta";
 import ProjectsIndex from "@/components/sections/ProjectsIndex";
-import PageHeader from "@/components/primitives/PageHeader";
 import { site } from "@/constants/personal";
 import { projectsArr } from "@/constants/projects";
 import type { Metadata } from "next";
@@ -11,9 +11,9 @@ export const metadata: Metadata = {
     "Production products and websites built by Mayank Panchal across Next.js, FastAPI, React, WordPress, and AI/LLM stacks.",
   alternates: { canonical: "/projects" },
   openGraph: {
-    title: `Projects — ${site.name}`,
+    title: `Projects - ${site.name}`,
     description:
-      "Selected work — Next.js, FastAPI, React, WordPress, and AI/LLM projects.",
+      "Selected work - Next.js, FastAPI, React, WordPress, and AI/LLM projects.",
     url: `${site.url}/projects`,
     type: "website",
   },
@@ -24,7 +24,7 @@ const collectionLd = {
   "@type": "CollectionPage",
   "@id": `${site.url}/projects#page`,
   url: `${site.url}/projects`,
-  name: `Projects — ${site.name}`,
+  name: `Projects - ${site.name}`,
   breadcrumb: {
     "@type": "BreadcrumbList",
     itemListElement: [

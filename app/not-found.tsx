@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "404 — Not found",
+  title: "404 - Not found",
   description:
     "The page you were looking for doesn't exist. Head back home or browse the projects index.",
   robots: { index: false, follow: true },
@@ -24,7 +24,7 @@ export default function NotFound() {
           </h1>
 
           <p className="measure mt-6 text-base leading-relaxed text-ink-2 sm:text-lede">
-            This page doesn&rsquo;t exist — it might have been moved, renamed, or
+            This page doesn&rsquo;t exist - it might have been moved, renamed, or
             never existed at all. Head back to the index or explore the portfolio.
           </p>
 

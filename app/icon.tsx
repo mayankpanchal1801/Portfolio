@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 export const size = { width: 512, height: 512 };
 export const contentType = "image/png";
 
-/** Vermilion slab, ink monogram — the site mark at favicon scale. */
+/** Vermilion slab, ink monogram - the site mark at favicon scale. */
 export default function Icon() {
   return new ImageResponse(
     (

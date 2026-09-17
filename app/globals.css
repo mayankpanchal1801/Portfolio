@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════
-   SPECIFICATION — a print-editorial design system
+   SPECIFICATION - a print-editorial design system
    Warm paper, warm ink, one vermilion accent. Light is canonical;
    dark is a designed counterpart, not an inversion.
 
@@ -27,7 +27,7 @@
   --c-rule:         #DDD5C8;
   --c-rule-strong:  #C3B8A6;
 
-  /* Accent — vermilion */
+  /* Accent - vermilion */
   --c-accent:       #D93A16;
   --c-accent-ink:   #A82A0D;   /* AA-contrast accent for small text */
   --c-accent-soft:  #F6E5DE;
@@ -92,7 +92,7 @@
   --font-fraunces: var(--font-fraunces), "Fraunces", Georgia, serif;
   --font-jakarta:  var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  /* Display scale — Fraunces, expressive editorial serif */
+  /* Display scale - Fraunces, expressive editorial serif */
   --text-mark:  clamp(3.25rem, 11.5vw, 10.5rem);
   --text-mark--line-height: 0.88;
   --text-mark--letter-spacing: -0.035em;
@@ -109,11 +109,11 @@
   --text-d3--line-height: 1.18;
   --text-d3--letter-spacing: -0.015em;
 
-  /* Reading — Plus Jakarta Sans */
+  /* Reading - Plus Jakarta Sans */
   --text-lede: clamp(1.125rem, 1.5vw, 1.3125rem);
   --text-lede--line-height: 1.6;
 
-  /* Data — IBM Plex Mono */
+  /* Data - IBM Plex Mono */
   --text-tag: 0.6875rem;
   --text-tag--line-height: 1;
   --text-tag--letter-spacing: 0.16em;
@@ -141,7 +141,7 @@
 }
 
 /* Element defaults live in @layer base and component classes in
-   @layer components, so a Tailwind utility always wins over them —
+   @layer components, so a Tailwind utility always wins over them -
    `class="tag text-inverse-ink"` recolors the tag rather than losing
    to it. Unlayered rules (reduced motion, print) still beat both. */
 
@@ -277,7 +277,7 @@
   }
   .tag--accent { color: var(--c-accent-ink); }
 
-  /* Marginalia — the section number set in the left margin. */
+  /* Marginalia - the section number set in the left margin. */
   .marginal {
     font-family: var(--font-mono);
     font-size: var(--text-tag);
@@ -393,7 +393,7 @@
   .field:user-invalid { border-bottom-color: var(--c-accent); }
 
   /* ═══════════════════════════════════════════════════════════════════
-     Cursor — an accent ring that trails the native pointer.
+     Cursor - an accent ring that trails the native pointer.
      The native cursor is never hidden, so the site stays usable if
      the script fails, on touch, or under reduced motion.
   ═══════════════════════════════════════════════════════════════════ */

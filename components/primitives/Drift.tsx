@@ -12,7 +12,7 @@ type Props = {
 };
 
 /**
- * A single continuous ticker line. Pure CSS animation — no scroll
+ * A single continuous ticker line. Pure CSS animation - no scroll
  * listener, no rAF loop, and it stops dead under reduced motion.
  * Duplicated once so the loop is seamless at translateX(-50%).
  */

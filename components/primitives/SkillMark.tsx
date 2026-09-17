@@ -1,8 +1,8 @@
 import { SKILL_ICONS } from "./skill-icons";
 
 /**
- * Small monochrome brand mark for a tool. Tools without a brand icon —
- * Cursor, Claude Code, Devin, Ollama, and the practice entries — fall
+ * Small monochrome brand mark for a tool. Tools without a brand icon -
+ * Cursor, Claude Code, Devin, Ollama, and the practice entries - fall
  * back to a mono initial so every chip keeps the same measure.
  */
 export default function SkillMark({ name }: { name: string }) {

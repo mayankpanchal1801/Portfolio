@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = `${site.name} — ${site.role}`;
+export const alt = `${site.name} - ${site.role}`;
 
 /**
  * Social card, generated at build time. Replaces the /og.png that the
@@ -67,7 +67,7 @@ export default function OpengraphImage() {
               lineHeight: 1.35,
             }}
           >
-            {`${site.role} — Next.js and React on top, FastAPI and PostgreSQL underneath.`}
+            {`${site.role} - Next.js and React on top, FastAPI and PostgreSQL underneath.`}
           </div>
         </div>
 

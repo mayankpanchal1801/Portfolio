@@ -22,7 +22,7 @@ export default function Chronology({
           label="Chronology"
           headingId={headingId}
           title="Four years, one company, four roles."
-          intro="Grew from Associate to Lead Software Engineer at Screen Interactiv (Screetract OPC) in Bengaluru — 15+ projects shipped across the frontend, the backend, and the infrastructure between them."
+          intro="Grew from Associate to Lead Software Engineer at Screen Interactiv (Screetract OPC) in Bengaluru - 15+ projects shipped across the frontend, the backend, and the infrastructure between them."
         />
 
         <ol className="mt-14 border-t border-rule md:mt-20">

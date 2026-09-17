@@ -1,4 +1,4 @@
-# Mayank Panchal — Portfolio
+# Mayank Panchal - Portfolio
 
 Personal portfolio for a full-stack developer. Next.js (App Router), TypeScript,
 Tailwind CSS v4, GSAP + Lenis for motion. Statically rendered end to end.
@@ -10,13 +10,13 @@ npm run build   # production build
 npm run lint    # eslint (flat config)
 ```
 
-## Design system — "Specification"
+## Design system - "Specification"
 
 A print-editorial system: warm paper, warm ink, one vermilion accent, and a
 visible hairline 12-column grid as the organising structure. Section numbers sit
 in the left margin like a book's marginalia.
 
-**Type** inverts the usual portfolio pairing — a technical grotesk for display,
+**Type** inverts the usual portfolio pairing - a technical grotesk for display,
 a serif for reading, mono for data:
 
 | Role | Face | Used for |
@@ -31,14 +31,14 @@ text-ink border-rule` follow the active theme with no `dark:` variants anywhere
 in the components.
 
 Light is canonical; dark is a designed counterpart rather than an inversion.
-To retune the palette, edit the `:root` and `[data-theme="dark"]` blocks — every
+To retune the palette, edit the `:root` and `[data-theme="dark"]` blocks - every
 surface follows.
 
 ### CSS layering matters
 
 Element defaults live in `@layer base` and component classes (`.btn`, `.tag`,
 `.shell`, `.uline`, …) in `@layer components`, so a Tailwind utility always wins
-over them — `class="tag text-inverse-ink"` recolours the tag instead of losing to
+over them - `class="tag text-inverse-ink"` recolours the tag instead of losing to
 it. Unlayered rules (reduced motion, print) intentionally beat both. Keep new
 custom CSS inside the right layer.
 
@@ -58,7 +58,7 @@ through `useSyncExternalStore`, so there is no hydration effect and no flash:
 One primitive, `components/primitives/Reveal.tsx` (`words` / `rise` / `fade`),
 plus `Figure` for image wipes and `Drift` for the CSS-only tickers.
 
-Content always renders visible and unmodified — the animation only claims an
+Content always renders visible and unmodified - the animation only claims an
 element once the script runs, so the site is fully readable with JavaScript off
 and under `prefers-reduced-motion`, where every reveal and Lenis are skipped.
 
@@ -77,7 +77,7 @@ components/
   chrome/             header, footer, theme, cursor, scroll
   primitives/         Reveal, Figure, Drift, SectionHead, PageHeader, …
   sections/           the page-level bands
-constants/            all copy and data — the single source of truth
+constants/            all copy and data - the single source of truth
 lib/                  gsap config, lenis, split-text
 ```
 
@@ -86,7 +86,7 @@ checked-in binaries, so they can never drift out of sync or 404.
 
 ## Content
 
-Everything editorial lives in `constants/` — `personal.ts` (identity, contact,
+Everything editorial lives in `constants/` - `personal.ts` (identity, contact,
 bio, FAQ, SEO keywords), `projects.ts`, `experience.ts`, `skills.ts`. Pages,
 metadata, JSON-LD, and `llms.txt` all read from there; change a fact once and it
 propagates.

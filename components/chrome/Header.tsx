@@ -47,7 +47,7 @@ export default function Header() {
         {/* Wordmark */}
         <Link
           href="/"
-          aria-label={`${site.name} — home`}
+          aria-label={`${site.name} - home`}
           onClick={() => setOpen(false)}
           className="group flex items-baseline gap-2 sm:gap-3 shrink-0"
         >
