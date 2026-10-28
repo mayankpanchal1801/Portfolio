@@ -114,12 +114,7 @@ export default function Header() {
               Search <kbd className="rounded bg-paper-3 px-1.5 py-0.5">⌘K</kbd>
             </button>
             <ThemeToggle />
-            <a
-              href={`mailto:${contact.email}`}
-              className="btn btn-solid hidden !px-4 !py-2.5 sm:inline-flex"
-            >
-              Hire me
-            </a>
+      
             <button
               type="button"
               onClick={() => setMenu((m) => !m)}
