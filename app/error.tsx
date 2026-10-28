@@ -43,7 +43,7 @@ export default function ErrorPage({ error, reset }: Props) {
             </span>
           </div>
 
-          <h1 className="mt-6 font-display text-[clamp(2.25rem,6vw,4.5rem)] font-semibold leading-[0.95] tracking-[-0.035em] text-ink">
+          <h1 className="mt-6 font-display text-[clamp(2.25rem,6vw,4.5rem)] font-normal leading-[0.95] tracking-[-0.025em] text-ink">
             Something broke<span className="text-accent">.</span>
           </h1>
 
@@ -138,7 +138,7 @@ export default function ErrorPage({ error, reset }: Props) {
                 <div className="space-y-2">
                   <div>
                     <span className="text-ink-3">Name: </span>
-                    <span className="text-ink font-semibold">{error?.name ?? "Error"}</span>
+                    <span className="text-ink font-normal">{error?.name ?? "Error"}</span>
                   </div>
                   <div>
                     <span className="text-ink-3">Message: </span>

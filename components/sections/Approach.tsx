@@ -1,61 +1,51 @@
+import Panel from "@/components/primitives/Panel";
 import Reveal from "@/components/primitives/Reveal";
 import SectionHead from "@/components/primitives/SectionHead";
 import { about } from "@/constants/personal";
-import Link from "next/link";
+
+const LEADS = [
+  { k: "Team", v: "Frontend engineers, mentored through the full delivery cycle" },
+  { k: "Process", v: "Code review, CI/CD, design-system and a11y baselines" },
+  { k: "Outcome", v: "15+ products shipped on a shared engineering bar" },
+];
 
 export default function Approach() {
   return (
-    <section id="approach" className="band bg-paper-2" aria-labelledby="approach-heading">
-      <div className="shell">
-        <SectionHead
-          index="02"
-          label="Approach"
-          headingId="approach-heading"
-          title={about.headline}
-        />
+    <section id="approach" className="band shell" aria-labelledby="approach-heading">
+      <SectionHead
+        index="02"
+        label="How I lead"
+        headingId="approach-heading"
+        title={
+          <>
+            Principles, <span className="text-signal">not process</span>.
+          </>
+        }
+        intro="Lead engineers are force multipliers. This is the playbook I run teams on."
+      />
 
-        <div className="grid-12 mt-14 md:mt-20">
-          <div className="col-span-12 space-y-6 text-ink-2 lg:col-span-6">
-            <Reveal mode="fade" className="text-lede text-ink">
-              {about.bio[0]}
-            </Reveal>
-            <Reveal mode="fade" delay={0.06}>
-              {about.bio[1]}
-            </Reveal>
-            <Reveal mode="fade" delay={0.12}>
-              {about.bio[3]}
-            </Reveal>
-
-            <Reveal mode="fade" delay={0.18} className="pt-2">
-              <Link href="/about" className="uline text-accent-ink">
-                Read the full story
-              </Link>
-            </Reveal>
-          </div>
-
-          <ol className="col-span-12 mt-12 lg:col-span-5 lg:col-start-8 lg:mt-0">
-            {about.values.map((v, i) => (
-              <Reveal
-                as="li"
-                key={v.title}
-                mode="fade"
-                delay={i * 0.06}
-                className="border-t border-rule py-5 last:border-b"
-              >
-                <div className="flex items-baseline gap-4">
-                  <span className="marginal text-accent-ink">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-lg text-ink">{v.title}</h3>
-                    <p className="mt-2 text-sm text-ink-2">{v.body}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </ol>
-        </div>
+      <div className="mt-14 grid gap-4 md:grid-cols-2">
+        {about.values.map((v, i) => (
+          <Reveal key={v.title} mode="rise" delay={(i % 2) * 0.08}>
+            <Panel className="h-full p-7 sm:p-9">
+              <span className="font-display text-[clamp(3.5rem,7vw,6rem)] font-normal leading-none tracking-[-0.035em] text-outline">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-6 font-display text-d3 text-ink">{v.title}</h3>
+              <p className="mt-3 max-w-md text-ink-2">{v.body}</p>
+            </Panel>
+          </Reveal>
+        ))}
       </div>
+
+      <dl className="mt-4 grid gap-px overflow-hidden rounded-2xl border border-rule bg-rule md:grid-cols-3">
+        {LEADS.map((l) => (
+          <div key={l.k} className="bg-paper-2 p-6 sm:p-7">
+            <dt className="tag tag--accent">{l.k}</dt>
+            <dd className="mt-3 text-sm text-ink-2">{l.v}</dd>
+          </div>
+        ))}
+      </dl>
     </section>
   );
 }

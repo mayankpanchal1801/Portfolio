@@ -3,6 +3,7 @@ import Approach from "@/components/sections/Approach";
 import Chronology from "@/components/sections/Chronology";
 import ContactCta from "@/components/sections/ContactCta";
 import Hero from "@/components/sections/Hero";
+import Stats from "@/components/sections/Stats";
 import SelectedWork from "@/components/sections/SelectedWork";
 import Toolkit from "@/components/sections/Toolkit";
 import { about, faqs, site } from "@/constants/personal";
@@ -69,13 +70,15 @@ export default function Home() {
     <>
       <Hero />
 
-      <div className="border-b border-rule bg-paper-2 py-5">
+      <div className="relative z-[1] border-y border-rule bg-paper-2/60 py-6 backdrop-blur-sm">
         <Drift
           items={STACK_TICKER}
-          duration={64}
-          itemClassName="font-mono text-tag uppercase text-ink-3"
+          duration={60}
+          itemClassName="font-display text-[clamp(1.25rem,2.4vw,1.9rem)] font-normal tracking-[-0.03em] text-ink-3"
         />
       </div>
+
+      <Stats />
 
       <SelectedWork />
       <Approach />

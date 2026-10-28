@@ -1,3 +1,4 @@
+import CommandPalette from "@/components/chrome/CommandPalette";
 import Cursor from "@/components/chrome/Cursor";
 import Footer from "@/components/chrome/Footer";
 import Header from "@/components/chrome/Header";
@@ -7,33 +8,32 @@ import { ThemeProvider } from "@/components/chrome/ThemeProvider";
 import { about, contact, seoKeywords, site, socials } from "@/constants/personal";
 import { skillsFlat } from "@/constants/skills";
 import type { Metadata, Viewport } from "next";
-import { Fraunces, IBM_Plex_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Hanken_Grotesk, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 // ── Fonts ────────────────────────────────────────────────────────────
-// Display: Fraunces - expressive variable serif with optical sizing for headings & marks.
-// Body:    Plus Jakarta Sans - modern geometric grotesk for body copy & UI.
-// Data:    IBM Plex Mono - labels, figures, marginalia.
-const fraunces = Fraunces({
+// Display: Instrument Serif - condensed editorial serif; its italic carries the accent words.
+// Body:    Hanken Grotesk - warm, open grotesque with excellent small-size legibility.
+// Data:    JetBrains Mono - labels, figures and telemetry.
+const instrument = Instrument_Serif({
   subsets: ["latin"],
-  weight: "variable",
+  weight: "400",
   style: ["normal", "italic"],
-  variable: "--font-fraunces",
+  variable: "--font-display-face",
   display: "swap",
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const hanken = Hanken_Grotesk({
   subsets: ["latin"],
   weight: "variable",
-  style: ["normal", "italic"],
-  variable: "--font-jakarta",
+  variable: "--font-body-face",
   display: "swap",
 });
 
-const plex = IBM_Plex_Mono({
+const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex",
+  weight: "variable",
+  variable: "--font-mono-face",
   display: "swap",
 });
 
@@ -104,7 +104,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FBF8F3",
+  themeColor: "#F3F1EA",
   width: "device-width",
   initialScale: 1,
 };
@@ -155,14 +155,14 @@ const personLd = {
     "@type": "Occupation",
     name: site.role,
     description:
-      "Full Stack Developer designing async REST APIs with FastAPI + PostgreSQL, and shipping type-safe Next.js / React frontends. Owns features end-to-end - schema, API, UI, container, deploy.",
+      "Lead Software Engineer designing async REST APIs with FastAPI + PostgreSQL, and shipping type-safe Next.js / React frontends. Owns features end-to-end - schema, API, UI, container, deploy.",
     occupationLocation: [
       { "@type": "City", name: contact.city },
       { "@type": "Country", name: contact.country },
     ],
     occupationalCategory: "15-1252 Software Developers",
     skills: skillsFlat.join(", "),
-    experienceRequirements: "4+ years shipping production full-stack web applications",
+    experienceRequirements: "5 years shipping production full-stack web applications",
   },
   alumniOf: {
     "@type": "CollegeOrUniversity",
@@ -200,7 +200,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${jakarta.variable} ${plex.variable}`}
+      className={`${instrument.variable} ${hanken.variable} ${jetbrains.variable}`}
+      data-theme="light"
       suppressHydrationWarning
     >
       <body>
@@ -220,7 +221,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[1000] focus:bg-accent focus:text-white focus:px-4 focus:py-2 focus:rounded-sm"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[1000] focus:bg-accent focus:text-on-accent focus:px-4 focus:py-2 focus:rounded-sm"
         >
           Skip to content
         </a>
@@ -228,6 +229,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <ScrollMeter />
           <Cursor />
+          <CommandPalette />
           <SmoothScroll>
             <Header />
             <main id="main" className="relative z-[1]">

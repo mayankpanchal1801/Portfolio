@@ -45,7 +45,7 @@ export default function ContactPage() {
         meta="Replies within a business day"
         title={
           <>
-            Let&rsquo;s make <em className="text-accent-ink">something</em> together.
+            Let&rsquo;s make <span className="text-signal">something</span> together.
           </>
         }
         intro="Email is the fastest way to reach me. Prefer LinkedIn or GitHub? Both are below."
@@ -77,18 +77,9 @@ export default function ContactPage() {
                 </a>
                 <span className="tag mt-1.5 block">Email</span>
               </li>
-              <li>
-                <a
-                  href={contact.phoneHref}
-                  className="uline block font-mono text-lg text-ink"
-                >
-                  {contact.phone}
-                </a>
-                <span className="tag mt-1.5 block">Phone / WhatsApp</span>
-              </li>
             </ul>
 
-            <div className="mt-10 border border-rule bg-paper-2 p-6">
+            <div className="mt-10 rounded-2xl border border-rule bg-paper-2/70 p-6">
               <p className="tag">Location</p>
               <p className="mt-4 font-display text-d3 text-ink">{contact.city}</p>
               <p className="text-ink-3">
@@ -134,7 +125,7 @@ export default function ContactPage() {
 
       {/* ── Common questions ── */}
       {contactFaqs.length > 0 && (
-        <section className="band bg-paper-2" aria-labelledby="faq-heading">
+        <section className="band border-t border-rule bg-paper-2/50" aria-labelledby="faq-heading">
           <div className="shell">
             <h2 id="faq-heading" className="sr-only">
               Common questions

@@ -1,119 +1,158 @@
 "use client";
 
-import Reveal from "@/components/primitives/Reveal";
+import Panel from "@/components/primitives/Panel";
 import SectionHead from "@/components/primitives/SectionHead";
-import { projectsArr } from "@/constants/projects";
+import { featuredProjects } from "@/constants/projects";
+import { gsap } from "@/lib/gsap-config";
+import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 
-/** Shipped work only - in-progress stubs live on the projects index. */
-const shipped = projectsArr.filter((p) => !p.placeholder).slice(0, 6);
-
+/**
+ * Selected work as a horizontal reel. On large screens with motion allowed
+ * the section pins and vertical scroll drives the track sideways; elsewhere
+ * (touch, small screens, reduced motion) it is an ordinary stacked list or a
+ * natively scrollable row, so nothing depends on the pin.
+ */
 export default function SelectedWork() {
-  return (
-    <section id="work" className="band shell" aria-labelledby="work-heading">
-      <SectionHead
-        index="01"
-        label="Selected work"
-        headingId="work-heading"
-        title={
-          <>
-            A short list of things <br className="hidden md:block" />
-            I have <em className="italic">helped ship.</em>
-          </>
-        }
-        intro="Enterprise dashboards, event platforms, studio websites - a cross-section of the last four years."
-      />
+  const sectionRef = useRef<HTMLElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLUListElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
+  const countRef = useRef<HTMLSpanElement>(null);
+  const total = featuredProjects.length;
 
-      <ul className="mt-14 md:mt-24 border-t border-rule">
-        {shipped.map((p, i) => (
-          <li key={p.slug} className="group relative border-b border-rule">
-            <Link
-              href={`/projects/${p.slug}`}
-              className="block py-8 md:py-14 transition-colors duration-500 ease-out md:grid-12 md:items-center md:gap-y-4 hover:bg-paper-2"
-            >
-              {/* Mobile View */}
-              <div className="flex flex-col gap-4 md:hidden px-4">
-                <div className="flex items-center justify-between">
-                  <span className="marginal text-accent-ink font-semibold">
-                    {String(i + 1).padStart(2, "0")}
+  useGSAP(
+    () => {
+      const section = sectionRef.current;
+      const viewport = viewportRef.current;
+      const track = trackRef.current;
+      if (!section || !viewport || !track) return;
+
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+        const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
+        gsap.set(viewport, { overflow: "hidden" });
+
+        gsap.to(track, {
+          x: () => -distance(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: () => `+=${distance() + window.innerHeight * 0.25}`,
+            pin: true,
+            scrub: 0.8,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              if (barRef.current) barRef.current.style.transform = `scaleX(${self.progress})`;
+              if (countRef.current) {
+                const n = Math.min(total, Math.floor(self.progress * total) + 1);
+                countRef.current.textContent = String(n).padStart(2, "0");
+              }
+            },
+          },
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef },
+  );
+
+  return (
+    <section
+      id="work"
+      ref={sectionRef}
+      className="relative flex flex-col justify-center py-[var(--rhythm)] lg:min-h-[100svh] lg:py-0 lg:pt-24"
+      aria-labelledby="work-heading"
+    >
+      <div className="shell w-full">
+        <SectionHead
+          index="01"
+          label="Selected work"
+          headingId="work-heading"
+          title={
+            <>
+              Things I&rsquo;ve <span className="text-signal">shipped</span>.
+            </>
+          }
+          intro="Products and platforms across SaaS, events, manufacturing and travel — designed, built and run end to end."
+        />
+      </div>
+
+      <div
+        ref={viewportRef}
+        className="no-scrollbar mt-12 w-full overflow-x-auto pl-[var(--gutter)] lg:mt-14 lg:overflow-x-hidden"
+      >
+        <ul ref={trackRef} className="flex w-max flex-col gap-6 pr-[var(--gutter)] lg:flex-row lg:gap-8">
+          {featuredProjects.map((p, i) => (
+            <li key={p.slug} className="w-[calc(100vw-2*var(--gutter))] lg:w-[min(46vw,620px)] lg:shrink-0">
+              <Panel
+                as={Link}
+                href={`/projects/${p.slug}`}
+                data-cursor="View"
+                className="group block h-full p-3 sm:p-4"
+              >
+                <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-paper-3">
+                  {p.imgSrc && (
+                    <Image
+                      src={p.imgSrc}
+                      alt={`${p.title} - interface screenshot`}
+                      fill
+                      sizes="(min-width: 1024px) 620px, 100vw"
+                      className="object-cover object-top transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
+                    />
+                  )}
+                  <span className="tag absolute left-3 top-3 rounded-full bg-paper/80 px-3 py-2 text-ink backdrop-blur">
+                    {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
                   </span>
-                  <span className="marginal tabular-nums">{p.year}</span>
                 </div>
 
-                <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="font-display text-[2rem] leading-none text-ink transition-colors group-hover:text-accent-ink">
-                    {p.title}
-                  </h3>
+                <div className="flex items-start justify-between gap-4 px-2 pb-2 pt-5">
+                  <div className="min-w-0">
+                    <p className="tag tag--accent">
+                      {p.category} · {p.year}
+                    </p>
+                    <h3 className="mt-3 font-display text-d2 font-normal text-ink">{p.title}</h3>
+                    <p className="mt-3 line-clamp-2 text-sm text-ink-2">{p.description}</p>
+                    <ul className="mt-4 flex flex-wrap gap-1.5">
+                      {p.tech.slice(0, 4).map((t) => (
+                        <li
+                          key={t}
+                          className="rounded-full border border-rule px-2.5 py-1 font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-3"
+                        >
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                   <span
                     aria-hidden
-                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-rule text-xs text-ink transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-white"
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-rule-strong text-ink transition-all duration-500 group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent"
                   >
                     ↗
                   </span>
                 </div>
+              </Panel>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-                <p className="text-sm text-ink-3">
-                  <span className="text-ink-2">{p.category}</span>
-                  <span aria-hidden className="px-1.5 text-rule-strong">/</span>
-                  <span>{p.client ?? p.role}</span>
-                </p>
-              </div>
-
-              {/* Desktop View (md+) */}
-              <span className="marginal hidden md:col-span-1 md:block md:pl-4 text-ink-3 group-hover:text-accent-ink transition-colors">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-
-              <h3 className="hidden font-display text-[clamp(2.5rem,5vw,4.5rem)] font-medium leading-[0.9] tracking-[-0.02em] text-ink transition-colors duration-500 group-hover:text-accent-ink md:col-span-5 md:block">
-                {p.title}
-              </h3>
-
-              <p className="hidden text-base text-ink-3 md:col-span-3 md:block">
-                {p.category}
-                <br />
-                <span className="text-ink-2">{p.client ?? p.role}</span>
-              </p>
-
-              <span className="marginal hidden md:col-span-2 md:block md:text-right">
-                {p.year}
-              </span>
-
-              <span
-                aria-hidden
-                className="hidden justify-end md:col-span-1 md:flex md:pr-4"
-              >
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-rule-strong text-ink transition-all duration-500 group-hover:scale-110 group-hover:border-accent group-hover:bg-accent group-hover:text-white">
-                  ↗
-                </span>
-              </span>
-
-              {/* Desktop hover peek - Made much larger and more prominent */}
-              {p.imgSrc && (
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute right-[15%] top-1/2 z-20 hidden w-72 lg:w-96 -translate-y-1/2 rotate-3 overflow-hidden rounded-sm border border-rule-strong opacity-0 shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-0 group-hover:opacity-100 md:block"
-                >
-                  <Image
-                    src={p.imgSrc}
-                    alt=""
-                    width={384}
-                    height={288}
-                    sizes="384px"
-                    className="h-auto w-full object-cover"
-                  />
-                </span>
-              )}
-            </Link>
-          </li>
-        ))}
-      </ul>
-
-      <Reveal mode="fade" className="mt-12 md:mt-16 flex justify-center md:justify-end">
-        <Link href="/projects" className="btn btn-outline w-full sm:w-auto text-center px-8 py-4 text-sm">
-          View all projects ↗
+      <div className="shell mt-10 flex w-full items-center gap-6 lg:mt-12">
+        <p className="tag tabular-nums">
+          <span ref={countRef} className="text-accent">01</span> / {String(total).padStart(2, "0")}
+        </p>
+        <div className="hidden h-px flex-1 bg-rule-strong lg:block">
+          <div ref={barRef} className="h-full origin-left scale-x-0 bg-accent" />
+        </div>
+        <Link href="/projects" className="btn btn-outline ml-auto">
+          All projects ↗
         </Link>
-      </Reveal>
+      </div>
     </section>
   );
 }

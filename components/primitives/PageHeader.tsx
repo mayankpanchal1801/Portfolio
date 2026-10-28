@@ -22,7 +22,7 @@ export default function PageHeader({
   meta,
 }: Props) {
   return (
-    <header className="ruled border-b border-rule pb-16 pt-10 md:pb-24 md:pt-16">
+    <header className="relative border-b border-rule pb-16 pt-36 md:pb-24 md:pt-44">
       <div className="shell relative z-[1]">
         <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 pb-8">
           <p className="tag tag--accent flex items-center gap-2">
@@ -39,13 +39,13 @@ export default function PageHeader({
           </p>
         </div>
 
-        <div className="border-t border-rule pt-10 md:pt-16">
+        <div className="pt-6 md:pt-10">
           <Reveal
             as="h1"
             id={headingId}
             mode="words"
             immediate
-            className="font-display text-[clamp(3.5rem,10vw,8rem)] font-medium leading-[0.9] tracking-[-0.03em] text-ink"
+            className="font-display text-[clamp(3rem,9vw,8rem)] font-normal leading-[0.9] tracking-[-0.03em] text-ink"
           >
             {title}
           </Reveal>
@@ -56,7 +56,7 @@ export default function PageHeader({
               mode="rise"
               delay={0.24}
               immediate
-              className="measure mt-10 text-xl sm:text-2xl font-display leading-tight text-ink-2"
+              className="measure mt-10 text-xl sm:text-2xl font-display leading-tight tracking-[-0.02em] text-ink-2"
             >
               {intro}
             </Reveal>

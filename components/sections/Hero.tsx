@@ -1,123 +1,104 @@
 import LocalTime from "@/components/primitives/LocalTime";
+import Magnetic from "@/components/primitives/Magnetic";
 import Reveal from "@/components/primitives/Reveal";
-import { about, contact, site } from "@/constants/personal";
-import clsx from "clsx";
+import Rotator from "@/components/primitives/Rotator";
+import SystemGraph from "@/components/sections/SystemGraph";
+import { contact, site } from "@/constants/personal";
 import Link from "next/link";
 
-const SPEC = [
-  { k: "Role", v: site.role },
-  { k: "Stack", v: "Next.js · FastAPI · PostgreSQL" },
-  { k: "Based", v: `${contact.city}, ${contact.country}` },
-  { k: "Focus", v: "Full-Stack & Systems" },
+const FOCUS = [
+  "scalable frontends",
+  "async Python APIs",
+  "design systems",
+  "high-performing teams",
 ];
 
 export default function Hero() {
   return (
-    <section className="ruled border-b border-rule pt-10 pb-16 md:pt-16 md:pb-24" aria-labelledby="hero-name">
-      <div className="shell relative z-[1]">
-        {/* Top Status line */}
-        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 pb-8">
-          <p className="tag tag--accent flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-            Available for new opportunities
-          </p>
-          <p className="tag flex items-center gap-2 tabular-nums">
-            <span>{contact.city}</span>
-            <span aria-hidden className="text-rule-strong">/</span>
-            <LocalTime />
-          </p>
-        </div>
+    <section
+      className="relative flex min-h-[100svh] items-center pb-16 pt-32 md:pb-20"
+      aria-labelledby="hero-name"
+    >
+      {/* Ambient glow behind the headline. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-40 top-10 h-[34rem] w-[34rem] rounded-full opacity-70 blur-3xl"
+        style={{ background: "radial-gradient(circle, var(--c-glow), transparent 65%)" }}
+      />
 
-        {/* ── Massive Name ── */}
-        <div className="border-t border-rule pt-8 md:pt-12 pb-8 md:pb-12 text-center">
-          <Reveal
-            as="h1"
-            id="hero-name"
-            mode="words"
-            immediate
-            className="font-display text-[clamp(4rem,14vw,12rem)] font-medium leading-[0.85] tracking-[-0.04em] text-ink"
-          >
-            Mayank
-            <br />
-            <span className="italic text-ink-2">Panchal<span className="text-accent not-italic">.</span></span>
-          </Reveal>
-        </div>
+      <div className="shell relative z-[1] w-full">
+        <div className="grid items-center gap-14 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <Reveal mode="fade" immediate delay={0.05} className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <p className="tag tag--accent flex items-center gap-2 rounded-full border border-accent-line bg-accent-soft px-3 py-2">
+                <span className="ping h-1.5 w-1.5 rounded-full bg-accent" />
+                Open to new opportunities
+              </p>
+              <p className="tag flex items-center gap-2 tabular-nums">
+                {contact.city} <span aria-hidden>/</span> <LocalTime />
+              </p>
+            </Reveal>
 
-        <div className="grid-12 mt-4 md:mt-8 border-t border-rule pt-10 md:pt-16">
-          {/* ── Lede & Specs ── */}
-          <div className="col-span-12 lg:col-span-7 flex flex-col justify-between">
-            <div>
-              <Reveal
-                as="h2"
-                mode="rise"
-                delay={0.2}
-                immediate
-                className="text-2xl sm:text-3xl font-display text-ink leading-tight mb-6"
-              >
-                Full-Stack &amp; Backend Engineer bridging the gap between elegant interfaces and robust systems.
-              </Reveal>
-              
-              <Reveal
-                as="p"
-                mode="fade"
-                delay={0.3}
-                immediate
-                className="measure text-lede text-ink-2 mb-10"
-              >
-                I build production web applications end to end - a typed{" "}
-                <em className="text-ink font-medium">Next.js</em> interface on top, an async{" "}
-                <em className="text-ink font-medium">FastAPI</em> and{" "}
-                <em className="text-ink font-medium">PostgreSQL</em> service underneath, and the
-                Docker container on AWS that carries both to a URL.
-              </Reveal>
+            <Reveal
+              as="h1"
+              id="hero-name"
+              mode="words"
+              immediate
+              delay={0.1}
+              className="mt-8 font-display text-[clamp(4.5rem,12.5vw,12rem)] font-normal leading-[0.8] tracking-[-0.035em]"
+            >
+              Mayank
+              <br />
+              <span className="text-signal">Panchal</span>
+            </Reveal>
 
-              <Reveal
-                mode="fade"
-                delay={0.4}
-                immediate
-                className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4"
-              >
-                <Link href="/projects" className="btn btn-solid text-center">
-                  View selected work
+            <Reveal
+              as="p"
+              mode="rise"
+              immediate
+              delay={0.35}
+              className="mt-6 font-display text-[clamp(1.75rem,3.2vw,2.75rem)] leading-tight tracking-[-0.03em] text-ink"
+            >
+              {site.role}, building{" "}
+              <Rotator items={FOCUS} className="italic text-accent" />
+            </Reveal>
+
+            <Reveal
+              as="p"
+              mode="fade"
+              immediate
+              delay={0.5}
+              className="measure mt-6 text-lede text-ink-2"
+            >
+              Five years turning product ideas into fast, accessible, production-grade
+              software — and growing the engineers who build it. I lead delivery across{" "}
+              <em className="not-italic text-ink">Next.js</em>,{" "}
+              <em className="not-italic text-ink">FastAPI</em> and{" "}
+              <em className="not-italic text-ink">PostgreSQL</em>, from first schema to the
+              container in production.
+            </Reveal>
+
+            <Reveal mode="fade" immediate delay={0.65} className="mt-10 flex flex-wrap items-center gap-4">
+              <Magnetic>
+                <Link href="/projects" className="btn btn-solid" data-cursor="Open">
+                  View selected work →
                 </Link>
-                <Link href="/contact" className="btn btn-outline text-center">
+              </Magnetic>
+              <Magnetic>
+                <Link href="/contact" className="btn btn-outline">
                   Start a conversation
                 </Link>
-              </Reveal>
-            </div>
-
-            {/* Specification table */}
-            <dl className="mt-16 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-rule pt-8">
-              {SPEC.map((row) => (
-                <div key={row.k}>
-                  <dt className="tag">{row.k}</dt>
-                  <dd className="mt-2 font-display text-base leading-snug text-ink">{row.v}</dd>
-                </div>
-              ))}
-            </dl>
+              </Magnetic>
+              <p className="tag hidden xl:block">
+                or press <kbd className="rounded border border-rule-strong px-1.5 py-1">⌘K</kbd>
+              </p>
+            </Reveal>
           </div>
-        </div>
 
-        {/* ── Figures ── */}
-        <dl className="mt-16 sm:mt-24 grid grid-cols-2 border-y border-rule md:grid-cols-4">
-          {about.stats.map((s, i) => (
-            <div
-              key={s.label}
-              className={clsx(
-                "py-6 sm:py-10 pr-4 sm:pr-8",
-                i % 2 === 1 && "border-l border-rule pl-4 sm:pl-8",
-                i >= 2 && "border-t border-rule md:border-t-0",
-                "md:border-l md:border-rule md:pl-8",
-                i === 0 && "md:border-l-0 md:pl-0",
-              )}
-            >
-              <dd className="font-display text-[clamp(2.5rem,6vw,4.5rem)] font-medium leading-none tracking-[-0.04em] text-ink tabular-nums">
-                {s.value}
-              </dd>
-              <dt className="tag mt-3 block leading-relaxed">{s.label}</dt>
-            </div>
-          ))}
-        </dl>
+          <Reveal mode="rise" immediate delay={0.6} className="lg:col-span-5">
+            <SystemGraph />
+          </Reveal>
+        </div>
       </div>
     </section>
   );

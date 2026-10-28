@@ -79,7 +79,7 @@ export default function Figure({
           fill
           sizes={sizes}
           priority={priority}
-          className={clsx("object-cover", imgClassName)}
+          className={clsx("object-cover object-top", imgClassName)}
         />
       </div>
     </div>

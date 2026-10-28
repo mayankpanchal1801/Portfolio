@@ -19,7 +19,7 @@ export default function NotFound() {
             </span>
           </div>
 
-          <h1 className="mt-6 font-display text-[clamp(2.5rem,7vw,5rem)] font-semibold leading-[0.95] tracking-[-0.035em] text-ink">
+          <h1 className="mt-6 font-display text-[clamp(2.5rem,7vw,5rem)] font-normal leading-[0.95] tracking-[-0.025em] text-ink">
             Not found<span className="text-accent">.</span>
           </h1>
 

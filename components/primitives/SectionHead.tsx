@@ -2,7 +2,7 @@ import Reveal from "@/components/primitives/Reveal";
 import clsx from "clsx";
 
 type Props = {
-  /** Section number set in the left margin, e.g. "02". */
+  /** Section number, e.g. "02". */
   index: string;
   label: string;
   title: React.ReactNode;
@@ -12,52 +12,37 @@ type Props = {
   className?: string;
 };
 
-/**
- * The standard section opening: a ruled line, a margin-set number and
- * label, then the display heading. Every band on the site uses it, which
- * is what makes the page rhythm read as one system.
- */
-export default function SectionHead({
-  index,
-  label,
-  title,
-  intro,
-  headingId,
-  className,
-}: Props) {
+/** Standard section opening: mono eyebrow with a drawn rule, then the display heading. */
+export default function SectionHead({ index, label, title, intro, headingId, className }: Props) {
   return (
-    <header className={clsx("border-t border-rule pt-8 md:pt-12", className)}>
-      <div className="grid-12 items-start">
-        <div className="col-span-12 md:col-span-3 lg:col-span-3 flex items-baseline gap-4 md:flex-col md:gap-3">
-          <span className="marginal flex items-center gap-2 text-accent-ink">
-            <span aria-hidden className="block h-px w-4 bg-accent-ink"></span>
-            {index}
-          </span>
-          <span className="tag text-ink-3 md:mt-2">{label}</span>
-        </div>
-
-        <div className="col-span-12 md:col-span-9 lg:col-span-8 mt-6 md:mt-0">
-          <Reveal
-            as="h2"
-            mode="words"
-            id={headingId}
-            className="font-display text-[clamp(2rem,6vw,4rem)] font-medium leading-[1.05] tracking-[-0.02em] text-ink"
-          >
-            {title}
-          </Reveal>
-
-          {intro && (
-            <Reveal
-              as="p"
-              mode="fade"
-              delay={0.12}
-              className="mt-6 sm:mt-8 measure text-lg sm:text-xl text-ink-2 leading-relaxed"
-            >
-              {intro}
-            </Reveal>
-          )}
-        </div>
+    <div className={clsx("grid gap-8 lg:grid-cols-12", className)}>
+      <div className="lg:col-span-12">
+        <p className="tag tag--accent flex items-center gap-4">
+          <span className="tabular-nums">{index}</span>
+          <span aria-hidden className="h-px w-12 bg-accent-line" />
+          {label}
+        </p>
       </div>
-    </header>
+
+      <Reveal
+        as="h2"
+        id={headingId}
+        mode="words"
+        className="font-display text-d1 font-normal text-ink lg:col-span-8"
+      >
+        {title}
+      </Reveal>
+
+      {intro && (
+        <Reveal
+          as="p"
+          mode="fade"
+          delay={0.1}
+          className="text-ink-2 lg:col-span-4 lg:self-end lg:pb-3"
+        >
+          {intro}
+        </Reveal>
+      )}
+    </div>
   );
 }

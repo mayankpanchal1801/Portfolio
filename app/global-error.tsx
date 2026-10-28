@@ -21,8 +21,8 @@ export default function GlobalError({
         style={{
           margin: 0,
           padding: 0,
-          backgroundColor: "#FBF8F3",
-          color: "#16140F",
+          backgroundColor: "#F3F1EA",
+          color: "#1B2420",
           fontFamily:
             'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         }}
@@ -42,9 +42,9 @@ export default function GlobalError({
                 display: "inline-block",
                 padding: "0.25rem 0.75rem",
                 borderRadius: "9999px",
-                backgroundColor: "#F6E5DE",
-                border: "1px solid #E9BFB1",
-                color: "#A82A0D",
+                backgroundColor: "#E3EDE6",
+                border: "1px solid #B4CFC0",
+                color: "#24543F",
                 fontSize: "0.75rem",
                 fontWeight: 600,
                 textTransform: "uppercase",
@@ -63,7 +63,7 @@ export default function GlobalError({
                 letterSpacing: "-0.03em",
               }}
             >
-              Application error<span style={{ color: "#D93A16" }}>.</span>
+              Application error<span style={{ color: "#2F6B52" }}>.</span>
             </h1>
 
             <p
@@ -71,7 +71,7 @@ export default function GlobalError({
                 marginTop: "1.25rem",
                 fontSize: "1.1rem",
                 lineHeight: 1.6,
-                color: "#423E36",
+                color: "#3C4842",
               }}
             >
               A critical error occurred while rendering the application. You can
@@ -91,8 +91,8 @@ export default function GlobalError({
                 onClick={reset}
                 style={{
                   padding: "0.85rem 1.5rem",
-                  backgroundColor: "#D93A16",
-                  color: "#FFFFFF",
+                  backgroundColor: "#2F6B52",
+                  color: "#F7F6F1",
                   border: "none",
                   borderRadius: "3px",
                   fontSize: "0.85rem",
@@ -115,8 +115,8 @@ export default function GlobalError({
                 style={{
                   padding: "0.85rem 1.5rem",
                   backgroundColor: "transparent",
-                  color: "#16140F",
-                  border: "1px solid #C3B8A6",
+                  color: "#1B2420",
+                  border: "1px solid #B3AD9E",
                   borderRadius: "3px",
                   fontSize: "0.85rem",
                   fontWeight: 600,
@@ -130,7 +130,7 @@ export default function GlobalError({
             </div>
 
             {error && (
-              <div style={{ marginTop: "2.5rem", borderTop: "1px solid #DDD5C8", paddingTop: "1.5rem" }}>
+              <div style={{ marginTop: "2.5rem", borderTop: "1px solid #D5D1C4", paddingTop: "1.5rem" }}>
                 <button
                   type="button"
                   onClick={() => setShowDetails((v) => !v)}
@@ -139,7 +139,7 @@ export default function GlobalError({
                     border: "none",
                     padding: 0,
                     fontSize: "0.75rem",
-                    color: "#6E6759",
+                    color: "#5E6B64",
                     textTransform: "uppercase",
                     letterSpacing: "0.1em",
                     cursor: "pointer",
@@ -153,7 +153,7 @@ export default function GlobalError({
                     style={{
                       marginTop: "1rem",
                       padding: "1rem",
-                      backgroundColor: "#F3EEE6",
+                      backgroundColor: "#E8E6DC",
                       borderRadius: "4px",
                       fontSize: "0.8rem",
                       fontFamily: "monospace",

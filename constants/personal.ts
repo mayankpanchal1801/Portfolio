@@ -6,17 +6,17 @@
 
 export const site = {
   name: "Mayank Panchal",
-  shortName: "Mayank Panchal - Full Stack Developer",
-  role: "Full Stack Developer",
-  roleDetail: "Python (FastAPI) · Next.js / React.js",
+  shortName: "Mayank Panchal - Lead Software Engineer",
+  role: "Lead Software Engineer",
+  roleDetail: "Next.js · FastAPI · Team leadership",
 
   /** ~155 char meta description - resume-language + impact numbers + primary keywords. */
   tagline:
-    "Full Stack Developer in Bengaluru with 4+ years shipping Next.js + FastAPI + PostgreSQL apps. Docker, AWS EC2, CI/CD. AI-augmented workflows with Cursor & Claude Code.",
+    "Lead Software Engineer in Bengaluru - 5 years shipping Next.js + FastAPI + PostgreSQL products and leading engineers across 15+ projects. Docker, AWS, CI/CD, AI-augmented workflows.",
 
   /** Shorter variant used where description length is capped (Twitter card, OG summary). */
   taglineShort:
-    "Full Stack Developer - Next.js, FastAPI, PostgreSQL, Docker & AWS. AI-augmented with Cursor + Claude Code. Bengaluru, India.",
+    "Lead Software Engineer - Next.js, FastAPI, PostgreSQL, Docker & AWS. AI-augmented with Cursor + Claude Code. Bengaluru, India.",
 
   /** ~60 char title suffix / hero eyebrow. */
   headlineSuffix: "Next.js · FastAPI · PostgreSQL · AWS",
@@ -27,7 +27,7 @@ export const site = {
   yearFounded: 2022,
   twitterHandle: "@mayankpanchal01",
   /** Social card is generated at build time by app/opengraph-image.tsx. */
-  themeColor: "#FBF8F3",
+  themeColor: "#F3F1EA",
 } as const;
 
 export const contact = {
@@ -68,13 +68,13 @@ export const socials = [
 
 export const about = {
   headline:
-    "I build production web apps end-to-end - Next.js on top, FastAPI + PostgreSQL underneath.",
+    "I lead teams and ship production systems end-to-end - Next.js on top, FastAPI + PostgreSQL underneath.",
   intro:
-    "I'm a Full Stack Developer with 4+ years of experience owning features from database schema to deployed UI. Comfortable across Next.js / React.js on the frontend and Python (FastAPI + PostgreSQL + SQLAlchemy) on the backend - with hands-on Docker, CI/CD, and AWS to get things live.",
+    "I'm a Lead Software Engineer with 5 years of experience owning features from database schema to deployed UI. Comfortable across Next.js / React.js on the frontend and Python (FastAPI + PostgreSQL + SQLAlchemy) on the backend - with hands-on Docker, CI/CD, and AWS to get things live.",
   workingWith:
     "I work daily with AI-native tooling - Cursor, Claude Code, Devin (formerly Windsurf), Kiro, Antigravity, GitHub Copilot, ChatGPT, and local Ollama models - to accelerate implementation, refactoring, and code review while keeping engineering rigor intact.",
   bio: [
-    "Full Stack Developer based in Bengaluru with 4+ years of experience shipping production web applications end-to-end. Comfortable owning a feature all the way through - from PostgreSQL schema, to async FastAPI + Pydantic APIs, to a type-safe Next.js UI, to a Docker container on AWS EC2 behind Nginx.",
+    "Lead Software Engineer based in Bengaluru with 5 years of experience shipping production web applications end-to-end. Comfortable owning a feature all the way through - from PostgreSQL schema, to async FastAPI + Pydantic APIs, to a type-safe Next.js UI, to a Docker container on AWS EC2 behind Nginx.",
     "On the frontend I build with Next.js (App Router), React.js, TypeScript, and Tailwind - with deep experience in state (Redux, Zustand, Context) and performance work (Core Web Vitals up ~30% via lazy loading, code splitting, memoization, bundle work). On the backend I design async REST APIs with FastAPI + Pydantic + SQLAlchemy, secured with JWT and role-based access control, backed by PostgreSQL and Redis, with Celery for background jobs and WebSockets for real-time surfaces.",
     "At Screetract Solutions I've grown from Associate to Lead Software Engineer across 15+ shipped projects - reusable Tailwind + Next.js component libraries that cut feature time ~25%, containerized full-stack apps deployed via GitHub Actions to AWS, and a mentoring role across code reviews and architecture calls.",
     "I lean heavily on AI-augmented workflows - Cursor, Claude Code, Devin (Windsurf), Kiro, Antigravity, Copilot, ChatGPT, Ollama - for implementation, debugging, refactoring, documentation, and code review. AI is a force multiplier, not a substitute for engineering judgement; I verify what it produces and keep humans in the loop.",
@@ -82,27 +82,27 @@ export const about = {
   ],
   values: [
     {
-      title: "Own it end-to-end",
-      body: "Schema → API → UI → container → prod URL. One engineer, one pull request, one deploy.",
+      title: "Lead by shipping",
+      body: "Set the bar in the diff, not the deck. Pair, review, unblock - then get out of the way.",
     },
     {
-      title: "Human-in-the-loop AI",
-      body: "AI accelerates the boring parts. I still read the diff, run the tests, and own the outcome.",
+      title: "Own it end-to-end",
+      body: "Schema → API → UI → container → prod URL. Clear ownership beats clever process.",
     },
     {
       title: "Performance is a feature",
-      body: "Core Web Vitals, bundle budgets, async-first APIs, cached queries - shipped features, not afterthoughts.",
+      body: "Core Web Vitals, bundle budgets, async-first APIs, cached queries - budgets set on day one.",
     },
     {
-      title: "Boring, obvious code",
-      body: "Small components. Typed contracts. Pydantic on the way in, SQLAlchemy on the way down. No premature abstractions.",
+      title: "Human-in-the-loop AI",
+      body: "AI speeds up the boring parts. I still read the diff, run the tests, and own the outcome.",
     },
   ],
   stats: [
-    { value: "4+", label: "Years shipping full-stack" },
-    { value: "15+", label: "Projects delivered" },
-    { value: "350+", label: "DSA problems solved" },
-    { value: "99.9%", label: "Production uptime" },
+    { value: 5, suffix: "", label: "Years in the industry" },
+    { value: 15, suffix: "+", label: "Projects led end-to-end" },
+    { value: 40, suffix: "%", label: "Faster load times shipped" },
+    { value: 99.9, suffix: "%", label: "Production uptime" },
   ],
   education: {
     degree: "Bachelor of Technology, Computer Science",
@@ -120,12 +120,15 @@ export const about = {
 export const seoKeywords = [
   // Primary intent
   "Mayank Panchal",
-  "Mayank Panchal Full Stack Developer",
+  "Mayank Panchal Lead Software Engineer",
   "Mayank Panchal Bengaluru",
   "Mayank Panchal portfolio",
-  // Role variants (title tags love these)
+  "Lead Software Engineer Bengaluru",
   "Full Stack Developer Bengaluru",
-  "Full Stack Developer India",
+  "Tech Lead Next.js FastAPI",
+  // Role variants (title tags love these)
+  "Lead Software Engineer Bengaluru",
+  "Lead Software Engineer India",
   "Python FastAPI Developer",
   "FastAPI Developer Bengaluru",
   "Next.js Developer India",
@@ -163,7 +166,7 @@ export const seoKeywords = [
 export const faqs: { q: string; a: string }[] = [
   {
     q: "Who is Mayank Panchal?",
-    a: "Mayank Panchal is a Full Stack Developer based in Bengaluru, India, with 4+ years of experience shipping production web applications end-to-end using Next.js / React.js on the frontend and Python (FastAPI + PostgreSQL) on the backend.",
+    a: "Mayank Panchal is a Lead Software Engineer based in Bengaluru, India, with 5 years of experience shipping production web applications end-to-end using Next.js / React.js on the frontend and Python (FastAPI + PostgreSQL) on the backend.",
   },
   {
     q: "What is Mayank Panchal's tech stack?",
@@ -187,6 +190,6 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: "What is Mayank Panchal's experience level?",
-    a: "4+ years. Progressed from Associate Software Engineer (2022) → Software Engineer → Senior Software Engineer → Lead Software Engineer (2024–2025) at Screen Interactiv (Screetract OPC) in Bengaluru, leading development across 15+ projects.",
+    a: "5 years. Progressed from Associate Software Engineer (2022) → Software Engineer → Senior Software Engineer → Lead Software Engineer (2024–2025) at Screen Interactiv (Screetract OPC) in Bengaluru, leading development across 15+ projects.",
   },
 ];

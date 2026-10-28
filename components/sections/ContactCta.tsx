@@ -1,49 +1,66 @@
+"use client";
+
+import Magnetic from "@/components/primitives/Magnetic";
 import Reveal from "@/components/primitives/Reveal";
 import { contact } from "@/constants/personal";
 import Link from "next/link";
+import { useState } from "react";
 
 type Props = { index?: string; headingId?: string };
 
-export default function ContactCta({
-  index = "05",
-  headingId = "contact-cta-heading",
-}: Props) {
+export default function ContactCta({ index = "05", headingId = "cta-heading" }: Props) {
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(contact.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.location.href = `mailto:${contact.email}`;
+    }
+  };
+
   return (
-    <section className="band shell" aria-labelledby={headingId}>
-      <div className="grid-12 items-end gap-y-10 border-t border-rule pt-10">
-        <div className="col-span-12 lg:col-span-8">
-          <div className="flex items-baseline gap-3">
-            <span className="marginal text-accent-ink">{index}</span>
-            <span className="marginal">Contact</span>
-          </div>
+    <section id="contact" className="band shell" aria-labelledby={headingId}>
+      <div className="relative overflow-hidden rounded-[28px] border border-rule-strong bg-paper-2 px-6 py-16 sm:px-12 sm:py-24">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-32 -top-32 h-[30rem] w-[30rem] rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, var(--c-glow), transparent 65%)" }}
+        />
 
-          <Reveal
-            as="h2"
-            id={headingId}
-            mode="words"
-            className="mt-6 font-display text-d1 text-ink"
+        <p className="tag tag--accent relative flex items-center gap-4">
+          <span className="tabular-nums">{index}</span>
+          <span aria-hidden className="h-px w-12 bg-accent-line" />
+          Contact
+        </p>
+
+        <Reveal
+          as="h2"
+          id={headingId}
+          mode="words"
+          className="relative mt-8 font-display text-mark font-normal"
+        >
+          Let&rsquo;s build
+          <br />
+          <span className="text-signal">something</span> sharp.
+        </Reveal>
+
+        <div className="relative mt-12 flex flex-wrap items-center gap-4">
+          <Magnetic>
+            <Link href="/contact" className="btn btn-solid" data-cursor="Write">
+              Start a conversation →
+            </Link>
+          </Magnetic>
+          <button
+            type="button"
+            onClick={copy}
+            className="btn btn-outline normal-case tracking-normal"
+            aria-live="polite"
           >
-            Have a project, a role, or just a question?
-          </Reveal>
-
-          <Reveal as="p" mode="fade" delay={0.12} className="measure mt-6 text-lede text-ink-2">
-            Email is fastest. Based in {contact.city} - happy to work remote with
-            teams anywhere.
-          </Reveal>
-        </div>
-
-        <div className="col-span-12 flex flex-col items-start gap-4 lg:col-span-4">
-          <Link href="/contact" className="btn btn-solid">
-            Start a conversation
-          </Link>
-          <a href={`mailto:${contact.email}`} className="uline font-display text-ink">
-            {contact.email}
-          </a>
-          {contact.phone && (
-            <a href={contact.phoneHref} className="font-mono text-sm text-ink-3">
-              {contact.phone}
-            </a>
-          )}
+            {copied ? "Copied to clipboard ✓" : `${contact.email} ⧉`}
+          </button>
         </div>
       </div>
     </section>

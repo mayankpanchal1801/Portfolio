@@ -1,5 +1,6 @@
 "use client";
 
+import Panel from "@/components/primitives/Panel";
 import Reveal from "@/components/primitives/Reveal";
 import { projectsArr, type Project } from "@/constants/projects";
 import clsx from "clsx";
@@ -50,11 +51,11 @@ export default function ProjectsIndex() {
                 aria-pressed={filter === f}
                 disabled={counts[f] === 0}
                 className={clsx(
-                  "shrink-0 rounded-full border px-3.5 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.12em] transition-colors cursor-pointer",
+                  "shrink-0 rounded-full border px-3.5 py-2 font-mono text-[0.68rem] uppercase tracking-[0.12em] transition-colors cursor-pointer",
                   "disabled:cursor-not-allowed disabled:opacity-40",
                   filter === f
-                    ? "border-accent bg-accent text-white"
-                    : "border-rule text-ink-2 hover:border-ink hover:text-ink bg-paper",
+                    ? "border-accent bg-accent text-on-accent"
+                    : "border-rule text-ink-2 hover:border-ink hover:text-ink bg-paper/60",
                 )}
               >
                 {f}
@@ -71,19 +72,19 @@ export default function ProjectsIndex() {
       </div>
 
       {/* Grid */}
-      <ul className="mt-10 sm:mt-14 grid gap-x-10 gap-y-12 sm:gap-y-16 md:grid-cols-2">
+      <ul className="mt-10 grid gap-5 sm:mt-14 md:grid-cols-2">
         {visible.map((p, i) => {
           const inert = Boolean(p.placeholder);
           const Card = (
             <>
-              <div className="relative aspect-[16/10] sm:aspect-[4/3] overflow-hidden border border-rule bg-paper-2 transition-colors group-hover:border-rule-strong">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-paper-3">
                 {p.imgSrc ? (
                   <Image
                     src={p.imgSrc}
                     alt={p.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 45vw"
-                    className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+                    className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
                   />
                 ) : (
                   <span
@@ -101,23 +102,23 @@ export default function ProjectsIndex() {
                 )}
               </div>
 
-              <div className="mt-4 sm:mt-5 flex items-baseline justify-between gap-4 border-t border-rule pt-3 sm:pt-4">
+              <div className="mt-5 flex items-baseline justify-between gap-4 px-2">
                 <span className="marginal text-accent-ink">{p.category}</span>
                 <span className="marginal tabular-nums">{p.year}</span>
               </div>
 
               <h3
                 className={clsx(
-                  "mt-2.5 sm:mt-3 font-display text-xl sm:text-d3",
+                  "mt-3 px-2 font-display text-xl sm:text-d3",
                   inert ? "text-ink-3" : "text-ink transition-colors group-hover:text-accent-ink",
                 )}
               >
                 {p.title}
               </h3>
 
-              <p className="mt-2 text-sm sm:text-base text-ink-2 leading-relaxed">{p.description}</p>
+              <p className="mt-2 px-2 text-sm text-ink-2 leading-relaxed">{p.description}</p>
 
-              <p className="mt-3.5 flex flex-wrap gap-x-2.5 gap-y-1">
+              <p className="mt-4 flex flex-wrap gap-x-2.5 gap-y-1 px-2">
                 {p.tags.slice(0, 5).map((t) => (
                   <span key={t} className="marginal text-[0.65rem]">
                     {t}
@@ -126,7 +127,7 @@ export default function ProjectsIndex() {
               </p>
 
               {!inert && (
-                <span className="mt-4 inline-flex items-center gap-1.5 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-ink transition-colors group-hover:text-accent-ink">
+                <span className="mt-4 mb-2 ml-2 inline-flex items-center gap-1.5 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-ink transition-colors group-hover:text-accent-ink">
                   Case study ↗
                 </span>
               )}
@@ -141,13 +142,15 @@ export default function ProjectsIndex() {
               delay={Math.min(i, 3) * 0.06}
               className="group"
             >
-              {inert ? (
-                <div>{Card}</div>
-              ) : (
-                <Link href={`/projects/${p.slug}`} className="block">
-                  {Card}
-                </Link>
-              )}
+              <Panel className="h-full p-3 sm:p-4">
+                {inert ? (
+                  <div>{Card}</div>
+                ) : (
+                  <Link href={`/projects/${p.slug}`} className="block" data-cursor="View">
+                    {Card}
+                  </Link>
+                )}
+              </Panel>
             </Reveal>
           );
         })}

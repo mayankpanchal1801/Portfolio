@@ -1,68 +1,75 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════
-   SPECIFICATION - a print-editorial design system
-   Warm paper, warm ink, one vermilion accent. Light is canonical;
-   dark is a designed counterpart, not an inversion.
+   CONSOLE - an engineering-console design system
+   Warm stone ground, forest ink, one muted sage signal colour.
+   Light is canonical (stone + sage); dark is a warm charcoal counterpart.
+   Greens sit in the middle of the spectrum and the grounds stay low-chroma,
+   so long reading is easier than a saturated cobalt on cool porcelain.
 
    Runtime tokens (--c-*) cascade per theme. The @theme inline block
    below maps them into Tailwind utilities, so `bg-paper text-ink`
    follows the active theme without any dark: variants.
 ═══════════════════════════════════════════════════════════════════ */
 
-:root {
+:root,
+[data-theme="light"] {
   color-scheme: light;
 
-  /* Ground */
-  --c-paper:        #FBF8F3;
-  --c-paper-2:      #F3EEE6;
-  --c-paper-3:      #E9E2D6;
+  /* Warm stone ground */
+  --c-paper:        #F3F1EA;
+  --c-paper-2:      #E8E6DC;
+  --c-paper-3:      #D9D6C8;
 
-  /* Ink */
-  --c-ink:          #16140F;
-  --c-ink-2:        #423E36;
-  --c-ink-3:        #6E6759;
+  /* Forest ink */
+  --c-ink:          #1B2420;
+  --c-ink-2:        #3C4842;
+  --c-ink-3:        #5E6B64;
 
-  /* Structure */
-  --c-rule:         #DDD5C8;
-  --c-rule-strong:  #C3B8A6;
+  --c-rule:         #D5D1C4;
+  --c-rule-strong:  #B3AD9E;
 
-  /* Accent - vermilion */
-  --c-accent:       #D93A16;
-  --c-accent-ink:   #A82A0D;   /* AA-contrast accent for small text */
-  --c-accent-soft:  #F6E5DE;
-  --c-accent-line:  #E9BFB1;
+  /* Accent - muted sage */
+  --c-accent:       #2F6B52;
+  --c-accent-ink:   #24543F;
+  --c-accent-soft:  #E3EDE6;
+  --c-accent-line:  #B4CFC0;
+  --c-on-accent:    #F7F6F1;
 
-  /* Inverted surface (footer, marks) */
-  --c-inverse:      #16140F;
-  --c-inverse-ink:  #FBF8F3;
+  --c-inverse:      #1B2420;
+  --c-inverse-ink:  #F3F1EA;
 
-  --c-selection:    #F7D9CF;
+  --c-selection:    #D3E5DA;
+  --c-glow:         rgba(47, 107, 82, 0.14);
+  --c-grid:         rgba(27, 36, 32, 0.05);
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --c-paper:        #14130F;
-  --c-paper-2:      #1C1A16;
-  --c-paper-3:      #26231D;
+  --c-paper:        #141816;
+  --c-paper-2:      #1C221E;
+  --c-paper-3:      #262D28;
 
-  --c-ink:          #F5F1E8;
-  --c-ink-2:        #C7C0B2;
-  --c-ink-3:        #948C7C;
+  --c-ink:          #E7E5DC;
+  --c-ink-2:        #C2C6BE;
+  --c-ink-3:        #8E968F;
 
-  --c-rule:         #302C25;
-  --c-rule-strong:  #4A4338;
+  --c-rule:         #2C342F;
+  --c-rule-strong:  #434C45;
 
-  --c-accent:       #FF6A3D;
-  --c-accent-ink:   #FF8258;
-  --c-accent-soft:  #2A1A12;
-  --c-accent-line:  #5A3524;
+  --c-accent:       #8FBF9F;
+  --c-accent-ink:   #A8D0B6;
+  --c-accent-soft:  #1A2820;
+  --c-accent-line:  #3D5A48;
+  --c-on-accent:    #122018;
 
-  --c-inverse:      #F5F1E8;
-  --c-inverse-ink:  #14130F;
+  --c-inverse:      #E7E5DC;
+  --c-inverse-ink:  #141816;
 
-  --c-selection:    #4A2415;
+  --c-selection:    #2A4536;
+  --c-glow:         rgba(143, 191, 159, 0.16);
+  --c-grid:         rgba(231, 229, 220, 0.045);
 }
 
 /* ── Tailwind token map ─────────────────────────────────────────── */
@@ -77,6 +84,7 @@
   --color-rule-strong:  var(--c-rule-strong);
   --color-accent:       var(--c-accent);
   --color-accent-ink:   var(--c-accent-ink);
+  --color-on-accent:    var(--c-on-accent);
   --color-accent-soft:  var(--c-accent-soft);
   --color-accent-line:  var(--c-accent-line);
   --color-inverse:      var(--c-inverse);
@@ -84,36 +92,33 @@
 }
 
 @theme {
-  --font-display: var(--font-fraunces), "Fraunces", Georgia, serif;
-  --font-body:    var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-sans:    var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-serif:   var(--font-fraunces), "Fraunces", Georgia, Cambria, serif;
-  --font-mono:    var(--font-plex), "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-fraunces: var(--font-fraunces), "Fraunces", Georgia, serif;
-  --font-jakarta:  var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-display-face), "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-body:    var(--font-body-face), "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans:    var(--font-body-face), "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono:    var(--font-mono-face), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Display scale - Fraunces, expressive editorial serif */
-  --text-mark:  clamp(3.25rem, 11.5vw, 10.5rem);
+  /* Display scale - Instrument Serif, editorial and condensed */
+  --text-mark:  clamp(3.75rem, 13vw, 12rem);
   --text-mark--line-height: 0.88;
-  --text-mark--letter-spacing: -0.035em;
+  --text-mark--letter-spacing: -0.025em;
 
-  --text-d1: clamp(2.5rem, 7vw, 5.75rem);
+  --text-d1: clamp(3rem, 8vw, 6.75rem);
   --text-d1--line-height: 0.95;
-  --text-d1--letter-spacing: -0.028em;
+  --text-d1--letter-spacing: -0.02em;
 
-  --text-d2: clamp(1.875rem, 4.4vw, 3.375rem);
+  --text-d2: clamp(2.125rem, 5vw, 3.875rem);
   --text-d2--line-height: 1.05;
-  --text-d2--letter-spacing: -0.022em;
+  --text-d2--letter-spacing: -0.015em;
 
-  --text-d3: clamp(1.375rem, 2.4vw, 1.9rem);
+  --text-d3: clamp(1.5rem, 2.7vw, 2.15rem);
   --text-d3--line-height: 1.18;
-  --text-d3--letter-spacing: -0.015em;
+  --text-d3--letter-spacing: -0.01em;
 
-  /* Reading - Plus Jakarta Sans */
+  /* Reading - Hanken Grotesk */
   --text-lede: clamp(1.125rem, 1.5vw, 1.3125rem);
   --text-lede--line-height: 1.6;
 
-  /* Data - IBM Plex Mono */
+  /* Data - JetBrains Mono */
   --text-tag: 0.6875rem;
   --text-tag--line-height: 1;
   --text-tag--letter-spacing: 0.16em;
@@ -122,7 +127,7 @@
   --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
 
-  --container-shell:   1320px;
+  --container-shell:   1360px;
   --container-measure: 68ch;
 
   --animate-drift: drift 26s linear infinite;
@@ -176,7 +181,8 @@
   h1, h2, h3, h4, h5, h6 {
     margin: 0;
     font-family: var(--font-display);
-    font-weight: 500;
+    font-weight: 400;
+    font-synthesis: none;
     text-wrap: balance;
   }
 
@@ -188,15 +194,19 @@
     color: var(--c-ink);
   }
 
-  /* Very fine paper tooth. Sits under content, never over it. */
+  /* Faint engineering grid, masked to fade out toward the page edges. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.035;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-image:
+      linear-gradient(var(--c-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--c-grid) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
   }
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -214,7 +224,7 @@
   :focus-visible {
     outline: 2px solid var(--c-accent);
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: 4px;
   }
 }
 
@@ -243,25 +253,42 @@
     column-gap: clamp(1rem, 2.5vw, 2rem);
   }
 
-  /* Faint column rules, revealed only on wide viewports. */
-  .ruled {
+  /* Legacy hook - the console theme draws its structure with the body grid. */
+  .ruled { position: relative; }
+
+  /* Glass panel with a hairline border; the spotlight follows the pointer. */
+  .panel {
     position: relative;
+    isolation: isolate;
+    border: 1px solid var(--c-rule);
+    border-radius: 14px;
+    background: color-mix(in oklab, var(--c-paper-2) 82%, transparent);
+    overflow: hidden;
+    transition: border-color 300ms var(--ease-out-quart);
   }
-  .ruled::before {
+  .panel::before {
     content: "";
     position: absolute;
-    inset-block: 0;
-    inset-inline: 0;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.5;
-    background-image: repeating-linear-gradient(
-      to right,
-      var(--c-rule) 0 1px,
-      transparent 1px calc(100% / 6)
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      var(--c-glow),
+      transparent 60%
     );
+    transition: opacity 300ms var(--ease-out-quart);
   }
-  @media (max-width: 1024px) { .ruled::before { display: none; } }
+  .panel:hover { border-color: var(--c-accent-line); }
+  .panel:hover::before { opacity: 1; }
+
+  /* Signal-coloured headline words. Solid on purpose: gradient text
+     (background-clip) disappears once GSAP transforms the split words. */
+  .text-signal { color: var(--c-accent); font-style: italic; }
+
+  /* Ghost display text: a dim solid fill (stroked outlines expose the
+     variable font's overlapping contours). */
+  .text-outline { color: var(--c-paper-3); }
 
   /* ═══════════════════════════════════════════════════════════════════
      Type helpers
@@ -297,33 +324,32 @@
     align-items: center;
     justify-content: center;
     gap: 0.6rem;
-    padding: 0.9rem 1.5rem;
+    padding: 0.95rem 1.5rem;
     font-family: var(--font-mono);
     font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     line-height: 1;
     border: 1px solid transparent;
-    border-radius: 2px;
+    border-radius: 999px;
     text-decoration: none;
     cursor: pointer;
     transition: background-color 260ms var(--ease-out-quart),
                 color 260ms var(--ease-out-quart),
                 border-color 260ms var(--ease-out-quart),
-                transform 260ms var(--ease-out-quart);
+                transform 260ms var(--ease-out-quart),
+                box-shadow 260ms var(--ease-out-quart);
   }
-  .btn:active { transform: translateY(1px); }
+  .btn:active { transform: scale(0.98); }
 
   .btn-solid {
     background: var(--c-accent);
-    color: #FFF6F2;
+    color: var(--c-on-accent);
     border-color: var(--c-accent);
   }
   .btn-solid:hover {
-    background: var(--c-ink);
-    border-color: var(--c-ink);
-    color: var(--c-paper);
+    box-shadow: 0 0 0 6px var(--c-glow), 0 8px 30px -8px var(--c-accent);
   }
 
   .btn-outline {
@@ -332,9 +358,8 @@
     border-color: var(--c-rule-strong);
   }
   .btn-outline:hover {
-    border-color: var(--c-ink);
-    background: var(--c-ink);
-    color: var(--c-paper);
+    border-color: var(--c-accent);
+    color: var(--c-accent-ink);
   }
 
   .btn-quiet {
@@ -393,40 +418,70 @@
   .field:user-invalid { border-bottom-color: var(--c-accent); }
 
   /* ═══════════════════════════════════════════════════════════════════
-     Cursor - an accent ring that trails the native pointer.
+     Cursor - a dot plus a trailing ring that can carry a label.
      The native cursor is never hidden, so the site stays usable if
      the script fails, on touch, or under reduced motion.
   ═══════════════════════════════════════════════════════════════════ */
+  .cursor-dot,
   .cursor-ring {
     position: fixed;
     top: 0;
     left: 0;
-    width: 30px;
-    height: 30px;
-    margin: -15px 0 0 -15px;
-    border-radius: 50%;
-    border: 1px solid var(--c-accent);
     pointer-events: none;
     z-index: 9999;
     opacity: 0;
-    transform: translate3d(-100px, -100px, 0);
-    transition: opacity 240ms var(--ease-out-quart),
-                width 260ms var(--ease-out-quart),
-                height 260ms var(--ease-out-quart),
-                margin 260ms var(--ease-out-quart),
-                background-color 260ms var(--ease-out-quart);
+    transition: opacity 240ms var(--ease-out-quart);
     will-change: transform;
   }
-  .cursor-ring.is-visible { opacity: 0.75; }
-  .cursor-ring.is-active {
-    width: 56px;
-    height: 56px;
-    margin: -28px 0 0 -28px;
-    background: color-mix(in oklab, var(--c-accent) 12%, transparent);
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    border-radius: 50%;
+    background: var(--c-accent);
   }
+  .cursor-ring {
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border-radius: 50%;
+    border: 1px solid var(--c-accent);
+    display: grid;
+    place-items: center;
+    transition: opacity 240ms var(--ease-out-quart),
+                width 300ms var(--ease-out-expo),
+                height 300ms var(--ease-out-expo),
+                margin 300ms var(--ease-out-expo),
+                background-color 300ms var(--ease-out-quart);
+  }
+  .cursor-ring > span {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-on-accent);
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+  .cursor-dot.is-visible { opacity: 1; }
+  .cursor-ring.is-visible { opacity: 0.7; }
+  .cursor-ring.is-active {
+    width: 54px;
+    height: 54px;
+    margin: -27px 0 0 -27px;
+    background: color-mix(in oklab, var(--c-accent) 14%, transparent);
+  }
+  .cursor-ring.is-label {
+    width: 84px;
+    height: 84px;
+    margin: -42px 0 0 -42px;
+    opacity: 1;
+    background: var(--c-accent);
+  }
+  .cursor-ring.is-label > span { opacity: 1; }
 
   @media (hover: none), (pointer: coarse) {
-    .cursor-ring { display: none; }
+    .cursor-ring, .cursor-dot { display: none; }
   }
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -468,6 +523,18 @@
     will-change: transform;
   }
 
+  /* Packet pulse for live indicators. */
+  .ping { position: relative; }
+  .ping::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--c-accent);
+    animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  @keyframes ping { 75%, 100% { transform: scale(2.6); opacity: 0; } }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -487,7 +554,8 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .cursor-ring { display: none; }
+  .cursor-ring, .cursor-dot { display: none; }
+  .packet { display: none; }
   [data-anim="pending"] { opacity: 1 !important; }
 }
 
@@ -497,8 +565,17 @@
 @media print {
   body::before,
   .cursor-ring,
+  .cursor-dot,
   .scroll-meter,
   [data-print="hide"] { display: none !important; }
   body { background: #fff; color: #000; }
   a { text-decoration: underline; }
+}
+
+/* Career-ladder rung: lights up once the scroll line reaches it. */
+.tl-dot { transition: background-color 400ms, border-color 400ms, box-shadow 400ms; }
+.tl-dot.is-on {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 6px var(--c-glow);
 }

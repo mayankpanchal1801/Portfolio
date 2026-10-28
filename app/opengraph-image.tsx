@@ -19,8 +19,8 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#FBF8F3",
-          color: "#16140F",
+          background: "#F3F1EA",
+          color: "#1B2420",
           padding: 72,
           fontFamily: "sans-serif",
         }}
@@ -31,15 +31,15 @@ export default function OpengraphImage() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderBottom: "2px solid #DDD5C8",
+            borderBottom: "2px solid #D5D1C4",
             paddingBottom: 24,
             fontSize: 22,
             letterSpacing: 4,
             textTransform: "uppercase",
-            color: "#6E6759",
+            color: "#5E6B64",
           }}
         >
-          <span style={{ color: "#A82A0D" }}>Available for work</span>
+          <span style={{ color: "#2F6B52" }}>Available for work</span>
           <span>Bengaluru · India</span>
         </div>
 
@@ -55,14 +55,14 @@ export default function OpengraphImage() {
             }}
           >
             <span>{site.name}</span>
-            <span style={{ color: "#D93A16" }}>.</span>
+            <span style={{ color: "#2F6B52" }}>.</span>
           </div>
           <div
             style={{
               display: "flex",
               marginTop: 28,
               fontSize: 36,
-              color: "#423E36",
+              color: "#3C4842",
               maxWidth: 900,
               lineHeight: 1.35,
             }}
@@ -77,16 +77,16 @@ export default function OpengraphImage() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderTop: "2px solid #DDD5C8",
+            borderTop: "2px solid #D5D1C4",
             paddingTop: 24,
             fontSize: 22,
             letterSpacing: 4,
             textTransform: "uppercase",
-            color: "#6E6759",
+            color: "#5E6B64",
           }}
         >
           <span style={{ whiteSpace: "nowrap" }}>Next.js · FastAPI · PostgreSQL · AWS</span>
-          <span style={{ color: "#16140F", whiteSpace: "nowrap" }}>{site.domain}</span>
+          <span style={{ color: "#1B2420", whiteSpace: "nowrap" }}>{site.domain}</span>
         </div>
       </div>
     ),

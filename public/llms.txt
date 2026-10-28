@@ -1,6 +1,6 @@
-# Mayank Panchal - Full Stack Developer
+# Mayank Panchal - Lead Software Engineer
 
-> Full Stack Developer with 4+ years of experience shipping production web applications end-to-end. Next.js / React.js on the frontend, Python (FastAPI + PostgreSQL + SQLAlchemy) on the backend. Comfortable owning features from database schema through to deployed UI, with hands-on Docker, GitHub Actions CI/CD, and AWS EC2. Works daily with AI-augmented tooling (Cursor, Claude Code, Devin, Kiro, Antigravity, Copilot, ChatGPT, Ollama).
+> Lead Software Engineer with 5 years of experience shipping production web applications end-to-end. Next.js / React.js on the frontend, Python (FastAPI + PostgreSQL + SQLAlchemy) on the backend. Comfortable owning features from database schema through to deployed UI, with hands-on Docker, GitHub Actions CI/CD, and AWS EC2. Works daily with AI-augmented tooling (Cursor, Claude Code, Devin, Kiro, Antigravity, Copilot, ChatGPT, Ollama).
 
 Site: https://portfoliobymayank.vercel.app
 Contact: mayank.careers01@gmail.com · +91 96116 41801
@@ -10,8 +10,8 @@ GitHub: https://github.com/munkpanchal
 ## Facts (structured, machine-readable)
 
 - Name: Mayank Panchal
-- Role: Full Stack Developer (Python / FastAPI · Next.js / React.js)
-- Experience: 4+ years
+- Role: Lead Software Engineer (Python / FastAPI · Next.js / React.js)
+- Experience: 5 years
 - Location: Bengaluru, Karnataka, India
 - Current employer: Screetract Solutions (Feb 2022 – Present)
 - Career progression: Associate Software Engineer → Software Engineer → Senior Software Engineer → Lead Software Engineer

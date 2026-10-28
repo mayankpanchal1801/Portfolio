@@ -6,7 +6,7 @@ import { createContext, useCallback, useContext, useMemo, useSyncExternalStore }
 export type ThemeChoice = "light" | "dark";
 export type ResolvedTheme = "light" | "dark";
 
-const STORAGE_KEY = "mp-theme";
+const STORAGE_KEY = "mp-theme-v3";
 
 /**
  * Runs before first paint. Resolves the stored choice into a concrete

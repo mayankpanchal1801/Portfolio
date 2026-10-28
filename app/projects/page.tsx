@@ -57,7 +57,7 @@ export default function ProjectsPage() {
         meta={`${shipped} shipped · ${projectsArr.length} total`}
         title={
           <>
-            Selected work, <em className="text-accent-ink">chronologically</em>.
+            Selected work, <span className="text-signal">in full</span>.
           </>
         }
         intro="An index of shipped production work, plus a few AI experiments still in progress. Each shipped entry links to a case study."

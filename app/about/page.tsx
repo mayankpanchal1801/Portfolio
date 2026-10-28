@@ -65,7 +65,7 @@ const FACTS = [
   { k: "Based in", v: `${contact.city}, ${contact.country}` },
   { k: "Timezone", v: contact.timezone },
   { k: "Education", v: `${about.education.degree}, ${about.education.school}` },
-  { k: "Focus", v: "Full-Stack & Systems" },
+  { k: "Focus", v: "Technical leadership & full-stack systems" },
 ];
 
 export default function AboutPage() {
@@ -75,11 +75,11 @@ export default function AboutPage() {
         index="A"
         label="About"
         headingId="about-heading"
-        meta="Full-stack · Bengaluru"
+        meta="Lead engineer · Bengaluru"
         title={
           <>
-            A developer who ships end to end - with AI as a{" "}
-            <em className="text-accent-ink">tool</em>, not a shortcut.
+            A lead engineer who ships end to end - with AI as a{" "}
+            <span className="text-signal">tool</span>, not a shortcut.
           </>
         }
         intro={about.headline}
@@ -93,7 +93,7 @@ export default function AboutPage() {
 
         <div className="grid-12">
           <aside className="col-span-12 lg:col-span-4">
-            <dl>
+            <dl className="panel p-2 px-6 lg:sticky lg:top-28">
               {FACTS.map((f) => (
                 <div key={f.k} className="grid grid-cols-3 gap-4 border-t border-rule py-3.5">
                   <dt className="tag col-span-1 pt-1">{f.k}</dt>

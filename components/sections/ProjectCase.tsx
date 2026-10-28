@@ -19,9 +19,9 @@ export default function ProjectCase({ project, nextProject }: Props) {
   return (
     <article itemScope itemType="https://schema.org/CreativeWork">
       {/* ── Header ── */}
-      <header className="ruled border-b border-rule pb-14 pt-12 md:pb-20 md:pt-16">
+      <header className="relative border-b border-rule pb-14 pt-36 md:pb-20 md:pt-44">
         <div className="shell relative z-[1]">
-          <nav aria-label="Breadcrumb" className="border-b border-rule pb-4">
+          <nav aria-label="Breadcrumb">
             <ol className="flex flex-wrap items-center gap-2">
               <li>
                 <Link href="/" className="tag hover:text-ink">
@@ -52,7 +52,7 @@ export default function ProjectCase({ project, nextProject }: Props) {
             mode="words"
             immediate
             itemProp="name"
-            className="mt-5 max-w-[18ch] font-display text-d1 font-semibold text-ink"
+            className="mt-5 max-w-[16ch] font-display text-mark font-normal text-ink"
           >
             {project.title}
           </Reveal>
@@ -113,7 +113,7 @@ export default function ProjectCase({ project, nextProject }: Props) {
           <Figure
             src={project.imgSrc}
             alt={`${project.title} - interface screenshot`}
-            className="aspect-[16/9] border border-rule"
+            className="aspect-[16/9] rounded-2xl border border-rule-strong"
             sizes="(max-width: 1320px) 100vw, 1320px"
             priority
           />
@@ -122,7 +122,7 @@ export default function ProjectCase({ project, nextProject }: Props) {
 
       {/* ── Facts ── */}
       <div className="shell pt-14 md:pt-20">
-        <dl className="grid grid-cols-2 gap-x-8 gap-y-6 border-y border-rule py-6 md:grid-cols-4">
+        <dl className="grid grid-cols-2 gap-x-8 gap-y-6 rounded-2xl border border-rule bg-paper-2/60 p-6 md:grid-cols-4">
           {facts.map((f) => (
             <div key={f.k}>
               <dt className="tag tag--accent">{f.k}</dt>
@@ -211,13 +211,13 @@ export default function ProjectCase({ project, nextProject }: Props) {
           <span className="marginal col-span-12 text-accent-ink md:col-span-2">
             Next project
           </span>
-          <span className="col-span-12 font-display text-d2 text-ink transition-colors group-hover:text-accent-ink md:col-span-8">
+          <span className="col-span-12 font-display text-d2 font-normal text-ink transition-colors group-hover:text-accent-ink md:col-span-8">
             {nextProject.title}
           </span>
           <span className="col-span-12 flex md:col-span-2 md:justify-end">
             <span
               aria-hidden
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-rule-strong text-ink transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-white"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-rule-strong text-ink transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent"
             >
               ↗
             </span>

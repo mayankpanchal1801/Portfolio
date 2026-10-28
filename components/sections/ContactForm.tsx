@@ -30,7 +30,7 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-8">
+    <form onSubmit={onSubmit} className="panel space-y-8 p-6 sm:p-10">
       <div className="flex items-baseline justify-between border-b border-rule pb-3">
         <span className="tag tag--accent">Message</span>
         <span className="tag">4 fields</span>
@@ -76,7 +76,7 @@ export default function ContactForm() {
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
         <button type="submit" className="btn btn-solid w-full sm:w-auto text-center cursor-pointer">
-          Send message ↗
+          Send message →
         </button>
         {handedOff && (
           <p aria-live="polite" className="tag tag--accent text-xs">
