@@ -4,6 +4,7 @@ import { useTheme } from "@/components/chrome/ThemeProvider";
 import { navLinksArr } from "@/constants/links";
 import { contact, socials } from "@/constants/personal";
 import { projectsArr } from "@/constants/projects";
+import { lockScroll, unlockScroll } from "@/lib/lenis";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -119,11 +120,8 @@ export default function CommandPalette() {
   useEffect(() => {
     if (!open) return;
     inputRef.current?.focus();
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
+    lockScroll("palette");
+    return () => unlockScroll("palette");
   }, [open]);
 
   useEffect(() => {
@@ -158,7 +156,7 @@ export default function CommandPalette() {
 
   return (
     <div
-      className="fixed inset-0 z-[1500] flex items-start justify-center bg-ink/40 px-4 pt-[14vh] backdrop-blur-sm"
+      className="fixed inset-0 z-[1500] flex items-start justify-center bg-paper/70 px-4 pt-[14vh] backdrop-blur-md"
       onMouseDown={(e) => e.target === e.currentTarget && close()}
       role="presentation"
     >
@@ -166,7 +164,8 @@ export default function CommandPalette() {
         role="dialog"
         aria-modal="true"
         aria-label="Command palette"
-        className="w-full max-w-xl overflow-hidden rounded-2xl border border-rule-strong bg-paper-2 shadow-2xl"
+        className="w-full max-w-xl overflow-hidden border border-rule-strong bg-paper-2"
+        style={{ boxShadow: "0 40px 90px -30px var(--c-shadow)" }}
       >
         <div className="flex items-center gap-3 border-b border-rule px-5">
           <span aria-hidden className="font-mono text-accent">
@@ -184,10 +183,10 @@ export default function CommandPalette() {
             aria-label="Search commands"
             className="w-full bg-transparent py-4 text-base text-ink outline-none placeholder:text-ink-3"
           />
-          <kbd className="tag rounded border border-rule-strong px-1.5 py-1">esc</kbd>
+          <kbd className="tag border border-rule px-1.5 py-1">esc</kbd>
         </div>
 
-        <ul ref={listRef} className="max-h-[52vh] overflow-y-auto p-2">
+        <ul ref={listRef} data-lenis-prevent className="max-h-[52vh] overflow-y-auto overscroll-contain p-2">
           {results.length === 0 && (
             <li className="px-4 py-8 text-center text-sm text-ink-3">No match for “{query}”.</li>
           )}
@@ -203,8 +202,10 @@ export default function CommandPalette() {
                   onMouseMove={() => setActive(i)}
                   onClick={() => choose(item)}
                   className={clsx(
-                    "flex w-full cursor-pointer items-center justify-between gap-4 rounded-lg px-3 py-2.5 text-left text-sm transition-colors",
-                    i === active ? "bg-paper-3 text-ink" : "text-ink-2",
+                    "flex w-full cursor-pointer items-center justify-between gap-4 border-l px-3 py-2.5 text-left text-sm transition-colors",
+                    i === active
+                      ? "border-accent bg-paper-3 text-ink"
+                      : "border-transparent text-ink-2",
                   )}
                 >
                   <span className="flex items-center gap-2">

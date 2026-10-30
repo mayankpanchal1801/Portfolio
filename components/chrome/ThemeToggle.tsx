@@ -17,7 +17,7 @@ export default function ThemeToggle({ className }: { className?: string }) {
       onClick={toggle}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       title={isDark ? "Light theme" : "Dark theme"}
-      className={`group relative inline-flex h-8 w-[62px] items-center rounded-full border border-rule-strong bg-paper-2 px-1 transition-colors hover:border-ink ${className ?? ""}`}
+      className={`group relative inline-flex h-10 w-[66px] items-center border border-rule bg-paper-2 px-1 transition-colors hover:border-accent ${className ?? ""}`}
     >
       {/* The inactive icon stays on the track; the knob carries the active
           one, so the switch reads as a state, not a decoration. */}
@@ -35,7 +35,7 @@ export default function ThemeToggle({ className }: { className?: string }) {
 
       <span
         aria-hidden
-        className="relative flex h-6 w-6 items-center justify-center rounded-full bg-ink text-paper transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+        className="relative flex h-8 w-8 items-center justify-center bg-accent text-on-accent transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
         style={{ transform: isDark ? "translateX(30px)" : "translateX(0)" }}
       >
         {isDark ? <MoonIcon /> : <SunIcon />}

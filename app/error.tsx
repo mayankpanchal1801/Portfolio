@@ -36,14 +36,14 @@ export default function ErrorPage({ error, reset }: Props) {
       <div className="shell relative z-[1]">
         <div className="max-w-2xl">
           {/* Status badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent-line bg-accent-soft px-3 py-1">
+          <div className="inline-flex items-center gap-2 border border-accent-line bg-accent-soft px-3 py-2">
             <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
             <span className="font-mono text-tag uppercase tracking-[0.14em] text-accent-ink">
               Runtime Error · 500
             </span>
           </div>
 
-          <h1 className="mt-6 font-display text-[clamp(2.25rem,6vw,4.5rem)] font-normal leading-[0.95] tracking-[-0.025em] text-ink">
+          <h1 className="mt-6 font-display text-[clamp(2.25rem,6vw,4.5rem)] font-medium leading-[0.92] tracking-[-0.042em] text-ink">
             Something broke<span className="text-accent">.</span>
           </h1>
 
@@ -134,7 +134,7 @@ export default function ErrorPage({ error, reset }: Props) {
             </div>
 
             {showDetails && (
-              <div className="mt-4 rounded-sm border border-rule bg-paper-2 p-4 text-xs font-mono text-ink-2 overflow-hidden">
+              <div className="mt-4 border border-rule bg-paper-2 p-4 text-xs font-mono text-ink-2 overflow-hidden">
                 <div className="space-y-2">
                   <div>
                     <span className="text-ink-3">Name: </span>
@@ -155,7 +155,7 @@ export default function ErrorPage({ error, reset }: Props) {
                 {error?.stack && (
                   <div className="mt-4 border-t border-rule pt-3">
                     <span className="text-ink-3 block mb-1.5">Stack Trace:</span>
-                    <pre className="max-h-48 overflow-x-auto text-[0.7rem] leading-relaxed text-ink-3 whitespace-pre-wrap break-all p-2 rounded bg-paper border border-rule">
+                    <pre className="max-h-48 overflow-x-auto text-[0.7rem] leading-relaxed text-ink-3 whitespace-pre-wrap break-all p-2 bg-paper border border-rule">
                       {error.stack}
                     </pre>
                   </div>

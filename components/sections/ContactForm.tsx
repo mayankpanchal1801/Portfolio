@@ -1,5 +1,6 @@
 "use client";
 
+import Plate from "@/components/primitives/Plate";
 import { contact } from "@/constants/personal";
 import { useState } from "react";
 
@@ -11,10 +12,11 @@ const FIELDS = [
 export default function ContactForm() {
   const [handedOff, setHandedOff] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // Typed against HTMLElement because <Plate> renders the form through a
+  // polymorphic `as`, so its handler props are the generic element's.
+  const onSubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
+    const data = new FormData(e.currentTarget as HTMLFormElement);
 
     const subject = encodeURIComponent(
       `[Portfolio] ${String(data.get("subject") || "Hello")}`,
@@ -30,9 +32,9 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="panel space-y-8 p-6 sm:p-10">
+    <Plate as="form" onSubmit={onSubmit} seed="contact-form" className="space-y-8 p-6 sm:p-10">
       <div className="flex items-baseline justify-between border-b border-rule pb-3">
-        <span className="tag tag--accent">Message</span>
+        <span className="tag tag--accent">fig. C.1 — message</span>
         <span className="tag">4 fields</span>
       </div>
 
@@ -89,6 +91,6 @@ export default function ContactForm() {
         This form composes the message in your own email client - nothing is sent
         to a server, and nothing is stored.
       </p>
-    </form>
+    </Plate>
   );
 }

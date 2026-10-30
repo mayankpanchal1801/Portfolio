@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 export const size = { width: 512, height: 512 };
 export const contentType = "image/png";
 
-/** Sage slab, stone monogram - the site mark at favicon scale. */
+/** Clay slab, near-black monogram - the site mark at favicon scale. */
 export default function Icon() {
   return new ImageResponse(
     (
@@ -14,8 +14,8 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#2F6B52",
-          color: "#F3F1EA",
+          background: "#D97757",
+          color: "#0A0C0B",
           fontSize: 320,
           fontWeight: 700,
           letterSpacing: "-0.06em",

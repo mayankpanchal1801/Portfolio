@@ -3,6 +3,7 @@ import Approach from "@/components/sections/Approach";
 import Chronology from "@/components/sections/Chronology";
 import ContactCta from "@/components/sections/ContactCta";
 import Hero from "@/components/sections/Hero";
+import Interlude from "@/components/sections/Interlude";
 import Stats from "@/components/sections/Stats";
 import SelectedWork from "@/components/sections/SelectedWork";
 import Toolkit from "@/components/sections/Toolkit";
@@ -70,18 +71,25 @@ export default function Home() {
     <>
       <Hero />
 
-      <div className="relative z-[1] border-y border-rule bg-paper-2/60 py-6 backdrop-blur-sm">
+      <div className="glass relative z-[1] border-y border-rule py-5">
         <Drift
           items={STACK_TICKER}
           duration={60}
-          itemClassName="font-display text-[clamp(1.25rem,2.4vw,1.9rem)] font-normal tracking-[-0.03em] text-ink-3"
+          itemClassName="font-mono text-[clamp(0.8rem,1.3vw,1rem)] uppercase tracking-[0.2em] text-ink-3"
         />
       </div>
 
       <Stats />
 
       <SelectedWork />
-      <Approach />
+
+      {/* The zoom-through hands the page to the other palette; the region
+          after it keeps that palette and fades back at its foot. */}
+      <Interlude />
+      <div data-invert className="invert-fade">
+        <Approach />
+      </div>
+
       <Toolkit />
       <Chronology />
       <ContactCta />

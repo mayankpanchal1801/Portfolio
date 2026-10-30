@@ -21,8 +21,8 @@ export default function GlobalError({
         style={{
           margin: 0,
           padding: 0,
-          backgroundColor: "#F3F1EA",
-          color: "#1B2420",
+          backgroundColor: "#0A0C0B",
+          color: "#F0EEE8",
           fontFamily:
             'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         }}
@@ -41,10 +41,10 @@ export default function GlobalError({
               style={{
                 display: "inline-block",
                 padding: "0.25rem 0.75rem",
-                borderRadius: "9999px",
-                backgroundColor: "#E3EDE6",
-                border: "1px solid #B4CFC0",
-                color: "#24543F",
+                borderRadius: "2px",
+                backgroundColor: "#241510",
+                border: "1px solid #52291B",
+                color: "#EC9272",
                 fontSize: "0.75rem",
                 fontWeight: 600,
                 textTransform: "uppercase",
@@ -63,7 +63,7 @@ export default function GlobalError({
                 letterSpacing: "-0.03em",
               }}
             >
-              Application error<span style={{ color: "#2F6B52" }}>.</span>
+              Application error<span style={{ color: "#D97757" }}>.</span>
             </h1>
 
             <p
@@ -71,7 +71,7 @@ export default function GlobalError({
                 marginTop: "1.25rem",
                 fontSize: "1.1rem",
                 lineHeight: 1.6,
-                color: "#3C4842",
+                color: "#B6B3AB",
               }}
             >
               A critical error occurred while rendering the application. You can
@@ -91,10 +91,10 @@ export default function GlobalError({
                 onClick={reset}
                 style={{
                   padding: "0.85rem 1.5rem",
-                  backgroundColor: "#2F6B52",
-                  color: "#F7F6F1",
+                  backgroundColor: "#D97757",
+                  color: "#0A0C0B",
                   border: "none",
-                  borderRadius: "3px",
+                  borderRadius: "2px",
                   fontSize: "0.85rem",
                   fontWeight: 600,
                   letterSpacing: "0.08em",
@@ -115,9 +115,9 @@ export default function GlobalError({
                 style={{
                   padding: "0.85rem 1.5rem",
                   backgroundColor: "transparent",
-                  color: "#1B2420",
-                  border: "1px solid #B3AD9E",
-                  borderRadius: "3px",
+                  color: "#F0EEE8",
+                  border: "1px solid #3A403C",
+                  borderRadius: "2px",
                   fontSize: "0.85rem",
                   fontWeight: 600,
                   letterSpacing: "0.08em",
@@ -130,7 +130,7 @@ export default function GlobalError({
             </div>
 
             {error && (
-              <div style={{ marginTop: "2.5rem", borderTop: "1px solid #D5D1C4", paddingTop: "1.5rem" }}>
+              <div style={{ marginTop: "2.5rem", borderTop: "1px solid #232725", paddingTop: "1.5rem" }}>
                 <button
                   type="button"
                   onClick={() => setShowDetails((v) => !v)}
@@ -139,7 +139,7 @@ export default function GlobalError({
                     border: "none",
                     padding: 0,
                     fontSize: "0.75rem",
-                    color: "#5E6B64",
+                    color: "#7C807B",
                     textTransform: "uppercase",
                     letterSpacing: "0.1em",
                     cursor: "pointer",
@@ -153,8 +153,8 @@ export default function GlobalError({
                     style={{
                       marginTop: "1rem",
                       padding: "1rem",
-                      backgroundColor: "#E8E6DC",
-                      borderRadius: "4px",
+                      backgroundColor: "#121514",
+                      borderRadius: "2px",
                       fontSize: "0.8rem",
                       fontFamily: "monospace",
                       overflowX: "auto",

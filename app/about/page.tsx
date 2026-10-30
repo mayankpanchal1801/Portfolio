@@ -1,4 +1,6 @@
+import FigureLabel from "@/components/primitives/FigureLabel";
 import PageHeader from "@/components/primitives/PageHeader";
+import Plate from "@/components/primitives/Plate";
 import Reveal from "@/components/primitives/Reveal";
 import Chronology from "@/components/sections/Chronology";
 import ContactCta from "@/components/sections/ContactCta";
@@ -79,7 +81,7 @@ export default function AboutPage() {
         title={
           <>
             A lead engineer who ships end to end - with AI as a{" "}
-            <span className="text-signal">tool</span>, not a shortcut.
+            <span className="lit">tool</span>, not a shortcut.
           </>
         }
         intro={about.headline}
@@ -93,14 +95,14 @@ export default function AboutPage() {
 
         <div className="grid-12">
           <aside className="col-span-12 lg:col-span-4">
-            <dl className="panel p-2 px-6 lg:sticky lg:top-28">
+            <Plate as="dl" seed="about-facts" className="px-6 py-2 lg:sticky lg:top-28">
               {FACTS.map((f) => (
-                <div key={f.k} className="grid grid-cols-3 gap-4 border-t border-rule py-3.5">
+                <div key={f.k} className="grid grid-cols-3 gap-4 border-t border-rule py-4 first:border-t-0">
                   <dt className="tag col-span-1 pt-1">{f.k}</dt>
                   <dd className="col-span-2 text-sm text-ink">{f.v}</dd>
                 </div>
               ))}
-            </dl>
+            </Plate>
           </aside>
 
           <div className="col-span-12 mt-14 lg:col-span-7 lg:col-start-6 lg:mt-0">
@@ -133,7 +135,7 @@ export default function AboutPage() {
 
             {/* Principles */}
             <div className="mt-16 border-t border-rule pt-8">
-              <p className="tag tag--accent">Principles</p>
+              <FigureLabel index="A.1" label="principles" className="w-full" />
               <ol className="mt-6 grid gap-x-10 gap-y-8 sm:grid-cols-2">
                 {about.values.map((v, i) => (
                   <Reveal
@@ -146,7 +148,7 @@ export default function AboutPage() {
                     <span className="marginal text-accent-ink">
                       {String(i + 1).padStart(2, "0")} / 04
                     </span>
-                    <h3 className="mt-3 font-display text-lg text-ink">{v.title}</h3>
+                    <h3 className="mt-3 font-display text-lg font-medium text-ink">{v.title}</h3>
                     <p className="mt-2 text-sm text-ink-2">{v.body}</p>
                   </Reveal>
                 ))}
@@ -156,9 +158,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <Chronology full index="A1" headingId="about-chronology-heading" />
-      <Toolkit index="A2" headingId="about-toolkit-heading" />
-      <ContactCta index="A3" headingId="about-contact-heading" />
+      <Chronology full index="A.2" headingId="about-chronology-heading" />
+      <Toolkit index="A.3" headingId="about-toolkit-heading" />
+      <ContactCta index="A.4" headingId="about-contact-heading" />
 
       <script
         type="application/ld+json"

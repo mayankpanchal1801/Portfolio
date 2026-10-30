@@ -2,9 +2,11 @@
 
 import { PALETTE_EVENT } from "@/components/chrome/CommandPalette";
 import ThemeToggle from "@/components/chrome/ThemeToggle";
+import Roll from "@/components/primitives/Roll";
 import { navLinksArr } from "@/constants/links";
 import { contact, site } from "@/constants/personal";
 import { gsap } from "@/lib/gsap-config";
+import { lockScroll, unlockScroll } from "@/lib/lenis";
 import { prefersReducedMotion } from "@/lib/split-text";
 import clsx from "clsx";
 import Link from "next/link";
@@ -16,8 +18,8 @@ function isActive(pathname: string, url: string) {
 }
 
 /**
- * Floating pill navigation. Slides away on scroll-down and returns on
- * scroll-up; the mobile menu is a full-screen sheet with staggered links.
+ * The instrument bar. Slides away on scroll-down and returns on scroll-up;
+ * the mobile menu is a full-screen sheet with staggered links.
  */
 export default function Header() {
   const pathname = usePathname();
@@ -52,18 +54,17 @@ export default function Header() {
   }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = menu ? "hidden" : "";
-    if (!menu || prefersReducedMotion()) return;
+    if (!menu) return;
+    lockScroll("menu");
     const sheet = sheetRef.current;
-    if (!sheet) return;
-    gsap.fromTo(
-      sheet.querySelectorAll("[data-item]"),
-      { yPercent: 110, opacity: 0 },
-      { yPercent: 0, opacity: 1, duration: 0.8, stagger: 0.07, ease: "expo.out", delay: 0.1 },
-    );
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (sheet && !prefersReducedMotion()) {
+      gsap.fromTo(
+        sheet.querySelectorAll("[data-item]"),
+        { yPercent: 110, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 0.8, stagger: 0.07, ease: "expo.out", delay: 0.1 },
+      );
+    }
+    return () => unlockScroll("menu");
   }, [menu]);
 
   return (
@@ -71,13 +72,14 @@ export default function Header() {
       <header ref={barRef} className="fixed inset-x-0 top-0 z-[900] flex justify-center px-4 pt-4">
         <nav
           aria-label="Primary"
-          className="flex w-full max-w-[1100px] items-center justify-between gap-3 rounded-full border border-rule bg-paper/70 py-2 pl-5 pr-2 shadow-[0_8px_40px_-12px_rgba(18,20,29,0.2)] backdrop-blur-xl"
+          className="flex w-full max-w-[1180px] items-center justify-between gap-3 border border-rule bg-paper/70 py-2 pl-4 pr-2 shadow-[inset_0_1px_0_var(--c-sheen),0_22px_50px_-34px_var(--c-shadow)] backdrop-blur-xl"
+          style={{ boxShadow: "0 10px 40px -16px var(--c-shadow)" }}
         >
           <Link href="/" className="flex items-center gap-2.5" aria-label={`${site.name} - home`}>
-            <span className="grid h-7 w-7 place-items-center rounded-full bg-accent font-display text-[0.8rem] font-normal text-on-accent">
+            <span className="grid h-8 w-8 place-items-center bg-accent font-display text-[0.9rem] font-medium tracking-[-0.03em] text-on-accent">
               M
             </span>
-            <span className="hidden font-display text-[1.3rem] font-normal sm:block">
+            <span className="hidden font-display text-[1.15rem] font-medium tracking-[-0.03em] sm:block">
               {site.name}
             </span>
           </Link>
@@ -91,13 +93,20 @@ export default function Header() {
                     href={l.url}
                     aria-current={active ? "page" : undefined}
                     className={clsx(
-                      "block rounded-full px-4 py-2 font-mono text-[0.72rem] uppercase tracking-[0.1em] transition-colors",
-                      active
-                        ? "bg-paper-3 text-ink"
-                        : "text-ink-3 hover:text-ink",
+                      "group relative block px-4 py-2.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] transition-colors",
+                      active ? "text-ink" : "text-ink-3 hover:text-ink",
                     )}
                   >
-                    {l.name}
+                    <Roll>{l.name}</Roll>
+                    {/* The reference underlines the live section with a pencil
+                        stroke that draws itself in; here it is one clay pixel. */}
+                    <span
+                      aria-hidden
+                      className={clsx(
+                        "absolute inset-x-3 bottom-1 h-px origin-left bg-accent transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                        active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
+                      )}
+                    />
                   </Link>
                 </li>
               );
@@ -108,10 +117,10 @@ export default function Header() {
             <button
               type="button"
               onClick={() => window.dispatchEvent(new Event(PALETTE_EVENT))}
-              className="hidden cursor-pointer items-center gap-2 rounded-full border border-rule-strong px-3 py-2 font-mono text-[0.68rem] text-ink-3 transition-colors hover:border-accent hover:text-ink lg:flex"
+              className="hidden cursor-pointer items-center gap-2 border border-rule px-3 py-2.5 font-mono text-[0.64rem] uppercase tracking-[0.14em] text-ink-3 transition-colors hover:border-accent hover:text-ink lg:flex"
               aria-label="Open command palette"
             >
-              Search <kbd className="rounded bg-paper-3 px-1.5 py-0.5">⌘K</kbd>
+              Search <kbd className="bg-paper-3 px-1.5 py-0.5 tracking-normal">⌘K</kbd>
             </button>
             <ThemeToggle />
       
@@ -121,7 +130,7 @@ export default function Header() {
               aria-expanded={menu}
               aria-controls="mobile-menu"
               aria-label={menu ? "Close menu" : "Open menu"}
-              className="grid h-9 w-9 cursor-pointer place-items-center rounded-full border border-rule-strong md:hidden"
+              className="grid h-10 w-10 cursor-pointer place-items-center border border-rule md:hidden"
             >
               <span className="relative block h-2.5 w-4">
                 <span
@@ -158,7 +167,7 @@ export default function Header() {
               <Link
                 data-item
                 href={l.url}
-                className="flex items-baseline justify-between py-5 font-display text-[clamp(2.75rem,14vw,5rem)] font-normal leading-none tracking-[-0.03em]"
+                className="flex items-baseline justify-between py-5 font-display text-[clamp(2.75rem,14vw,5rem)] font-medium leading-none tracking-[-0.045em]"
               >
                 {l.name}
                 <span className="tag">0{i + 1}</span>
@@ -168,7 +177,7 @@ export default function Header() {
         </ul>
         <div data-item>
           <p className="tag">Say hello</p>
-          <a href={`mailto:${contact.email}`} className="mt-3 block font-display text-xl break-all text-accent">
+          <a href={`mailto:${contact.email}`} className="mt-3 block font-display text-xl font-medium break-all text-accent">
             {contact.email}
           </a>
         </div>

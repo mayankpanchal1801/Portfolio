@@ -1,12 +1,13 @@
 "use client";
 
 import { gsap } from "@/lib/gsap-config";
+import { whenReady } from "@/lib/ready";
 import { prefersReducedMotion, splitWords } from "@/lib/split-text";
 import { useGSAP } from "@gsap/react";
 import clsx from "clsx";
 import { useRef } from "react";
 
-type Mode = "words" | "rise" | "fade";
+type Mode = "words" | "rise" | "fade" | "depth";
 
 type Props = {
   as?: React.ElementType;
@@ -56,11 +57,29 @@ export default function Reveal({
           ? { yPercent: 108, duration, stagger, ease: "expo.out" }
           : mode === "rise"
             ? { y: 34, opacity: 0, duration, ease: "expo.out" }
-            : { y: 14, opacity: 0, duration: duration * 0.8, ease: "power2.out" };
+            : mode === "depth"
+              ? {
+                  // Tips up off the floor and comes forward. The negative
+                  // Z in the origin puts the hinge behind the element, so
+                  // it swings rather than pivots on its own bottom edge.
+                  y: 56,
+                  z: -220,
+                  rotationX: -30,
+                  opacity: 0,
+                  duration: duration * 1.2,
+                  ease: "expo.out",
+                  transformOrigin: "50% 100% -60px",
+                  transformPerspective: 1100,
+                }
+              : { y: 14, opacity: 0, duration: duration * 0.8, ease: "power2.out" };
 
-      gsap.from(targets, {
+      // `immediate` reveals are created paused so they are not spent behind
+      // the preloader; lib/ready opens the gate once the panel has lifted
+      // (and on a safety timeout, so this can never strand the content).
+      const tween = gsap.from(targets, {
         ...vars,
         delay,
+        paused: immediate,
         ...(immediate
           ? {}
           : {
@@ -71,6 +90,8 @@ export default function Reveal({
               },
             }),
       });
+
+      if (immediate) return whenReady(() => tween.play());
     },
     { scope: ref, dependencies: [mode, delay, stagger, duration, immediate] },
   );

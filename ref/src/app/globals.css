@@ -1,0 +1,629 @@
+@import "tailwindcss";
+@import "locomotive-scroll/locomotive-scroll.css";
+
+/* Palette: warm gray scale (ivory → slate), clay accent, and illustration hues
+   (cactus, sky, heather, plum, mineral, peach). Layout language: pencil sketchbook. */
+@theme {
+  --color-paper: #faf9f5; /* gray-050 — the page */
+  --color-card: #ffffff; /* gray-000 — cards, notes */
+  --color-paper-dim: #f0eee6; /* gray-150 — tracks, image wells */
+  --color-ink: #141413; /* gray-950 — text, strokes */
+  --color-ink-soft: #5e5d59; /* gray-600 — body copy */
+  --color-ash: #87867f; /* gray-500 — tertiary */
+  --color-signal: #d97757; /* clay */
+  --color-clay-deep: #c6613f; /* clay-hover */
+  --color-oat: #e8e6dc; /* gray-200 — tape, sticky notes, badges */
+  --color-mineral: #629987;
+  --color-plum: #827dbd;
+  --color-cactus: #bcd1ca;
+  --color-sky: #6a9bcc;
+  --color-heather: #cbcadb;
+  --color-peach: #ebc9b7;
+
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-head: var(--font-kalam), "Comic Sans MS", cursive;
+  --font-hand: var(--font-caveat), "Comic Sans MS", cursive;
+  /* Accent "serif" slots render in the hand font so italics read as pencil notes. */
+  --font-serif: var(--font-caveat), "Comic Sans MS", cursive;
+
+  --radius-sketchy: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --radius-sketchy-2: 15px 255px 15px 225px / 225px 15px 255px 15px;
+  --radius-blob: 58% 42% 55% 45% / 45% 55% 42% 58%;
+
+  /* Text on clay stays dark in both themes. */
+  --color-on-clay: #141413;
+
+  --shadow-ink: 4px 5px 0 var(--shadow-color);
+  --shadow-ink-lg: 7px 8px 0 var(--shadow-color);
+  --shadow-btn: 3px 4px 0 var(--color-ink);
+  --shadow-note: 0 10px 18px -12px rgb(0 0 0 / 0.5);
+
+  --leading-statement: 1.32;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --breakpoint-md: 48rem;
+
+  @keyframes tick-rise {
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  @keyframes tick-draw {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes nudge {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
+  }
+}
+
+/* Short desktop windows (≤ 800px tall) — tighter vertical rhythm. */
+/* The sideways "strip" layout is for mouse/trackpad screens only. Touch devices of any width
+   (phones, tablets, touch laptops in tablet mode) get the stacked vertical layout, where a
+   vertical swipe scrolls. `md:` everywhere means "strip layout"; keep in sync with STRIP in
+   src/components/scroll/smooth-scroll.tsx. */
+@custom-variant md (@media (width >= 48rem) and (hover: hover) and (pointer: fine));
+@custom-variant short (@media (width >= 48rem) and (hover: hover) and (pointer: fine) and (height <= 880px));
+
+@layer base {
+  :root {
+    color-scheme: light;
+    -webkit-tap-highlight-color: transparent;
+    --header-h: 72px;
+    --shadow-color: rgb(20 20 19 / 0.9);
+    /* The shared top line: every section's first text block starts here on desktop. */
+    --top-gap: 8vh;
+    --top-line: calc(var(--header-h) + var(--top-gap));
+    /* Height of the career ruler pinned to the bottom (desktop). */
+    --ruler-h: 104px;
+    --section-y: clamp(3rem, 2rem + 4vw, 4.5rem);
+    --block-gap: clamp(3rem, 2.25rem + 3vw, 4rem);
+  }
+
+  /* Headings break into even lines; body copy avoids one-word last lines. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /* Dark theme — slate page, ivory ink, the same clay accent. Set on <html>
+     by the inline script in layout.tsx before first paint, then by <ThemeToggle>. */
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --color-paper: #141413; /* gray-950 */
+    --color-card: #262624; /* gray-800 */
+    --color-paper-dim: #30302e; /* gray-750 */
+    --color-ink: #faf9f5; /* gray-050 */
+    --color-ink-soft: #9c9a92; /* gray-450 */
+    --color-ash: #87867f; /* gray-500 */
+    --color-oat: #3d3d3a; /* gray-700 */
+    /* Illustration washes are the light hues sunk into the page, so they read as tints. */
+    --color-cactus: color-mix(in srgb, #bcd1ca 24%, #141413);
+    --color-heather: color-mix(in srgb, #cbcadb 22%, #141413);
+    --shadow-color: rgb(0 0 0 / 0.6);
+  }
+
+  html {
+    background: var(--color-paper);
+  }
+
+  @media (width >= 48rem) and (hover: hover) and (pointer: fine) and (height <= 820px) {
+    html {
+      font-size: clamp(13px, calc(100svh / 51), 16px);
+    }
+  }
+
+  body {
+    @apply font-sans text-ink antialiased;
+    background-color: var(--color-paper);
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease;
+    font-size: 1.03125rem;
+    line-height: 1.6;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Tailwind v4 preflight resets buttons to cursor: default. */
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* Stacked (touch / narrow) layout: keep content clear of notches and the home indicator.
+     The strip layout is mouse-only, where safe-area insets are always 0. */
+  @media not ((width >= 48rem) and (hover: hover) and (pointer: fine)) {
+    body {
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+      /* Room for the fixed bottom nav (4rem) above the home indicator. */
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+    }
+  }
+
+  /* Touch: grow small controls' hit areas to ~44px without changing how they look. */
+  @media (pointer: coarse) {
+    .tap-area {
+      position: relative;
+    }
+
+    .tap-area::after,
+    .btn::after {
+      content: "";
+      position: absolute;
+      inset: -8px -4px;
+    }
+  }
+
+  ::selection {
+    background: rgb(217 119 87 / 0.35);
+  }
+
+  :focus-visible {
+    outline: 2px dashed var(--color-signal);
+    outline-offset: 4px;
+  }
+
+  /* Desktop runs the whole page along the x-axis (Locomotive / Lenis, orientation: horizontal). */
+  @media (width >= 48rem) {
+    /* Only on <html>: any overflow on <body> would make it the scroll container and clip the strip. */
+    html[data-scroll-orientation="horizontal"] {
+      overflow-y: hidden;
+      overscroll-behavior: none;
+    }
+
+    html {
+      scrollbar-width: none;
+    }
+
+    html::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  /* Keep the page from being scrolled while the preloader is up. */
+  html.is-loading,
+  html.is-loading body {
+    overflow: hidden !important;
+  }
+}
+
+@layer components {
+  /* Small pencil label — "fig. 01 — about me", meta lines, footers. */
+  .eyebrow {
+    font-family: var(--font-hand);
+    font-size: 1.3rem;
+    line-height: 1.25;
+  }
+
+  /* Display headings — chunky marker (Kalam 700). */
+  .display {
+    font-family: var(--font-head);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+  }
+
+  .title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    /* Height-aware so headings leave room for the landscape on short, wide screens. */
+    font-size: clamp(2rem, min(3.6vw, 5.8vh), 3.3rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  /* Highlighter swipe — two uneven marker passes (inline SVG), drawn in once an ancestor
+     (or itself) gets .is-lit. */
+  .hl {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 200 40%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M3 13 C 40 7 95 11 150 8 C 170 7 186 9 197 10 L 196 31 C 150 34 100 30 55 33 C 35 34 15 32 4 34 Z%27 fill=%27rgb%28217 119 87 / 0.3%29%27/%3E%3Cpath d=%27M6 19 C 60 15 120 18 194 15 L 192 27 C 130 30 70 26 8 29 Z%27 fill=%27rgb%28217 119 87 / 0.28%29%27/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0 90%;
+    background-size: 0% 52%;
+    padding: 0 4px;
+    margin: 0 -4px;
+    box-decoration-break: clone;
+    transition: background-size 1s 0.35s cubic-bezier(0.6, 0, 0.2, 1);
+  }
+
+  .is-lit .hl,
+  .hl.is-lit {
+    background-size: 100% 52%;
+  }
+
+  .hl--mineral {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 200 40%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M3 13 C 40 7 95 11 150 8 C 170 7 186 9 197 10 L 196 31 C 150 34 100 30 55 33 C 35 34 15 32 4 34 Z%27 fill=%27rgb%2898 153 135 / 0.3%29%27/%3E%3Cpath d=%27M6 19 C 60 15 120 18 194 15 L 192 27 C 130 30 70 26 8 29 Z%27 fill=%27rgb%2898 153 135 / 0.26%29%27/%3E%3C/svg%3E");
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    color: var(--color-on-clay);
+    position: relative;
+    isolation: isolate;
+    --btn-fill: var(--color-signal);
+    padding: 0.6875rem 1.375rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  @media (hover: hover) {
+    .btn:hover {
+      --btn-fill: var(--color-clay-deep);
+      transform: translate(-2px, -2px) rotate(-1deg);
+    }
+  }
+
+  .btn:active {
+    transform: translate(2px, 3px);
+  }
+
+  .btn--ghost {
+    --btn-fill: var(--color-card);
+    color: var(--color-ink);
+  }
+
+  @media (hover: hover) {
+    .btn--ghost:hover {
+      --btn-fill: var(--color-paper-dim);
+    }
+  }
+
+  .btn--small {
+    padding: 0.375rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  /* Paper, outline and hatched shadow are drawn by <Rough preset="card"> inside the card. */
+  .card {
+    position: relative;
+    isolation: isolate;
+    padding: 1.5rem 1.625rem;
+    rotate: var(--tilt, 0deg);
+  }
+
+  .card--taped::before {
+    content: "";
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    width: 92px;
+    height: 26px;
+    translate: -50% 0;
+    rotate: -3deg;
+    background: color-mix(in srgb, var(--color-oat) 85%, transparent);
+    border-inline: 1px dashed color-mix(in srgb, var(--color-ink) 20%, transparent);
+  }
+
+  .card--lift {
+    transition: translate 0.25s;
+  }
+
+  @media (hover: hover) {
+    .card--lift:hover {
+      translate: -3px -3px;
+    }
+  }
+
+  .note {
+    background: var(--color-oat);
+    padding: 18px 20px;
+    border-radius: 2px 2px 26px 2px;
+    box-shadow: var(--shadow-note);
+    rotate: var(--tilt, 0deg);
+  }
+
+  /* Box drawn by <Rough preset="chip" | "chip-featured">. */
+  .chip {
+    position: relative;
+    isolation: isolate;
+    display: inline-block;
+    padding: 0 9px;
+    font-size: 0.8125rem;
+    line-height: 1.5rem;
+    color: var(--color-ink-soft);
+  }
+
+  .chip--featured {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+
+  /* Hand-drawn check marks: a pencil tick (SVG mask) tinted mineral, centred on the first line. */
+  .ticks {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .ticks li {
+    position: relative;
+    padding-left: 2rem;
+    color: var(--color-ink-soft);
+  }
+
+  .ticks li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: calc((1lh - 1.25rem) / 2);
+    width: 1.25rem;
+    height: 1.25rem;
+    background: var(--color-mineral);
+    mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27black%27 stroke-width=%272.6%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M1.4 12.8c1.6 1.1 3.3 3 4.6 5.4c2.8-6 7-10.6 12.4-14%27/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  /* Entrance: hidden until the scroll engine marks the list .is-lit, then staggered by --i. */
+  .ticks[data-lit] li {
+    opacity: 0;
+    translate: 0 10px;
+  }
+
+  .ticks[data-lit] li::before {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .ticks.is-lit li {
+    animation: tick-rise 0.7s var(--ease-out-expo) forwards;
+    animation-delay: calc(0.15s + var(--i, 0) * 0.14s);
+  }
+
+  .ticks.is-lit li::before {
+    animation: tick-draw 0.5s cubic-bezier(0.6, 0, 0.3, 1) forwards;
+    animation-delay: calc(0.4s + var(--i, 0) * 0.14s);
+  }
+
+  .link-line {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size 0.6s var(--ease-out-expo);
+  }
+
+  .link-line:focus-visible {
+    background-position: 0% 100%;
+    background-size: 100% 2px;
+  }
+
+  @media (hover: hover) {
+    .link-line:hover {
+      background-position: 0% 100%;
+      background-size: 100% 2px;
+    }
+  }
+
+  /* Lines are split at measure time; a small difference at paint time must not re-wrap them
+     (that orphaned single words like "Tell" on their own line). */
+  [data-reveal] > * {
+    white-space: nowrap;
+    /* SplitText's mask sets an inline overflow: clip; keep the vertical clip for the
+       slide-up, but let a few px of overhang through on the right. */
+    overflow-x: visible !important;
+    overflow-y: clip !important;
+  }
+
+  /* SplitText masks need a little room for the marker font's descenders. */
+  .w-mask {
+    padding: 0 0.06em 0.16em;
+    margin: 0 -0.06em -0.16em;
+  }
+
+  /* Paper grain over everything. */
+  .grain::after {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3  0 0 0 0 .28  0 0 0 0 .25  0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* The clay highlighter needs a little more ink to read on slate. */
+  :root[data-theme="dark"] .hl {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 200 40%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M3 13 C 40 7 95 11 150 8 C 170 7 186 9 197 10 L 196 31 C 150 34 100 30 55 33 C 35 34 15 32 4 34 Z%27 fill=%27rgb%28217 119 87 / 0.42%29%27/%3E%3Cpath d=%27M6 19 C 60 15 120 18 194 15 L 192 27 C 130 30 70 26 8 29 Z%27 fill=%27rgb%28217 119 87 / 0.38%29%27/%3E%3C/svg%3E");
+  }
+
+  :root[data-theme="dark"] .grain::after {
+    mix-blend-mode: screen;
+    opacity: 0.1;
+  }
+}
+
+/* Logo: the monogram letters draw in once the preloader lifts; the tile straightens on hover. */
+.logo-draw path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+html:not(.is-loading) .logo-draw path {
+  animation: sketch-draw 0.7s cubic-bezier(0.6, 0, 0.3, 1) forwards;
+}
+
+html:not(.is-loading) .logo-draw path + path {
+  animation-delay: 0.35s;
+}
+
+.logo-tile,
+.logo-shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.35s var(--ease-out-expo);
+}
+
+.logo-tile {
+  transform: rotate(-4deg);
+}
+
+.group:focus-visible .logo-tile {
+  transform: rotate(0deg) translate(-1px, -1px);
+}
+
+.group:focus-visible .logo-shadow {
+  transform: translate(1.5px, 1.5px);
+}
+
+@media (hover: hover) {
+  .group:hover .logo-tile {
+    transform: rotate(0deg) translate(-1px, -1px);
+  }
+
+  .group:hover .logo-shadow {
+    transform: translate(1.5px, 1.5px);
+  }
+}
+
+@keyframes sketch-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* One drop: the clay ink. Every mark below is ink-driven when the director runs; without it
+   (no script, reduced motion) each falls back to its finished look. */
+.ink-layer {
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="dark"] .ink-layer {
+  mix-blend-mode: screen;
+}
+
+.chip--featured > svg {
+  opacity: calc(0.2 + 0.8 * var(--ink, 1));
+}
+
+.ink-step-fill {
+  scale: var(--ink, 0);
+}
+
+[data-ink-frame] {
+  mask-image: radial-gradient(
+    circle at var(--ix, 50%) var(--iy, 50%),
+    #000 calc(var(--ir, 300vmax) - 56px),
+    rgb(0 0 0 / 0.14) var(--ir, 300vmax)
+  );
+}
+
+.ink-seal-ring {
+  fill: none;
+  stroke: var(--color-clay-deep);
+}
+
+.ink-seal-mark {
+  fill: var(--color-clay-deep);
+}
+
+.specimen-line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--color-signal) calc(var(--ink, 0) * 100%), var(--color-ink));
+  stroke-width: 1.3;
+  stroke-linecap: round;
+}
+
+.specimen-ghost {
+  opacity: 0.45;
+}
+
+.specimen-drop {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 1.4;
+  stroke-dasharray: 6 6;
+  opacity: calc(1 - var(--ink, 0) * 0.7);
+}
+
+.specimen-tag {
+  opacity: var(--ink, 0);
+}
+
+/* Pencil strokes for the inline SVG drawings. */
+.ink {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 2.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ink.ghost {
+  stroke-width: 1.1;
+  opacity: 0.5;
+}
+
+.ink.thin {
+  stroke-width: 1.3;
+}
+
+.ink.clay {
+  stroke: var(--color-signal);
+}
+
+.ink.sky {
+  stroke: var(--color-sky);
+}
+
+.ink.mineral {
+  stroke: var(--color-mineral);
+}
+
+/* Rings around the stats draw themselves in when lit. */
+[data-ring] path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.1s 0.2s cubic-bezier(0.6, 0, 0.3, 1);
+}
+
+.is-lit [data-ring] path {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hl {
+    transition: none;
+    background-size: 100% 52%;
+  }
+
+  [data-ring] path {
+    transition: none;
+    stroke-dashoffset: 0;
+  }
+
+  .logo-draw path {
+    animation: none !important;
+    stroke-dashoffset: 0;
+  }
+
+  .ticks[data-lit] li,
+  .ticks[data-lit] li::before {
+    animation: none !important;
+    opacity: 1;
+    translate: none;
+    clip-path: none;
+  }
+}

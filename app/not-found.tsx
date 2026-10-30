@@ -12,14 +12,14 @@ export default function NotFound() {
     <section className="ruled flex min-h-[75vh] items-center py-12 sm:py-16 md:py-24">
       <div className="shell relative z-[1]">
         <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent-line bg-accent-soft px-3 py-1">
+          <div className="inline-flex items-center gap-2 border border-accent-line bg-accent-soft px-3 py-2">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             <span className="font-mono text-tag uppercase tracking-[0.14em] text-accent-ink">
               Page Not Found · 404
             </span>
           </div>
 
-          <h1 className="mt-6 font-display text-[clamp(2.5rem,7vw,5rem)] font-normal leading-[0.95] tracking-[-0.025em] text-ink">
+          <h1 className="mt-6 font-display text-[clamp(2.5rem,7vw,5rem)] font-medium leading-[0.92] tracking-[-0.042em] text-ink">
             Not found<span className="text-accent">.</span>
           </h1>
 

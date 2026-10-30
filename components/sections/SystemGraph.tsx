@@ -1,9 +1,10 @@
 "use client";
 
-import { gsap } from "@/lib/gsap-config";
+import Mark from "@/components/primitives/Mark";
 import { prefersReducedMotion } from "@/lib/split-text";
+import { useTilt } from "@/lib/use-tilt";
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 type NodeId = "client" | "edge" | "api" | "worker" | "pg" | "redis" | "ci";
 
@@ -47,15 +48,23 @@ function path(from: NodeId, to: NodeId) {
 }
 
 /**
- * The hero's centrepiece: a live architecture diagram. Packets travel the
- * real request path (client → edge → API → data), nodes light up on hover
- * with a one-line note, and a request log scrolls underneath. The card
- * tilts toward the pointer.
+ * The hero's centrepiece: a live architecture diagram - the instrument
+ * panel in place of the reference's hand-drawn specimen plate. Packets
+ * travel the real request path (client → edge → API → data), nodes light
+ * up on hover with a one-line note, and a request log scrolls underneath.
+ *
+ * The card swings toward the pointer on both axes and a specular band
+ * crosses it as you enter - the depth is what stops a wireframe diagram
+ * from reading as a screenshot.
+ *
+ * `tilt` is a prop because an owner may want to swing a larger assembly
+ * around the card instead (see HeroInstrument); 0 keeps the pointer
+ * tracking that feeds the spotlight and drops the rotation.
  */
-export default function SystemGraph() {
+export default function SystemGraph({ tilt = 9 }: { tilt?: number }) {
   const [hover, setHover] = useState<NodeId | null>(null);
   const [lines, setLines] = useState<string[]>(LOG.slice(0, 3));
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useTilt<HTMLDivElement>({ max: tilt, lift: 18, perspective: 1100 });
 
   // Rolling request log.
   useEffect(() => {
@@ -68,45 +77,22 @@ export default function SystemGraph() {
     return () => clearInterval(id);
   }, []);
 
-  // Pointer tilt.
-  useEffect(() => {
-    const card = cardRef.current;
-    if (!card || prefersReducedMotion()) return;
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-
-    const rx = gsap.quickTo(card, "rotationX", { duration: 0.8, ease: "power3.out" });
-    const ry = gsap.quickTo(card, "rotationY", { duration: 0.8, ease: "power3.out" });
-    gsap.set(card, { transformPerspective: 1100 });
-
-    const onMove = (e: PointerEvent) => {
-      const r = card.getBoundingClientRect();
-      ry(((e.clientX - r.left) / r.width - 0.5) * 7);
-      rx(-((e.clientY - r.top) / r.height - 0.5) * 7);
-    };
-    const onLeave = () => {
-      rx(0);
-      ry(0);
-    };
-    card.addEventListener("pointermove", onMove);
-    card.addEventListener("pointerleave", onLeave);
-    return () => {
-      card.removeEventListener("pointermove", onMove);
-      card.removeEventListener("pointerleave", onLeave);
-    };
-  }, []);
-
   const focus = hover ? NODES[hover] : null;
 
   return (
     <div
       ref={cardRef}
-      className="overflow-hidden rounded-2xl border border-rule-strong bg-paper-2/80 shadow-[0_30px_80px_-30px_rgba(18,20,29,0.28)] backdrop-blur"
+      className="group plate plate--flush glass overflow-hidden"
+      style={{ boxShadow: "inset 0 1px 0 var(--c-sheen), 0 40px 90px -40px var(--c-shadow)" }}
     >
-      <div className="flex items-center gap-2 border-b border-rule px-4 py-3">
-        <span className="h-2.5 w-2.5 rounded-full bg-rule-strong" />
-        <span className="h-2.5 w-2.5 rounded-full bg-rule-strong" />
-        <span className="h-2.5 w-2.5 rounded-full bg-accent" />
-        <span className="tag ml-3 truncate">~/architecture — live</span>
+      <Mark preset="brackets" seed="system-graph" accent />
+      <span aria-hidden className="gleam" />
+
+      <div className="flex items-center gap-2.5 border-b border-rule px-4 py-3">
+        <span className="h-1.5 w-1.5 bg-rule-strong" />
+        <span className="h-1.5 w-1.5 bg-rule-strong" />
+        <span className="h-1.5 w-1.5 bg-accent" />
+        <span className="tag ml-2.5 truncate">fig. 00.2 — architecture · live</span>
       </div>
 
       <svg
@@ -125,17 +111,19 @@ export default function SystemGraph() {
               "stroke-rule-strong transition-colors",
               hover && (hover === e.from || hover === e.to) && "!stroke-accent",
             )}
-            strokeWidth="1.25"
+            strokeWidth="1"
             strokeDasharray={e.dashed ? "4 5" : undefined}
           />
         ))}
 
         {EDGES.map((e) => (
-          <circle key={`p-${e.id}`} r="3.5" className="packet fill-accent">
+          <g key={`p-${e.id}`} className="packet">
+            <circle r="7" className="fill-accent opacity-20" />
+            <circle r="3" className="fill-accent" />
             <animateMotion dur={`${e.dur}s`} begin={`${e.begin}s`} repeatCount="indefinite">
               <mpath href={`#${e.id}`} />
             </animateMotion>
-          </circle>
+          </g>
         ))}
 
         {(Object.keys(NODES) as NodeId[]).map((id) => {
@@ -158,19 +146,19 @@ export default function SystemGraph() {
                 y={n.y - H / 2}
                 width={W}
                 height={H}
-                rx="12"
+                rx="2"
                 className={clsx(
                   "transition-all duration-300",
                   on ? "fill-accent-soft stroke-accent" : "fill-paper stroke-rule-strong",
                 )}
-                strokeWidth="1.25"
+                strokeWidth="1"
               />
               <text
                 x={n.x}
                 y={n.y - 3}
                 textAnchor="middle"
                 className={clsx(
-                  "font-sans text-[13px] font-semibold",
+                  "font-display text-[13px] font-medium [letter-spacing:-0.02em]",
                   on ? "fill-accent" : "fill-ink",
                 )}
               >

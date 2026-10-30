@@ -1,4 +1,6 @@
+import FigureLabel from "@/components/primitives/FigureLabel";
 import PageHeader from "@/components/primitives/PageHeader";
+import Plate from "@/components/primitives/Plate";
 import ContactForm from "@/components/sections/ContactForm";
 import { contact, faqs, site, socials } from "@/constants/personal";
 import type { Metadata } from "next";
@@ -45,7 +47,7 @@ export default function ContactPage() {
         meta="Replies within a business day"
         title={
           <>
-            Let&rsquo;s make <span className="text-signal">something</span> together.
+            Let&rsquo;s make <span className="lit">something</span> together.
           </>
         }
         intro="Email is the fastest way to reach me. Prefer LinkedIn or GitHub? Both are below."
@@ -63,7 +65,7 @@ export default function ContactPage() {
 
           <aside className="col-span-12 mt-16 lg:col-span-4 lg:col-start-9 lg:mt-0">
             <div className="flex items-baseline justify-between border-b border-rule pb-3">
-              <span className="tag tag--accent">Direct</span>
+              <span className="tag tag--accent">fig. C.2 — direct</span>
               <span className="tag">Preferred</span>
             </div>
 
@@ -71,7 +73,7 @@ export default function ContactPage() {
               <li>
                 <a
                   href={`mailto:${contact.email}`}
-                  className="uline block font-display text-[clamp(1.05rem,1.7vw,1.4rem)] text-ink [overflow-wrap:anywhere]"
+                  className="uline block font-display text-[clamp(1.05rem,1.7vw,1.4rem)] font-medium text-ink [overflow-wrap:anywhere]"
                 >
                   {contact.email}
                 </a>
@@ -79,9 +81,9 @@ export default function ContactPage() {
               </li>
             </ul>
 
-            <div className="mt-10 rounded-2xl border border-rule bg-paper-2/70 p-6">
+            <Plate seed="contact-location" gleam className="mt-10 p-6">
               <p className="tag">Location</p>
-              <p className="mt-4 font-display text-d3 text-ink">{contact.city}</p>
+              <p className="mt-4 font-display text-d3 font-medium text-ink">{contact.city}</p>
               <p className="text-ink-3">
                 {contact.region}, {contact.country}
               </p>
@@ -101,7 +103,7 @@ export default function ContactPage() {
                   <dd className="marginal text-ink">{contact.regionCode}</dd>
                 </div>
               </dl>
-            </div>
+            </Plate>
 
             <div className="mt-10">
               <p className="tag">Elsewhere</p>
@@ -130,15 +132,16 @@ export default function ContactPage() {
             <h2 id="faq-heading" className="sr-only">
               Common questions
             </h2>
-            <div className="flex items-baseline gap-3 border-t border-rule pt-5">
-              <span className="marginal text-accent-ink">C1</span>
-              <span className="marginal">Common questions</span>
-            </div>
+            <FigureLabel
+              index="C.3"
+              label="common questions"
+              className="w-full border-t border-rule pt-6"
+            />
 
             <dl className="mt-10 border-t border-rule">
               {contactFaqs.map((f) => (
                 <div key={f.q} className="grid-12 gap-y-3 border-b border-rule py-7">
-                  <dt className="col-span-12 font-display text-d3 text-ink md:col-span-5">
+                  <dt className="col-span-12 font-display text-d3 font-medium text-ink md:col-span-5">
                     {f.q}
                   </dt>
                   <dd className="col-span-12 text-ink-2 md:col-span-6 md:col-start-7">

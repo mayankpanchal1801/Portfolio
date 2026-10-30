@@ -1,15 +1,53 @@
 "use client";
 
+import FigureLabel from "@/components/primitives/FigureLabel";
 import Magnetic from "@/components/primitives/Magnetic";
-import Reveal from "@/components/primitives/Reveal";
+import Mark from "@/components/primitives/Mark";
+import Roll from "@/components/primitives/Roll";
 import { contact } from "@/constants/personal";
+import { gsap } from "@/lib/gsap-config";
+import { useGSAP } from "@gsap/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type Props = { index?: string; headingId?: string };
 
-export default function ContactCta({ index = "05", headingId = "cta-heading" }: Props) {
+/** Each line slides in from its own side - the lenis.dev footer's offset stack. */
+const LINES: Array<{ text: React.ReactNode; from: number; className?: string }> = [
+  { text: <>Let&rsquo;s build</>, from: -18 },
+  { text: <span className="lit">something</span>, from: 22, className: "pl-[8vw]" },
+  { text: <>sharp.</>, from: -12, className: "text-right" },
+];
+
+export default function ContactCta({ index = "06", headingId = "cta-heading" }: Props) {
   const [copied, setCopied] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        for (const line of gsap.utils.toArray<HTMLElement>("[data-line]")) {
+          gsap.fromTo(
+            line,
+            { xPercent: Number(line.dataset.line) },
+            {
+              xPercent: 0,
+              ease: "none",
+              scrollTrigger: {
+                trigger: ref.current,
+                start: "top bottom",
+                end: "center 55%",
+                scrub: true,
+              },
+            },
+          );
+        }
+      });
+      return () => mm.revert();
+    },
+    { scope: ref },
+  );
 
   const copy = async () => {
     try {
@@ -22,35 +60,35 @@ export default function ContactCta({ index = "05", headingId = "cta-heading" }: 
   };
 
   return (
-    <section id="contact" className="band shell" aria-labelledby={headingId}>
-      <div className="relative overflow-hidden rounded-[28px] border border-rule-strong bg-paper-2 px-6 py-16 sm:px-12 sm:py-24">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-32 -top-32 h-[30rem] w-[30rem] rounded-full blur-3xl"
-          style={{ background: "radial-gradient(circle, var(--c-glow), transparent 65%)" }}
-        />
+    <section ref={ref} id="contact" className="band shell" aria-labelledby={headingId} data-lit>
+      <div className="relative isolate overflow-hidden border border-rule-strong bg-paper-2 px-6 py-16 shadow-[inset_0_1px_0_var(--c-sheen),0_44px_90px_-48px_var(--c-shadow)] sm:px-12 sm:py-24">
+        <Mark preset="brackets" seed="contact-cta" accent />
 
-        <p className="tag tag--accent relative flex items-center gap-4">
-          <span className="tabular-nums">{index}</span>
-          <span aria-hidden className="h-px w-12 bg-accent-line" />
-          Contact
-        </p>
+        {/* The same three depths as the hero, closing the page the way it
+            opened: a floor running to a horizon, and clay light above it. */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <span className="floor opacity-70" />
+          <span className="orb -right-32 -top-32 h-[32rem] w-[32rem]" />
+        </div>
 
-        <Reveal
-          as="h2"
+        <FigureLabel index={index} label="contact" rule={false} className="relative" />
+
+        <h2
           id={headingId}
-          mode="words"
-          className="relative mt-8 font-display text-mark font-normal"
+          className="relative mt-10 font-display text-[clamp(3.25rem,13vw,12rem)] font-medium leading-[0.86] tracking-[-0.05em] text-ink"
         >
-          Let&rsquo;s build
-          <br />
-          <span className="text-signal">something</span> sharp.
-        </Reveal>
+          {LINES.map((line, i) => (
+            <span key={i} data-line={line.from} className={`block will-change-transform ${line.className ?? ""}`}>
+              {line.text}
+              {i < LINES.length - 1 && " "}
+            </span>
+          ))}
+        </h2>
 
-        <div className="relative mt-12 flex flex-wrap items-center gap-4">
+        <div className="relative mt-14 flex flex-wrap items-center gap-5">
           <Magnetic>
             <Link href="/contact" className="btn btn-solid" data-cursor="Write">
-              Start a conversation →
+              <Roll>Start a conversation →</Roll>
             </Link>
           </Magnetic>
           <button
@@ -59,7 +97,7 @@ export default function ContactCta({ index = "05", headingId = "cta-heading" }: 
             className="btn btn-outline normal-case tracking-normal"
             aria-live="polite"
           >
-            {copied ? "Copied to clipboard ✓" : `${contact.email} ⧉`}
+            <Roll>{copied ? "Copied to clipboard ✓" : `${contact.email} ⧉`}</Roll>
           </button>
         </div>
       </div>

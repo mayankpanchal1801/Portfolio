@@ -57,14 +57,14 @@ export default function ProjectsPage() {
         meta={`${shipped} shipped · ${projectsArr.length} total`}
         title={
           <>
-            Selected work, <span className="text-signal">in full</span>.
+            Selected work, <span className="lit">in full</span>.
           </>
         }
         intro="An index of shipped production work, plus a few AI experiments still in progress. Each shipped entry links to a case study."
       />
 
       <ProjectsIndex />
-      <ContactCta index="P1" headingId="projects-contact-heading" />
+      <ContactCta index="P.1" headingId="projects-contact-heading" />
 
       <script
         type="application/ld+json"

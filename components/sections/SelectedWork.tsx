@@ -1,61 +1,94 @@
 "use client";
 
-import Panel from "@/components/primitives/Panel";
-import SectionHead from "@/components/primitives/SectionHead";
+import FigureLabel from "@/components/primitives/FigureLabel";
+import Magnetic from "@/components/primitives/Magnetic";
+import Reveal from "@/components/primitives/Reveal";
+import Roll from "@/components/primitives/Roll";
 import { featuredProjects } from "@/constants/projects";
-import { gsap } from "@/lib/gsap-config";
+import { gsap, ScrollTrigger } from "@/lib/gsap-config";
+import { scrollProgress } from "@/lib/progress";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 
+const pad = (n: number) => String(n).padStart(2, "0");
+
 /**
- * Selected work as a horizontal reel. On large screens with motion allowed
- * the section pins and vertical scroll drives the track sideways; elsewhere
- * (touch, small screens, reduced motion) it is an ordinary stacked list or a
- * natively scrollable row, so nothing depends on the pin.
+ * Selected work as the lenis.dev showcase reel.
+ *
+ * On a large screen with motion allowed the section grows by exactly the
+ * reel's overflow and its viewport sticks, so vertical scroll walks the
+ * reel sideways - sticky rather than a GSAP pin, so there is no spacer to
+ * re-measure and nothing jumps when Lenis settles. Each picture drifts
+ * against the travel inside its own frame.
+ *
+ * Unarmed (touch, small screens, reduced motion, no script) the very same
+ * markup is a native swipe row with snap points.
  */
 export default function SelectedWork() {
   const sectionRef = useRef<HTMLElement>(null);
-  const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLUListElement>(null);
-  const barRef = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
   const total = featuredProjects.length;
 
   useGSAP(
     () => {
       const section = sectionRef.current;
-      const viewport = viewportRef.current;
       const track = trackRef.current;
-      if (!section || !viewport || !track) return;
+      if (!section || !track) return;
 
       const mm = gsap.matchMedia();
-      mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
-        const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
-        gsap.set(viewport, { overflow: "hidden" });
+      mm.add(
+        "(min-width: 1024px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)",
+        () => {
+          const cards = gsap.utils.toArray<HTMLElement>("[data-card]", track);
+          let distance = 0;
+          let centres: number[] = [];
+          let current = -1;
 
-        gsap.to(track, {
-          x: () => -distance(),
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: () => `+=${distance() + window.innerHeight * 0.25}`,
-            pin: true,
-            scrub: 0.8,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              if (barRef.current) barRef.current.style.transform = `scaleX(${self.progress})`;
-              if (countRef.current) {
-                const n = Math.min(total, Math.floor(self.progress * total) + 1);
-                countRef.current.textContent = String(n).padStart(2, "0");
+          // Runs before every refresh, so the section is the right height
+          // by the time ScrollTrigger measures where it starts and ends.
+          const measure = () => {
+            distance = Math.max(0, track.scrollWidth - section.clientWidth);
+            section.style.setProperty("--distance", `${distance}px`);
+            centres = cards.map((c) => c.offsetLeft + c.offsetWidth / 2);
+          };
+
+          const place = (p: number) => {
+            const half = section.clientWidth / 2;
+            const shift = p * distance;
+            let nearest = 0;
+            let best = Infinity;
+            cards.forEach((card, i) => {
+              const x = (centres[i] - shift - half) / half;
+              card.style.setProperty("--x", gsap.utils.clamp(-1.5, 1.5, x).toFixed(3));
+              if (Math.abs(x) < best) {
+                best = Math.abs(x);
+                nearest = i;
               }
-            },
-          },
-        });
-      });
+            });
+            if (nearest !== current && countRef.current) {
+              current = nearest;
+              countRef.current.textContent = pad(nearest + 1);
+            }
+          };
+
+          section.dataset.armed = "";
+          measure();
+          ScrollTrigger.addEventListener("refreshInit", measure);
+          const st = scrollProgress(section, { onUpdate: place });
+
+          return () => {
+            ScrollTrigger.removeEventListener("refreshInit", measure);
+            st.kill();
+            delete section.dataset.armed;
+            section.style.removeProperty("--distance");
+            section.style.removeProperty("--p");
+            for (const card of cards) card.style.removeProperty("--x");
+          };
+        },
+      );
 
       return () => mm.revert();
     },
@@ -66,92 +99,122 @@ export default function SelectedWork() {
     <section
       id="work"
       ref={sectionRef}
-      className="relative flex flex-col justify-center py-[var(--rhythm)] lg:min-h-[100svh] lg:py-0 lg:pt-24"
+      className="showcase relative"
       aria-labelledby="work-heading"
     >
-      <div className="shell w-full">
-        <SectionHead
-          index="01"
-          label="Selected work"
-          headingId="work-heading"
-          title={
-            <>
-              Things I&rsquo;ve <span className="text-signal">shipped</span>.
-            </>
-          }
-          intro="Products and platforms across SaaS, events, manufacturing and travel — designed, built and run end to end."
-        />
-      </div>
-
-      <div
-        ref={viewportRef}
-        className="no-scrollbar mt-12 w-full overflow-x-auto pl-[var(--gutter)] lg:mt-14 lg:overflow-x-hidden"
-      >
-        <ul ref={trackRef} className="flex w-max flex-col gap-6 pr-[var(--gutter)] lg:flex-row lg:gap-8">
-          {featuredProjects.map((p, i) => (
-            <li key={p.slug} className="w-[calc(100vw-2*var(--gutter))] lg:w-[min(46vw,620px)] lg:shrink-0">
-              <Panel
-                as={Link}
-                href={`/projects/${p.slug}`}
-                data-cursor="View"
-                className="group block h-full p-3 sm:p-4"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-paper-3">
-                  {p.imgSrc && (
-                    <Image
-                      src={p.imgSrc}
-                      alt={`${p.title} - interface screenshot`}
-                      fill
-                      sizes="(min-width: 1024px) 620px, 100vw"
-                      className="object-cover object-top transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
-                    />
-                  )}
-                  <span className="tag absolute left-3 top-3 rounded-full bg-paper/80 px-3 py-2 text-ink backdrop-blur">
-                    {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-                  </span>
-                </div>
-
-                <div className="flex items-start justify-between gap-4 px-2 pb-2 pt-5">
-                  <div className="min-w-0">
-                    <p className="tag tag--accent">
-                      {p.category} · {p.year}
-                    </p>
-                    <h3 className="mt-3 font-display text-d2 font-normal text-ink">{p.title}</h3>
-                    <p className="mt-3 line-clamp-2 text-sm text-ink-2">{p.description}</p>
-                    <ul className="mt-4 flex flex-wrap gap-1.5">
-                      {p.tech.slice(0, 4).map((t) => (
-                        <li
-                          key={t}
-                          className="rounded-full border border-rule px-2.5 py-1 font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-3"
-                        >
-                          {t}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <span
-                    aria-hidden
-                    className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-rule-strong text-ink transition-all duration-500 group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent"
-                  >
-                    ↗
-                  </span>
-                </div>
-              </Panel>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="shell mt-10 flex w-full items-center gap-6 lg:mt-12">
-        <p className="tag tabular-nums">
-          <span ref={countRef} className="text-accent">01</span> / {String(total).padStart(2, "0")}
-        </p>
-        <div className="hidden h-px flex-1 bg-rule-strong lg:block">
-          <div ref={barRef} className="h-full origin-left scale-x-0 bg-accent" />
+      <div className="showcase__sticky py-(--rhythm)">
+        {/* Telemetry: which plate the reel is centred on. */}
+        <div className="shell flex items-center justify-between gap-6">
+          <FigureLabel index="02" label="selected work" rule={false} />
+          <p className="tag tabular-nums">
+            <span ref={countRef} className="text-accent">
+              01
+            </span>{" "}
+            / {pad(total)}
+          </p>
         </div>
-        <Link href="/projects" className="btn btn-outline ml-auto">
-          All projects ↗
-        </Link>
+
+        <div className="showcase__viewport no-scrollbar mt-10 snap-x snap-mandatory scroll-px-(--gutter) overflow-x-auto lg:mt-12">
+          <ul ref={trackRef} className="showcase__track relative items-stretch">
+            {/* The reel opens on its own title card. */}
+            <li className="flex w-[min(84vw,28rem)] shrink-0 snap-start flex-col gap-8 lg:w-[clamp(22rem,30vw,30rem)] lg:justify-between lg:gap-10 lg:pr-6">
+              <Reveal
+                as="h2"
+                id="work-heading"
+                mode="words"
+                className="font-display text-[clamp(2.5rem,min(5vw,9svh),4.75rem)] font-medium leading-[0.96] tracking-[-0.04em] text-ink"
+              >
+                Things I&rsquo;ve <span className="text-accent">shipped</span>.
+              </Reveal>
+              <div>
+                <p className="text-ink-2">
+                  Products and platforms across SaaS, events, manufacturing and travel —
+                  designed, built and run end to end.
+                </p>
+                <p aria-hidden className="tag mt-8 flex items-center gap-3 text-ink-3">
+                  <span className="h-px w-10 bg-accent" />
+                  <span className="lg:hidden">swipe</span>
+                  <span className="hidden lg:inline">keep scrolling</span>
+                </p>
+              </div>
+            </li>
+
+            {featuredProjects.map((project, i) => (
+              <li
+                key={project.slug}
+                data-card
+                className="w-[min(78vw,26rem)] shrink-0 snap-start lg:w-[clamp(20rem,min(32vw,62svh),32rem)]"
+              >
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="showcase__card group block"
+                  data-cursor="View"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden border border-rule bg-paper-2">
+                    {project.imgSrc && (
+                      <Image
+                        src={project.imgSrc}
+                        alt={`${project.title} - interface screenshot`}
+                        fill
+                        sizes="(min-width: 1024px) 32vw, 78vw"
+                        className="showcase__img object-cover object-top"
+                      />
+                    )}
+                    <span aria-hidden className="showcase__veil absolute inset-0" />
+                    <span className="tag absolute left-3 top-3 border border-rule-strong bg-paper/85 px-2.5 py-1.5 text-ink backdrop-blur tabular-nums">
+                      fig. 02.{pad(i + 1)}
+                    </span>
+                    <span className="absolute bottom-3 left-3 bg-ink px-2 py-1 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-paper">
+                      {project.category}
+                    </span>
+                    <span
+                      aria-hidden
+                      className="showcase__go absolute bottom-3 right-3 grid h-11 w-11 place-items-center rounded-full bg-accent text-lg text-on-accent"
+                    >
+                      ↗
+                    </span>
+                  </div>
+
+                  <div className="mt-4 flex items-baseline justify-between gap-4">
+                    <h3 className="truncate font-display text-[1.35rem] font-medium tracking-[-0.025em] text-ink transition-colors duration-500 group-hover:text-accent-ink">
+                      {project.title}
+                    </h3>
+                    <span className="tag shrink-0 tabular-nums">{project.year}</span>
+                  </div>
+                  <p className="mt-1 truncate text-sm text-ink-3">
+                    {project.client ?? project.subtitle}
+                  </p>
+                </Link>
+              </li>
+            ))}
+
+            {/* …and closes on the way out, like the reference's "want to see more?". */}
+            <li className="flex w-[min(84vw,24rem)] shrink-0 snap-start flex-col justify-center gap-8 lg:w-[clamp(20rem,26vw,26rem)] lg:pl-8">
+              <p className="font-display text-d2 font-medium text-ink">
+                Want to see <span className="text-accent">more</span>?
+              </p>
+              <p className="text-sm text-ink-2">
+                Every entry has a case study — the brief, the stack, and what shipped.
+              </p>
+              <div>
+                <Magnetic>
+                  <Link href="/projects" className="btn btn-solid" data-cursor="Open">
+                    <Roll>All projects →</Roll>
+                  </Link>
+                </Magnetic>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        {/* Reel progress — the one bar that says how far through you are. */}
+        <div className="showcase__rail shell mt-10 hidden items-center gap-6 lg:mt-12">
+          <span className="tag">00</span>
+          <div className="h-px flex-1 bg-rule">
+            <div className="showcase__meter h-full bg-accent" />
+          </div>
+          <span className="tag tabular-nums">{pad(total)}</span>
+        </div>
       </div>
     </section>
   );

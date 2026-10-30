@@ -10,8 +10,14 @@ const SPLIT_FLAG = "mpSplit";
  *
  * The original text is copied onto `aria-label` so assistive tech reads
  * one clean string rather than a pile of word fragments.
+ *
+ * `mask: false` leaves each word a plain inline span with no clipping
+ * wrapper - for effects that tint words in place rather than lift them.
  */
-export function splitWords(el: HTMLElement): HTMLElement[] {
+export function splitWords(
+  el: HTMLElement,
+  { mask = true }: { mask?: boolean } = {},
+): HTMLElement[] {
   if (el.dataset[SPLIT_FLAG] === "1") {
     return Array.from(el.querySelectorAll<HTMLElement>("[data-split-word]"));
   }
@@ -46,14 +52,18 @@ export function splitWords(el: HTMLElement): HTMLElement[] {
           frag.appendChild(document.createTextNode(part));
           continue;
         }
-        const mask = document.createElement("span");
-        mask.className = "mask-word";
         const inner = document.createElement("span");
-        inner.style.display = "inline-block";
         inner.dataset.splitWord = "";
         inner.textContent = part;
-        mask.appendChild(inner);
-        frag.appendChild(mask);
+        if (mask) {
+          const wrap = document.createElement("span");
+          wrap.className = "mask-word";
+          inner.style.display = "inline-block";
+          wrap.appendChild(inner);
+          frag.appendChild(wrap);
+        } else {
+          frag.appendChild(inner);
+        }
         words.push(inner);
       }
       node.replaceChild(frag, child);

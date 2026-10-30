@@ -1,8 +1,9 @@
+import FigureLabel from "@/components/primitives/FigureLabel";
 import Reveal from "@/components/primitives/Reveal";
 import clsx from "clsx";
 
 type Props = {
-  /** Section number, e.g. "02". */
+  /** Figure number, e.g. "02". */
   index: string;
   label: string;
   title: React.ReactNode;
@@ -12,23 +13,25 @@ type Props = {
   className?: string;
 };
 
-/** Standard section opening: mono eyebrow with a drawn rule, then the display heading. */
+/**
+ * Standard plate opening: the figure label, then the display heading.
+ *
+ * `data-lit` arms every `.lit` phrase inside the heading - the ink
+ * director swipes them in when the block is 80% up the viewport.
+ */
 export default function SectionHead({ index, label, title, intro, headingId, className }: Props) {
   return (
-    <div className={clsx("grid gap-8 lg:grid-cols-12", className)}>
+    <div className={clsx("grid gap-8 lg:grid-cols-12", className)} data-lit>
       <div className="lg:col-span-12">
-        <p className="tag tag--accent flex items-center gap-4">
-          <span className="tabular-nums">{index}</span>
-          <span aria-hidden className="h-px w-12 bg-accent-line" />
-          {label}
-        </p>
+        {/* w-full so the hairline rule runs out to the end of the column. */}
+        <FigureLabel index={index} label={label} className="w-full" />
       </div>
 
       <Reveal
         as="h2"
         id={headingId}
         mode="words"
-        className="font-display text-d1 font-normal text-ink lg:col-span-8"
+        className="font-display text-d1 font-medium text-ink lg:col-span-8"
       >
         {title}
       </Reveal>

@@ -6,16 +6,18 @@ import { createContext, useCallback, useContext, useMemo, useSyncExternalStore }
 export type ThemeChoice = "light" | "dark";
 export type ResolvedTheme = "light" | "dark";
 
-const STORAGE_KEY = "mp-theme-v3";
+// Bumped with the SIGNAL redesign: near-black is now canonical, so a
+// visitor holding the old "light" default should see the new one first.
+const STORAGE_KEY = "mp-theme-v4";
 
 /**
  * Runs before first paint. Resolves the stored choice into a concrete
- * `data-theme` on <html> (defaulting to "light"), so the CSS only
+ * `data-theme` on <html> (defaulting to "dark"), so the CSS only
  * ever has to reason about one explicit value and there is no flash.
  */
 export const themeInitScript = `(function(){try{var s=localStorage.getItem(${JSON.stringify(
   STORAGE_KEY,
-)});var t=s==="dark"?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","light");}})();`;
+)});var t=s==="light"?"light":"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();`;
 
 /* ────────────────────────────────────────────────────────────────
    External store
@@ -27,7 +29,7 @@ export const themeInitScript = `(function(){try{var s=localStorage.getItem(${JSO
 
 type Snapshot = { choice: ThemeChoice; theme: ResolvedTheme };
 
-const SERVER_SNAPSHOT: Snapshot = { choice: "light", theme: "light" };
+const SERVER_SNAPSHOT: Snapshot = { choice: "dark", theme: "dark" };
 
 let snapshot: Snapshot | null = null;
 const listeners = new Set<() => void>();
@@ -39,11 +41,11 @@ function readChoice(): ThemeChoice {
   } catch {
     // storage blocked (private mode, cookie policy) - fall through to default
   }
-  return "light";
+  return "dark";
 }
 
 function resolve(choice: ThemeChoice): ResolvedTheme {
-  return choice === "dark" ? "dark" : "light";
+  return choice === "light" ? "light" : "dark";
 }
 
 function commit(next: Snapshot) {

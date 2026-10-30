@@ -2,23 +2,25 @@ import CommandPalette from "@/components/chrome/CommandPalette";
 import Cursor from "@/components/chrome/Cursor";
 import Footer from "@/components/chrome/Footer";
 import Header from "@/components/chrome/Header";
+import InkLayer from "@/components/chrome/InkLayer";
+import Preloader from "@/components/chrome/Preloader";
 import ScrollMeter from "@/components/chrome/ScrollMeter";
 import SmoothScroll from "@/components/chrome/SmoothScroll";
 import { ThemeProvider } from "@/components/chrome/ThemeProvider";
 import { about, contact, seoKeywords, site, socials } from "@/constants/personal";
 import { skillsFlat } from "@/constants/skills";
 import type { Metadata, Viewport } from "next";
-import { Hanken_Grotesk, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Hanken_Grotesk, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 // ── Fonts ────────────────────────────────────────────────────────────
-// Display: Instrument Serif - condensed editorial serif; its italic carries the accent words.
+// Display: Space Grotesk - geometric, squared terminals, holds very tight
+//          tracking at display sizes without turning into a logotype.
 // Body:    Hanken Grotesk - warm, open grotesque with excellent small-size legibility.
-// Data:    JetBrains Mono - labels, figures and telemetry.
-const instrument = Instrument_Serif({
+// Data:    JetBrains Mono - figure labels, telemetry and every numeral.
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
+  weight: "variable",
   variable: "--font-display-face",
   display: "swap",
 });
@@ -104,7 +106,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F3F1EA",
+  // Near-black is the canonical theme, so the browser chrome matches a
+  // first paint - visitors who flip to light keep the toggle, not the OS.
+  themeColor: "#0A0C0B",
   width: "device-width",
   initialScale: 1,
 };
@@ -200,8 +204,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${instrument.variable} ${hanken.variable} ${jetbrains.variable}`}
-      data-theme="light"
+      className={`${spaceGrotesk.variable} ${hanken.variable} ${jetbrains.variable}`}
+      data-theme="dark"
       suppressHydrationWarning
     >
       <body>
@@ -221,15 +225,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[1000] focus:bg-accent focus:text-on-accent focus:px-4 focus:py-2 focus:rounded-sm"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[1900] focus:border focus:border-accent focus:bg-accent focus:px-4 focus:py-2 focus:text-on-accent"
         >
           Skip to content
         </a>
 
+        {/* Only script ever lifts the boot panel - without it, never show it. */}
+        <noscript>
+          <style>{"[data-preloader]{display:none!important}"}</style>
+        </noscript>
         <ThemeProvider>
+          <Preloader />
           <ScrollMeter />
           <Cursor />
           <CommandPalette />
+          <InkLayer />
           <SmoothScroll>
             <Header />
             <main id="main" className="relative z-[1]">

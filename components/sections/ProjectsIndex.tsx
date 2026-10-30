@@ -1,36 +1,124 @@
 "use client";
 
-import Panel from "@/components/primitives/Panel";
-import Reveal from "@/components/primitives/Reveal";
-import { projectsArr, type Project } from "@/constants/projects";
+import Roll from "@/components/primitives/Roll";
+import { projectsArr } from "@/constants/projects";
+import { gsap, ScrollTrigger } from "@/lib/gsap-config";
+import { scrollToTarget } from "@/lib/lenis";
+import { useGSAP } from "@gsap/react";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useRef, useState } from "react";
 
-const ALL_CATEGORIES = Array.from(new Set(projectsArr.map((p) => p.category)));
-const FILTERS = ["All", ...ALL_CATEGORIES];
-type Filter = string;
+const pad = (n: number) => String(n).padStart(2, "0");
+const DECK = "(min-width: 1024px) and (min-height: 640px)";
 
-function matches(project: Project, filter: Filter) {
-  return filter === "All" || project.category === filter;
-}
-
+/**
+ * The project index as a deck of plates.
+ *
+ * Every project is a full plate that sticks under the header; the next
+ * one slides up over it while the one beneath recedes - shrinking back
+ * and dimming - so the stack reads as depth rather than a list. The rail
+ * on the left is the deck's table of contents: it tracks the plate on
+ * top and jumps to any other through Lenis.
+ *
+ * The stacking itself is plain `position: sticky` (see `.deck__item`), so
+ * it works with no script at all; the script adds only the recession, the
+ * picture drift and the rail. Below the breakpoint the deck is a list.
+ */
 export default function ProjectsIndex() {
-  const [filter, setFilter] = useState<Filter>("All");
+  const listRef = useRef<HTMLOListElement>(null);
+  const [active, setActive] = useState(0);
+  const total = projectsArr.length;
 
-  const visible = useMemo(
-    () => projectsArr.filter((p) => matches(p, filter)),
-    [filter],
+  // Natural document position of plate i: plate i always starts i pitches
+  // below the list's top. Measured from heights and the row gap, never
+  // from offsetTop - a stuck plate's offsetTop includes its sticky shift.
+  const geometry = () => {
+    const list = listRef.current;
+    const items = list ? gsap.utils.toArray<HTMLElement>("[data-deck-item]", list) : [];
+    const gap = list ? parseFloat(getComputedStyle(list).rowGap) || 0 : 0;
+    const pitch = items.length ? items[0].offsetHeight + gap : 0;
+    const stick = (i: number) => parseFloat(getComputedStyle(items[i]).top) || 0;
+    return { list, items, pitch, stick };
+  };
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(`${DECK} and (prefers-reduced-motion: no-preference)`, () => {
+        const { list, items } = geometry();
+        if (!list || items.length < 2) return;
+
+        items.forEach((item, i) => {
+          const body = item.querySelector<HTMLElement>("[data-deck-body]");
+          const picture = item.querySelector<HTMLElement>("[data-deck-img]");
+
+          // The picture settles as its plate rises into place.
+          if (picture) {
+            ScrollTrigger.create({
+              trigger: list,
+              start: () => `top+=${geometry().pitch * i} bottom`,
+              end: () => `top+=${geometry().pitch * i} top+=${geometry().stick(i)}`,
+              invalidateOnRefresh: true,
+              onUpdate: (self) =>
+                picture.style.setProperty("--y", (1 - self.progress).toFixed(3)),
+              onRefresh: (self) =>
+                picture.style.setProperty("--y", (1 - self.progress).toFixed(3)),
+            });
+          }
+
+          // …and recedes as the next plate rides up over it.
+          if (body && i < items.length - 1) {
+            ScrollTrigger.create({
+              trigger: list,
+              start: () => `top+=${geometry().pitch * (i + 1)} bottom`,
+              end: () => `top+=${geometry().pitch * (i + 1)} top+=${geometry().stick(i + 1)}`,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => body.style.setProperty("--d", self.progress.toFixed(3)),
+              onRefresh: (self) => body.style.setProperty("--d", self.progress.toFixed(3)),
+            });
+          }
+        });
+
+        return () => {
+          for (const item of items) {
+            item.querySelector<HTMLElement>("[data-deck-body]")?.style.removeProperty("--d");
+            item.querySelector<HTMLElement>("[data-deck-img]")?.style.removeProperty("--y");
+          }
+        };
+      });
+
+      // The rail only exists at deck sizes; it follows the plate on top.
+      mm.add(DECK, () => {
+        const { list, items } = geometry();
+        if (!list || !items.length) return;
+        items.forEach((_, i) => {
+          ScrollTrigger.create({
+            trigger: list,
+            start: () => `top+=${geometry().pitch * i - 1} top+=${geometry().stick(i) + 40}`,
+            end: () => `top+=${geometry().pitch * (i + 1) - 1} top+=${geometry().stick(i) + 40}`,
+            invalidateOnRefresh: true,
+            onToggle: (self) => self.isActive && setActive(i),
+          });
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: listRef },
   );
 
-  const counts = useMemo(
-    () =>
-      Object.fromEntries(
-        FILTERS.map((f) => [f, projectsArr.filter((p) => matches(p, f)).length]),
-      ) as Record<Filter, number>,
-    [],
-  );
+  const jump = (i: number) => {
+    const { list, pitch, stick } = geometry();
+    if (!list || !window.matchMedia(DECK).matches) {
+      scrollToTarget(`#project-${projectsArr[i].slug}`);
+      return;
+    }
+    const top = list.getBoundingClientRect().top + window.scrollY;
+    scrollToTarget(top + pitch * i - stick(i) + 2, { offset: 0 });
+  };
 
   return (
     <section className="band shell" aria-labelledby="projects-index-heading">
@@ -38,123 +126,184 @@ export default function ProjectsIndex() {
         Project index
       </h2>
 
-      {/* Filter bar - with horizontal scroll on mobile */}
-      <div className="border-y border-rule py-3">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-            <span className="tag mr-2 shrink-0">Filter</span>
-            {FILTERS.map((f) => (
-              <button
-                key={f}
-                type="button"
-                onClick={() => setFilter(f)}
-                aria-pressed={filter === f}
-                disabled={counts[f] === 0}
-                className={clsx(
-                  "shrink-0 rounded-full border px-3.5 py-2 font-mono text-[0.68rem] uppercase tracking-[0.12em] transition-colors cursor-pointer",
-                  "disabled:cursor-not-allowed disabled:opacity-40",
-                  filter === f
-                    ? "border-accent bg-accent text-on-accent"
-                    : "border-rule text-ink-2 hover:border-ink hover:text-ink bg-paper/60",
-                )}
-              >
-                {f}
-                <span className="ml-1.5 tabular-nums opacity-75">{counts[f]}</span>
-              </button>
+      <div className="grid gap-x-10 lg:grid-cols-12">
+        {/* ── Rail: the deck's table of contents. ── */}
+        <nav
+          aria-label="Projects in this index"
+          className="deck-rail hidden self-start lg:sticky lg:top-[calc(var(--header-h)+3.5rem)] lg:col-span-3 lg:block xl:col-span-2"
+        >
+          <p className="tag tabular-nums">
+            <span className="text-accent">{pad(active + 1)}</span> / {pad(total)}
+          </p>
+          <ol className="mt-6 border-t border-rule">
+            {projectsArr.map((project, i) => (
+              <li key={project.slug} className="border-b border-rule">
+                <a
+                  href={`#project-${project.slug}`}
+                  aria-current={active === i ? "true" : undefined}
+                  onClick={(e) => {
+                    // Lenis's own #anchor handler listens on window and would
+                    // aim at the plate's stuck position; the deck knows better.
+                    e.preventDefault();
+                    e.stopPropagation();
+                    jump(i);
+                  }}
+                  className="group flex items-center gap-3 py-3 text-sm text-ink-3 transition-colors hover:text-ink"
+                >
+                  <span className="deck-rail__tick h-px w-5 shrink-0 bg-rule-strong" />
+                  <span className="font-mono text-[0.66rem] tracking-[0.14em] tabular-nums">
+                    {pad(i + 1)}
+                  </span>
+                  <span className="truncate">
+                    <Roll>{project.title}</Roll>
+                  </span>
+                </a>
+              </li>
             ))}
-          </div>
+          </ol>
+        </nav>
 
-          <span className="tag ml-auto shrink-0 hidden sm:block tabular-nums">
-            {String(visible.length).padStart(2, "0")} /{" "}
-            {String(projectsArr.length).padStart(2, "0")}
-          </span>
-        </div>
-      </div>
-
-      {/* Grid */}
-      <ul className="mt-10 grid gap-5 sm:mt-14 md:grid-cols-2">
-        {visible.map((p, i) => {
-          const inert = Boolean(p.placeholder);
-          const Card = (
-            <>
-              <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-paper-3">
-                {p.imgSrc ? (
-                  <Image
-                    src={p.imgSrc}
-                    alt={p.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 45vw"
-                    className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
-                  />
-                ) : (
-                  <span
-                    aria-hidden
-                    className="absolute inset-0 flex items-center justify-center font-display text-[4rem] sm:text-[5rem] text-rule-strong"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                )}
-
-                {inert && (
-                  <span className="absolute left-3 top-3 rounded-full border border-rule-strong bg-paper px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-ink-3">
-                    In progress
-                  </span>
-                )}
-              </div>
-
-              <div className="mt-5 flex items-baseline justify-between gap-4 px-2">
-                <span className="marginal text-accent-ink">{p.category}</span>
-                <span className="marginal tabular-nums">{p.year}</span>
-              </div>
-
-              <h3
-                className={clsx(
-                  "mt-3 px-2 font-display text-xl sm:text-d3",
-                  inert ? "text-ink-3" : "text-ink transition-colors group-hover:text-accent-ink",
-                )}
+        {/* ── The deck. ── */}
+        <ol
+          ref={listRef}
+          className="grid gap-16 lg:col-span-9 lg:gap-[18vh] lg:pb-[14vh] xl:col-span-10"
+          style={{ "--n": total } as React.CSSProperties}
+        >
+          {projectsArr.map((project, i) => {
+            const inert = Boolean(project.placeholder);
+            const href = `/projects/${project.slug}`;
+            return (
+              <li
+                key={project.slug}
+                id={`project-${project.slug}`}
+                data-deck-item
+                className="deck__item scroll-mt-28"
+                style={{ "--i": i } as React.CSSProperties}
               >
-                {p.title}
-              </h3>
+                <article
+                  data-deck-body
+                  className="deck__body group relative grid overflow-hidden border border-rule-strong bg-paper-2 shadow-[inset_0_1px_0_var(--c-sheen),0_-30px_60px_-40px_var(--c-shadow)] lg:grid-cols-12"
+                >
+                  {/* Picture — the case study's door. */}
+                  <div className="relative aspect-[16/10] overflow-hidden border-b border-rule bg-paper-3 lg:order-2 lg:col-span-7 lg:aspect-auto lg:border-b-0 lg:border-l">
+                    {project.imgSrc ? (
+                      <Link
+                        href={inert ? "/projects" : href}
+                        tabIndex={-1}
+                        aria-hidden
+                        data-cursor={inert ? undefined : "View"}
+                        className="absolute inset-0"
+                      >
+                        <Image
+                          data-deck-img
+                          src={project.imgSrc}
+                          alt=""
+                          fill
+                          sizes="(min-width: 1024px) 55vw, 100vw"
+                          className="deck__img object-cover object-top"
+                        />
+                      </Link>
+                    ) : (
+                      <span
+                        aria-hidden
+                        className="absolute inset-0 grid place-items-center font-display text-[6rem] font-medium tracking-[-0.05em] text-rule-strong tabular-nums"
+                      >
+                        {pad(i + 1)}
+                      </span>
+                    )}
+                    <span className="tag absolute left-4 top-4 border border-rule-strong bg-paper/85 px-2.5 py-1.5 text-ink backdrop-blur tabular-nums">
+                      fig. P.{pad(i + 1)}
+                    </span>
+                    {project.status === "live" && (
+                      <span className="tag absolute right-4 top-4 flex items-center gap-2 bg-ink px-2.5 py-1.5 text-paper">
+                        <span className="ping h-1.5 w-1.5 bg-accent" />
+                        Live
+                      </span>
+                    )}
+                  </div>
 
-              <p className="mt-2 px-2 text-sm text-ink-2 leading-relaxed">{p.description}</p>
+                  {/* Copy. */}
+                  <div className="flex flex-col justify-between gap-8 p-6 sm:p-8 lg:col-span-5 lg:p-9 xl:p-11">
+                    <div>
+                      <div className="flex items-baseline justify-between gap-4">
+                        <span className="font-display text-[clamp(2.5rem,4vw,4rem)] font-medium leading-none tracking-[-0.05em] text-outline tabular-nums">
+                          {pad(i + 1)}
+                        </span>
+                        <span className="tag tag--accent text-right">
+                          {project.category} · {project.year}
+                        </span>
+                      </div>
 
-              <p className="mt-4 flex flex-wrap gap-x-2.5 gap-y-1 px-2">
-                {p.tags.slice(0, 5).map((t) => (
-                  <span key={t} className="marginal text-[0.65rem]">
-                    {t}
-                  </span>
-                ))}
-              </p>
+                      <h3 className="mt-5 font-display text-[clamp(1.75rem,3vw,2.75rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ink">
+                        {inert ? (
+                          project.title
+                        ) : (
+                          <Link
+                            href={href}
+                            className="transition-colors duration-500 hover:text-accent-ink"
+                          >
+                            {project.title}
+                          </Link>
+                        )}
+                      </h3>
+                      <p className="mt-2 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-ink-3">
+                        {project.subtitle}
+                      </p>
+                      <p className="mt-5 line-clamp-3 text-ink-2">{project.description}</p>
+                    </div>
 
-              {!inert && (
-                <span className="mt-4 mb-2 ml-2 inline-flex items-center gap-1.5 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-ink transition-colors group-hover:text-accent-ink">
-                  Case study ↗
-                </span>
-              )}
-            </>
-          );
+                    <div>
+                      <dl className="grid grid-cols-2 gap-4 border-t border-rule pt-5">
+                        <div>
+                          <dt className="tag">Role</dt>
+                          <dd className="mt-1.5 line-clamp-2 text-sm text-ink">{project.role}</dd>
+                        </div>
+                        <div>
+                          <dt className="tag">Client</dt>
+                          <dd className="mt-1.5 line-clamp-2 text-sm text-ink">
+                            {project.client ?? "Personal"}
+                          </dd>
+                        </div>
+                      </dl>
 
-          return (
-            <Reveal
-              as="li"
-              key={p.slug}
-              mode="fade"
-              delay={Math.min(i, 3) * 0.06}
-              className="group"
-            >
-              <Panel className="h-full p-3 sm:p-4">
-                {inert ? (
-                  <div>{Card}</div>
-                ) : (
-                  <Link href={`/projects/${p.slug}`} className="block" data-cursor="View">
-                    {Card}
-                  </Link>
-                )}
-              </Panel>
-            </Reveal>
-          );
-        })}
-      </ul>
+                      <ul className="mt-5 flex flex-wrap gap-1.5">
+                        {project.tech.slice(0, 5).map((tech) => (
+                          <li key={tech} className="chip">
+                            {tech}
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="mt-7 flex flex-wrap items-center gap-3">
+                        {inert ? (
+                          <span className="tag">In progress</span>
+                        ) : (
+                          <Link href={href} className="btn btn-solid" data-cursor="Open">
+                            <Roll>Case study →</Roll>
+                          </Link>
+                        )}
+                        {project.url && (
+                          <a
+                            href={project.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={clsx("btn btn-outline")}
+                          >
+                            <Roll>Live site ↗</Roll>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Recession shade — darkens the plate as the next covers it. */}
+                  <span aria-hidden className="deck__shade pointer-events-none absolute inset-0" />
+                </article>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     </section>
   );
 }

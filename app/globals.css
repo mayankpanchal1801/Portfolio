@@ -1,75 +1,123 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════
-   CONSOLE - an engineering-console design system
-   Warm stone ground, forest ink, one muted sage signal colour.
-   Light is canonical (stone + sage); dark is a warm charcoal counterpart.
-   Greens sit in the middle of the spectrum and the grounds stay low-chroma,
-   so long reading is easier than a saturated cobalt on cool porcelain.
+   SIGNAL — a draughtsman's sketchbook, rebuilt in glass and light.
 
-   Runtime tokens (--c-*) cascade per theme. The @theme inline block
-   below maps them into Tailwind utilities, so `bg-paper text-ink`
-   follows the active theme without any dark: variants.
+   The structure is borrowed from a pencil-sketchbook layout language:
+   numbered figures ("fig. 01 — selected work"), a highlighter swipe that
+   draws itself in, drawn tick-marks, a career ruler, paper grain, and a
+   single drop of ink that spreads through the page as you scroll.
+
+   Everything analog in that language is re-cut here as instrument panel:
+   wobbly Rough.js strokes become 1px vectors, hachure shadows become
+   offset outline plates, handwriting becomes tight geometric display plus
+   monospace telemetry. One accent carries the whole site - clay - so the
+   greys can stay almost colourless and the signal always means something.
+
+   Near-black is canonical; the warm-paper light theme is its daylight
+   counterpart. Runtime tokens (--c-*) cascade per theme and the
+   `@theme inline` block maps them into Tailwind utilities, so
+   `bg-paper text-ink` follows the active theme with no dark: variants.
 ═══════════════════════════════════════════════════════════════════ */
 
 :root,
-[data-theme="light"] {
-  color-scheme: light;
-
-  /* Warm stone ground */
-  --c-paper:        #F3F1EA;
-  --c-paper-2:      #E8E6DC;
-  --c-paper-3:      #D9D6C8;
-
-  /* Forest ink */
-  --c-ink:          #1B2420;
-  --c-ink-2:        #3C4842;
-  --c-ink-3:        #5E6B64;
-
-  --c-rule:         #D5D1C4;
-  --c-rule-strong:  #B3AD9E;
-
-  /* Accent - muted sage */
-  --c-accent:       #2F6B52;
-  --c-accent-ink:   #24543F;
-  --c-accent-soft:  #E3EDE6;
-  --c-accent-line:  #B4CFC0;
-  --c-on-accent:    #F7F6F1;
-
-  --c-inverse:      #1B2420;
-  --c-inverse-ink:  #F3F1EA;
-
-  --c-selection:    #D3E5DA;
-  --c-glow:         rgba(47, 107, 82, 0.14);
-  --c-grid:         rgba(27, 36, 32, 0.05);
-}
-
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --c-paper:        #141816;
-  --c-paper-2:      #1C221E;
-  --c-paper-3:      #262D28;
+  /* Near-black ground, warmed by a trace of green so it never reads blue */
+  --c-paper:        #0A0C0B;
+  --c-paper-2:      #121514;
+  --c-paper-3:      #1B1F1D;
 
-  --c-ink:          #E7E5DC;
-  --c-ink-2:        #C2C6BE;
-  --c-ink-3:        #8E968F;
+  /* Bone ink */
+  --c-ink:          #F0EEE8;
+  --c-ink-2:        #B6B3AB;
+  --c-ink-3:        #7C807B;
 
-  --c-rule:         #2C342F;
-  --c-rule-strong:  #434C45;
+  --c-rule:         #232725;
+  --c-rule-strong:  #3A403C;
 
-  --c-accent:       #8FBF9F;
-  --c-accent-ink:   #A8D0B6;
-  --c-accent-soft:  #1A2820;
-  --c-accent-line:  #3D5A48;
-  --c-on-accent:    #122018;
+  /* Accent — clay. Dark grounds let the pigment sit a shade brighter. */
+  --c-accent:       #D97757;
+  --c-accent-ink:   #EC9272;
+  --c-accent-soft:  #241510;
+  --c-accent-line:  #52291B;
+  --c-on-accent:    #0A0C0B;
 
-  --c-inverse:      #E7E5DC;
-  --c-inverse-ink:  #141816;
+  --c-inverse:      #F0EEE8;
+  --c-inverse-ink:  #0A0C0B;
 
-  --c-selection:    #2A4536;
-  --c-glow:         rgba(143, 191, 159, 0.16);
-  --c-grid:         rgba(231, 229, 220, 0.045);
+  /* Data tones — only the career climb and the architecture graph use these,
+     where a second and third hue carry meaning rather than decoration. */
+  --c-mineral:      #5FC4A6;
+  --c-plum:         #9B95E6;
+  --c-sky:          #6BB0EC;
+
+  --c-selection:    #52291B;
+  --c-glow:         rgba(217, 119, 87, 0.16);
+  --c-grid:         rgba(240, 238, 232, 0.042);
+  --c-shadow:       rgba(0, 0, 0, 0.6);
+
+  /* Depth. The grid on the receding floor plane has to carry further than
+     the flat backdrop grid; the sheen is the specular hairline along the
+     top edge of a raised surface, and glow-hot is the volumetric clay. */
+  --c-grid-strong:  rgba(240, 238, 232, 0.085);
+  --c-sheen:        rgba(255, 255, 255, 0.055);
+  --c-sheen-hot:    rgba(255, 255, 255, 0.10);
+  --c-gleam:        rgba(255, 255, 255, 0.09);
+  --c-glow-hot:     rgba(217, 119, 87, 0.30);
+
+  --grain-blend:    screen;
+  --grain-opacity:  0.14;
+}
+
+/* `[data-invert]` hands a stretch of the dark page to the light palette in
+   place - the lenis.dev move. It only ever flips dark to light: in light
+   mode the attribute is inert, so the light theme never grows a dark band.
+   It is a selector on the token blocks, so everything inside follows. */
+[data-theme="light"],
+[data-theme="dark"] [data-invert] {
+  color-scheme: light;
+
+  /* Warm paper */
+  --c-paper:        #F4F2ED;
+  --c-paper-2:      #EBE8E1;
+  --c-paper-3:      #DDD9D0;
+
+  --c-ink:          #0F1211;
+  --c-ink-2:        #3C4240;
+  --c-ink-3:        #6E726E;
+
+  --c-rule:         #D8D3C9;
+  --c-rule-strong:  #B4AEA2;
+
+  /* On paper the pigment has to darken to carry small text at 4.5:1. */
+  --c-accent:       #C6613F;
+  --c-accent-ink:   #A6482A;
+  --c-accent-soft:  #F6E7E0;
+  --c-accent-line:  #E0BCAB;
+  --c-on-accent:    #FDFBF7;
+
+  --c-inverse:      #0F1211;
+  --c-inverse-ink:  #F4F2ED;
+
+  --c-mineral:      #2E7A64;
+  --c-plum:         #5B55AC;
+  --c-sky:          #2E6FA8;
+
+  --c-selection:    #F0CFBF;
+  --c-glow:         rgba(198, 97, 63, 0.13);
+  --c-grid:         rgba(15, 18, 17, 0.05);
+  --c-shadow:       rgba(15, 18, 17, 0.14);
+
+  --c-grid-strong:  rgba(15, 18, 17, 0.085);
+  --c-sheen:        rgba(255, 255, 255, 0.85);
+  --c-sheen-hot:    rgba(255, 255, 255, 0.92);
+  --c-gleam:        rgba(255, 255, 255, 0.50);
+  --c-glow-hot:     rgba(198, 97, 63, 0.20);
+
+  --grain-blend:    multiply;
+  --grain-opacity:  0.3;
 }
 
 /* ── Tailwind token map ─────────────────────────────────────────── */
@@ -89,46 +137,55 @@
   --color-accent-line:  var(--c-accent-line);
   --color-inverse:      var(--c-inverse);
   --color-inverse-ink:  var(--c-inverse-ink);
+  --color-mineral:      var(--c-mineral);
+  --color-plum:         var(--c-plum);
+  --color-sky:          var(--c-sky);
 }
 
 @theme {
-  --font-display: var(--font-display-face), "Instrument Serif", Georgia, "Times New Roman", serif;
+  /* Display: Space Grotesk - geometric, squared terminals, tight at scale.
+     Body:    Hanken Grotesk - warm and open, built for long reading.
+     Data:    JetBrains Mono - figure labels, telemetry, every numeral. */
+  --font-display: var(--font-display-face), "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-body:    var(--font-body-face), "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-sans:    var(--font-body-face), "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono:    var(--font-mono-face), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Display scale - Instrument Serif, editorial and condensed */
-  --text-mark:  clamp(3.75rem, 13vw, 12rem);
-  --text-mark--line-height: 0.88;
-  --text-mark--letter-spacing: -0.025em;
+  /* Display scale — set tight; Space Grotesk takes negative tracking well.
+     The mark caps at 10rem rather than 11: the hero now gives a whole
+     column of air back to the instrument, and "Panchal" has to fit the
+     six columns that are left at 1024px without reaching into it. */
+  --text-mark:  clamp(3.5rem, 12.5vw, 10rem);
+  --text-mark--line-height: 0.86;
+  --text-mark--letter-spacing: -0.045em;
 
-  --text-d1: clamp(3rem, 8vw, 6.75rem);
-  --text-d1--line-height: 0.95;
-  --text-d1--letter-spacing: -0.02em;
+  --text-d1: clamp(2.75rem, 7.4vw, 6rem);
+  --text-d1--line-height: 0.94;
+  --text-d1--letter-spacing: -0.038em;
 
-  --text-d2: clamp(2.125rem, 5vw, 3.875rem);
-  --text-d2--line-height: 1.05;
-  --text-d2--letter-spacing: -0.015em;
+  --text-d2: clamp(2rem, 4.6vw, 3.5rem);
+  --text-d2--line-height: 1.02;
+  --text-d2--letter-spacing: -0.032em;
 
-  --text-d3: clamp(1.5rem, 2.7vw, 2.15rem);
-  --text-d3--line-height: 1.18;
-  --text-d3--letter-spacing: -0.01em;
+  --text-d3: clamp(1.4rem, 2.5vw, 2rem);
+  --text-d3--line-height: 1.16;
+  --text-d3--letter-spacing: -0.022em;
 
-  /* Reading - Hanken Grotesk */
-  --text-lede: clamp(1.125rem, 1.5vw, 1.3125rem);
-  --text-lede--line-height: 1.6;
+  /* Reading */
+  --text-lede: clamp(1.09rem, 1.45vw, 1.28rem);
+  --text-lede--line-height: 1.62;
 
-  /* Data - JetBrains Mono */
+  /* Data */
   --text-tag: 0.6875rem;
   --text-tag--line-height: 1;
-  --text-tag--letter-spacing: 0.16em;
+  --text-tag--letter-spacing: 0.18em;
 
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
 
-  --container-shell:   1360px;
-  --container-measure: 68ch;
+  --container-shell:   1400px;
+  --container-measure: 66ch;
 
   --animate-drift: drift 26s linear infinite;
 
@@ -136,13 +193,76 @@
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
   }
+
+  /* Drawn tick-marks rise in, then the mark draws itself left to right. */
+  @keyframes tick-rise {
+    to { opacity: 1; translate: 0 0; }
+  }
+
+  @keyframes tick-draw {
+    to { clip-path: inset(0 0 0 0); }
+  }
+
+  /* ── Depth ──────────────────────────────────────────────────────
+     The floor plane travels exactly one grid cell, so the loop is
+     seamless; everything else here breathes. */
+  @keyframes floor-pan {
+    to { background-position: 0 64px; }
+  }
+
+  /* Individual transform properties, not `transform` - so the pointer
+     parallax (which writes `transform`) composes with the drift instead
+     of being overwritten by it. */
+  @keyframes orb-drift {
+    from { translate: 0 0; scale: 1; }
+    to   { translate: 6% -8%; scale: 1.14; }
+  }
+
+  /* A specular band crossing a raised surface, once, on hover. */
+  @keyframes gleam-pass {
+    0%        { translate: -130% 0; opacity: 0; }
+    14%, 72%  { opacity: 1; }
+    100%      { translate: 130% 0; opacity: 0; }
+  }
+
+  @keyframes hud-float {
+    50% { translate: 0 -9px; }
+  }
+
+  @keyframes cue-fall {
+    from { translate: 0 -100%; }
+    to   { translate: 0 275%; }
+  }
+
+  /* The instrument's own sweep line, falling through the stage. */
+  @keyframes scanline-fall {
+    0%       { translate: 0 0; opacity: 0; }
+    10%, 88% { opacity: 0.55; }
+    100%     { translate: 0 var(--scan-travel, 64vh); opacity: 0; }
+  }
+
+  /* A single hairline of clay crossing an image well. */
+  @keyframes scan-sweep {
+    0%        { transform: translateY(-100%); opacity: 0; }
+    12%, 88%  { opacity: 1; }
+    100%      { transform: translateY(1100%); opacity: 0; }
+  }
 }
 
 /* ── Layout rhythm ──────────────────────────────────────────────── */
 :root {
-  --gutter: clamp(1.25rem, 4.5vw, 4rem);
-  --rhythm: clamp(4.5rem, 9vw, 8.5rem);
+  --gutter: clamp(1.25rem, 4.5vw, 4.5rem);
+  --rhythm: clamp(4.5rem, 9vw, 9rem);
   --header-h: 72px;
+  /* The shared top line — every page header's first text block starts here. */
+  --top-line: calc(var(--header-h) + 6vh);
+  /* How far a plate's ghost outline sits behind it. */
+  --plate-offset: 7px;
+  /* One perspective for the whole site, so a card on the home page and a
+     card in a case study sit at the same apparent distance. */
+  --persp: 1500px;
+  /* 0 → 1 as the page's one drop of ink spreads. Written by lib/ink.ts. */
+  --ink: 1;
 }
 
 /* Element defaults live in @layer base and component classes in
@@ -162,6 +282,8 @@
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
     scroll-behavior: auto;
+    background: var(--c-paper);
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
@@ -174,6 +296,8 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
     transition: background-color 400ms var(--ease-out-quart),
                 color 400ms var(--ease-out-quart);
   }
@@ -181,20 +305,24 @@
   h1, h2, h3, h4, h5, h6 {
     margin: 0;
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 500;
     font-synthesis: none;
     text-wrap: balance;
   }
 
   p { margin: 0; text-wrap: pretty; }
+  li { text-wrap: pretty; }
   ul, ol { margin: 0; padding: 0; list-style: none; }
+
+  /* Tailwind's preflight resets buttons to cursor: default. */
+  button:not(:disabled) { cursor: pointer; }
 
   ::selection {
     background: var(--c-selection);
     color: var(--c-ink);
   }
 
-  /* Faint engineering grid, masked to fade out toward the page edges. */
+  /* The drawing grid the whole site is set on, faded out past the fold. */
   body::before {
     content: "";
     position: fixed;
@@ -204,9 +332,21 @@
     background-image:
       linear-gradient(var(--c-grid) 1px, transparent 1px),
       linear-gradient(90deg, var(--c-grid) 1px, transparent 1px);
-    background-size: 64px 64px;
-    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
-            mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+    background-size: 72px 72px;
+    -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 0%, #000 18%, transparent 78%);
+            mask-image: radial-gradient(ellipse 85% 65% at 50% 0%, #000 18%, transparent 78%);
+  }
+
+  /* Paper grain over everything, under the chrome. */
+  body::after {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    opacity: var(--grain-opacity);
+    mix-blend-mode: var(--grain-blend);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32  0 0 0 0 .3  0 0 0 0 .27  0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -222,10 +362,25 @@
   ::-webkit-scrollbar-thumb:hover { background: var(--c-ink-3); }
 
   :focus-visible {
-    outline: 2px solid var(--c-accent);
+    outline: 1px solid var(--c-accent);
     outline-offset: 3px;
-    border-radius: 4px;
   }
+
+  /* Nothing scrolls while the preloader is up, or under an overlay. */
+  html.is-loading,
+  html.is-loading body,
+  html.is-locked,
+  html.is-locked body { overflow: hidden !important; }
+
+  /* Lenis's own recommended sheet (lenis/dist/lenis.css, not exported by
+     the package) - the classes are set on <html> at runtime. */
+  html.lenis,
+  html.lenis body { height: auto; }
+  .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+  .lenis [data-lenis-prevent],
+  .lenis [data-lenis-prevent-wheel],
+  .lenis [data-lenis-prevent-touch] { overscroll-behavior: contain; }
+  .lenis.lenis-smooth iframe { pointer-events: none; }
 }
 
 @layer components {
@@ -246,49 +401,336 @@
 
   .measure { max-width: var(--container-measure); }
 
-  /* The visible 12-column grid the whole site is set on. */
   .grid-12 {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
     column-gap: clamp(1rem, 2.5vw, 2rem);
   }
 
-  /* Legacy hook - the console theme draws its structure with the body grid. */
+  /* Legacy hook kept so older markup still anchors correctly. */
   .ruled { position: relative; }
 
-  /* Glass panel with a hairline border; the spotlight follows the pointer. */
-  .panel {
+  /* ═══════════════════════════════════════════════════════════════════
+     Plate — the one surface.
+
+     A pencil card in the reference: paper, an inked outline and a
+     cross-hatched shadow peeking out bottom-right. Here: a hairline
+     panel with a second outline offset behind it, a clay tick in the
+     top-right corner, and a spotlight that tracks the pointer.
+  ═══════════════════════════════════════════════════════════════════ */
+  .plate {
     position: relative;
     isolation: isolate;
     border: 1px solid var(--c-rule);
-    border-radius: 14px;
-    background: color-mix(in oklab, var(--c-paper-2) 82%, transparent);
-    overflow: hidden;
-    transition: border-color 300ms var(--ease-out-quart);
+    border-radius: 2px;
+    background: color-mix(in oklab, var(--c-paper-2) 76%, transparent);
+    /* Elevation is two shadows, not one: a tight contact shadow that keeps
+       the edge crisp, and a wide ambient one that gives the panel air. The
+       inset hairline is the specular - light catching the top bevel. */
+    box-shadow:
+      inset 0 1px 0 var(--c-sheen),
+      0 1px 2px -1px var(--c-shadow),
+      0 20px 44px -30px var(--c-shadow);
+    transition: border-color 320ms var(--ease-out-quart),
+                background-color 320ms var(--ease-out-quart),
+                box-shadow 420ms var(--ease-out-quart),
+                translate 420ms var(--ease-out-expo);
   }
-  .panel::before {
+
+  /* The offset plate — the hachure shadow, reduced to one bracket.
+     Only the bottom and right edges are drawn: a pseudo-element with a
+     negative z-index paints above its own host's background, so a full
+     outline would lay its top and left lines inside the panel. An L
+     clears the box entirely, and reads as a corner bracket besides. */
+  .plate::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    translate: var(--plate-offset) var(--plate-offset);
+    border-right: 1px solid var(--c-rule);
+    border-bottom: 1px solid var(--c-rule);
+    opacity: 0.55;
+    transition: translate 420ms var(--ease-out-expo),
+                opacity 320ms var(--ease-out-quart);
+  }
+
+  /* Pointer spotlight, positioned from --mx / --my by <Plate>. */
+  .plate::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     opacity: 0;
+    border-radius: inherit;
     background: radial-gradient(
-      420px circle at var(--mx, 50%) var(--my, 50%),
+      440px circle at var(--mx, 50%) var(--my, 50%),
       var(--c-glow),
-      transparent 60%
+      transparent 62%
     );
-    transition: opacity 300ms var(--ease-out-quart);
+    transition: opacity 320ms var(--ease-out-quart);
   }
-  .panel:hover { border-color: var(--c-accent-line); }
-  .panel:hover::before { opacity: 1; }
 
-  /* Signal-coloured headline words. Solid on purpose: gradient text
-     (background-clip) disappears once GSAP transforms the split words. */
-  .text-signal { color: var(--c-accent); font-style: italic; }
+  .plate:hover,
+  .plate:focus-within {
+    border-color: var(--c-accent-line);
+    background: color-mix(in oklab, var(--c-paper-2) 94%, transparent);
+  }
+  .plate:hover::before,
+  .plate:focus-within::before {
+    translate: calc(var(--plate-offset) + 3px) calc(var(--plate-offset) + 3px);
+    border-right-color: var(--c-accent);
+    border-bottom-color: var(--c-accent);
+    opacity: 0.9;
+  }
+  .plate:hover::after,
+  .plate:focus-within::after { opacity: 1; }
 
-  /* Ghost display text: a dim solid fill (stroked outlines expose the
-     variable font's overlapping contours). */
-  .text-outline { color: var(--c-paper-3); }
+  @media (hover: hover) {
+    .plate:hover,
+    .plate:focus-within {
+      translate: 0 -3px;
+      box-shadow:
+        inset 0 1px 0 var(--c-sheen-hot),
+        0 2px 4px -2px var(--c-shadow),
+        0 44px 90px -44px var(--c-shadow);
+    }
+  }
+
+  /* Flush variant — no offset plate; for stacked and gridded surfaces
+     where seven free pixels on every side would break the rhythm. */
+  .plate--flush::before { content: none; }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Depth — the third axis.
+
+     The plates are drawings. This is the light and the air around them:
+     one perspective for the site (--persp), a `.pop` child that really
+     sits forward in Z so a tilt produces parallax instead of a skew, a
+     floor plane that recedes, volumetric clay, and a specular band that
+     crosses a surface once on hover.
+
+     All of it is decoration. Every class here degrades to a flat,
+     legible surface with no script, and the reduced-motion block at the
+     end of the file parks each drifting layer.
+  ═══════════════════════════════════════════════════════════════════ */
+
+  /* A perspective root. Keep one per composition: nesting a second
+     .stage flattens everything inside the outer one into a single plane. */
+  .stage {
+    perspective: var(--persp);
+    perspective-origin: 50% 42%;
+  }
+
+  /* Opt a subtree into real 3D. Without this a transformed ancestor
+     flattens its children and translateZ does nothing. */
+  .deep,
+  .deep > * { transform-style: preserve-3d; }
+
+  /* A layer pushed forward (or back) along Z. Inside a tilting stage the
+     near layers travel further than the far ones - that difference is
+     the whole effect. */
+  .pop { transform: translateZ(var(--z, 0px)); }
+
+  /* The receding floor. A plane laid almost flat under the composition
+     and panned toward the viewer, masked out before it reaches the
+     horizon so there is no hard edge to give the trick away. */
+  .floor {
+    position: absolute;
+    inset: auto 0 0;
+    height: 56vh;
+    pointer-events: none;
+    transform: perspective(640px) rotateX(74deg) scale(1.9);
+    transform-origin: 50% 100%;
+    background-image:
+      linear-gradient(var(--c-grid-strong) 1px, transparent 1px),
+      linear-gradient(90deg, var(--c-grid-strong) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: linear-gradient(to top, #000 2%, transparent 58%);
+            mask-image: linear-gradient(to top, #000 2%, transparent 58%);
+    animation: floor-pan 8s linear infinite;
+  }
+
+  /* Volumetric clay. Blurred past the point of being a shape, so it
+     reads as light in the room rather than a circle on the page. */
+  .orb {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(56px);
+    background: radial-gradient(circle at 36% 34%, var(--c-glow-hot), transparent 68%);
+    animation: orb-drift 19s var(--ease-in-out-quint) infinite alternate;
+  }
+
+  /* The scroll cue: a drop of clay falling down a hairline. */
+  .scroll-cue {
+    position: relative;
+    display: block;
+    width: 1px;
+    height: 2.75rem;
+    overflow: hidden;
+    background: var(--c-rule);
+  }
+  .scroll-cue::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1rem;
+    background: linear-gradient(to bottom, transparent, var(--c-accent));
+    animation: cue-fall 2.6s var(--ease-in-out-quint) infinite;
+  }
+
+  /* The instrument's sweep line. */
+  .scanline {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, var(--c-accent), transparent);
+    opacity: 0;
+    animation: scanline-fall 9s var(--ease-in-out-quint) infinite;
+  }
+
+  /* Glass. Blurs what is behind it and keeps a lit top edge. */
+  .glass {
+    background: color-mix(in oklab, var(--c-paper-2) 70%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+            backdrop-filter: blur(14px) saturate(130%);
+    box-shadow: inset 0 1px 0 var(--c-sheen),
+                0 26px 60px -40px var(--c-shadow);
+  }
+
+  /* Drop inside any surface: a specular band that crosses it once on
+     hover. Its own element rather than a pseudo, so it never competes
+     with .plate's offset bracket or spotlight. */
+  .gleam {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: inherit;
+  }
+  .gleam::after {
+    content: "";
+    position: absolute;
+    inset: -60% -25%;
+    background: linear-gradient(74deg, transparent 42%, var(--c-gleam) 50%, transparent 58%);
+    translate: -130% 0;
+    opacity: 0;
+  }
+  @media (hover: hover) {
+    .group:hover .gleam::after,
+    .plate:hover .gleam::after { animation: gleam-pass 1.05s var(--ease-out-quart); }
+  }
+
+  /* A telemetry readout that floats beside the instrument. */
+  .hud {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--c-rule-strong);
+    border-radius: 2px;
+    background: color-mix(in oklab, var(--c-paper) 78%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--c-ink-2);
+    box-shadow: 0 20px 44px -28px var(--c-shadow);
+    animation: hud-float 6.5s ease-in-out infinite;
+  }
+  .hud b {
+    font-weight: 500;
+    color: var(--c-accent-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Wordmark ───────────────────────────────────────────────────
+     The name, extruded. An outlined ghost of the same letters sits 90px
+     behind the face, so the mark gains a body instead of a shadow.
+
+     The wordmark carries its own perspective rather than borrowing the
+     stage's: it is the only thing on the page that needs a near, hard
+     vanishing point, and keeping it local means no ancestor has to be
+     preserve-3d for the letters to work. */
+  .wm {
+    position: relative;
+    display: block;
+    perspective: 900px;
+    perspective-origin: 32% 50%;
+  }
+
+  /* Direct children hold the letters, so they must not flatten them. */
+  .wm > span,
+  .wm__line { transform-style: preserve-3d; }
+
+  .wm__ghost {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* The letters exist twice. Taking the copy out of selection keeps a
+       copy-paste of the hero from reading "MayankPanchalMayankPanchal". */
+    -webkit-user-select: none;
+            user-select: none;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--c-rule-strong);
+    transform: translateZ(-90px);
+    opacity: 0.85;
+  }
+
+  .wm__ghost--accent { -webkit-text-stroke-color: var(--c-accent-line); }
+
+  .wm__char {
+    display: inline-block;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Figure labels — "fig. 01 — selected work"
+
+     The reference numbers every block as a plate in a sketchbook. That
+     numbering is the site's whole information architecture, so it stays:
+     mono, uppercase, clay, with a hairline rule running out of it.
+  ═══════════════════════════════════════════════════════════════════ */
+  .fig {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-tag);
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c-accent-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fig__n {
+    position: relative;
+    padding: 0.45rem 0.55rem;
+    color: var(--c-accent-ink);
+    border: 1px solid var(--c-accent-line);
+    background: var(--c-accent-soft);
+  }
+
+  .fig__label { color: var(--c-ink-3); }
+
+  /* The rule runs to the end of the column and fades. */
+  .fig__rule {
+    flex: 1;
+    height: 1px;
+    min-width: 2rem;
+    background: linear-gradient(90deg, var(--c-accent-line), transparent);
+  }
 
   /* ═══════════════════════════════════════════════════════════════════
      Type helpers
@@ -297,14 +739,14 @@
     font-family: var(--font-mono);
     font-size: var(--text-tag);
     line-height: 1;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--c-ink-3);
     font-weight: 500;
   }
   .tag--accent { color: var(--c-accent-ink); }
 
-  /* Marginalia - the section number set in the left margin. */
+  /* Marginalia — the figure number set in the margin. */
   .marginal {
     font-family: var(--font-mono);
     font-size: var(--text-tag);
@@ -316,8 +758,128 @@
 
   .hair { height: 1px; background: var(--c-rule); border: 0; }
 
+  /* Accent words inside a headline. Solid on purpose: gradient text
+     disappears the moment GSAP transforms the split words. */
+  .text-signal { color: var(--c-accent); }
+
+  /* Ghost display text — a dim solid fill (stroked outlines expose the
+     variable font's overlapping contours). */
+  .text-outline { color: var(--c-paper-3); }
+
   /* ═══════════════════════════════════════════════════════════════════
-     Controls
+     Lit — the highlighter swipe, re-cut as a signal bar.
+
+     The reference drags a marker over a phrase once it scrolls into view.
+     Same mechanism (background-size transition, so it clones across line
+     breaks for free), but the marker is a clay underglow sitting on a
+     1px baseline rather than two uneven ink passes.
+  ═══════════════════════════════════════════════════════════════════ */
+  .lit {
+    background-image: linear-gradient(
+      to top,
+      var(--c-accent) 0 2px,
+      color-mix(in oklab, var(--c-accent) 22%, transparent) 2px 100%
+    );
+    background-repeat: no-repeat;
+    background-position: 0 90%;
+    background-size: 0% 46%;
+    padding: 0 0.12em;
+    margin: 0 -0.12em;
+    box-decoration-break: clone;
+    transition: background-size 0.95s 0.3s cubic-bezier(0.6, 0, 0.2, 1);
+  }
+
+  .is-lit .lit,
+  .lit.is-lit { background-size: 100% 46%; }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Ticks — the drawn check-list.
+
+     Hidden until the owning list is marked .is-lit, then each row rises
+     and its mark draws itself in, staggered by --i.
+  ═══════════════════════════════════════════════════════════════════ */
+  .ticks { display: grid; gap: 0.9rem; }
+
+  .ticks li {
+    position: relative;
+    padding-left: 2rem;
+    color: var(--c-ink-2);
+  }
+
+  .ticks li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: calc((1lh - 1.1rem) / 2);
+    width: 1.1rem;
+    height: 1.1rem;
+    background: var(--c-accent);
+    mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27black%27 stroke-width=%272.4%27 stroke-linecap=%27square%27%3E%3Cpath d=%27M2 13 L9 19 L22 4%27/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  /* Pre-hidden only once the ink director has claimed the page, so with no
+     script the list is simply a finished check-list. */
+  :root.ink-ready .ticks[data-lit] li {
+    opacity: 0;
+    translate: 0 10px;
+  }
+
+  :root.ink-ready .ticks[data-lit] li::before {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .ticks.is-lit li {
+    animation: tick-rise 0.7s var(--ease-out-expo) forwards;
+    animation-delay: calc(0.12s + var(--i, 0) * 0.13s);
+  }
+
+  .ticks.is-lit li::before {
+    animation: tick-draw 0.45s cubic-bezier(0.6, 0, 0.3, 1) forwards;
+    animation-delay: calc(0.36s + var(--i, 0) * 0.13s);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Scan — the image well.
+
+     The reference wipes a screenshot open behind a pencil frame. Here a
+     single clay hairline crosses the well on hover, the way a plate
+     being read gets a cursor run over it.
+  ═══════════════════════════════════════════════════════════════════ */
+  .scan {
+    position: relative;
+    overflow: hidden;
+    background: var(--c-paper-3);
+  }
+
+  .scan::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--c-accent) 85%, transparent) 20%,
+      color-mix(in oklab, var(--c-accent) 85%, transparent) 80%,
+      transparent
+    );
+    box-shadow: 0 0 14px 1px var(--c-glow);
+  }
+
+  @media (hover: hover) {
+    .group:hover .scan::after,
+    .scan:hover::after {
+      animation: scan-sweep 1.5s var(--ease-out-quart);
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Controls — chamfer-free, hard-edged, mono.
   ═══════════════════════════════════════════════════════════════════ */
   .btn {
     display: inline-flex;
@@ -326,30 +888,75 @@
     gap: 0.6rem;
     padding: 0.95rem 1.5rem;
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     line-height: 1;
     border: 1px solid transparent;
-    border-radius: 999px;
+    border-radius: 2px;
     text-decoration: none;
     cursor: pointer;
+    position: relative;
+    isolation: isolate;
     transition: background-color 260ms var(--ease-out-quart),
                 color 260ms var(--ease-out-quart),
                 border-color 260ms var(--ease-out-quart),
-                transform 260ms var(--ease-out-quart),
+                translate 260ms var(--ease-out-expo),
                 box-shadow 260ms var(--ease-out-quart);
   }
-  .btn:active { transform: scale(0.98); }
+
+  /* The offset bracket again, so a button reads as the same object family. */
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    opacity: 0.3;
+    translate: 4px 4px;
+    transition: translate 260ms var(--ease-out-expo), opacity 260ms;
+  }
+
+  /* The lenis.dev CTA wipe: a fill that rises from the bottom edge on
+     hover and drains out of the top on leave - the origin flips with the
+     state, so the colour always travels the same way. */
+  .btn::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    background: var(--btn-fill, var(--c-accent));
+    scale: 1 0;
+    transform-origin: 50% 0;
+    transition: scale 600ms var(--ease-out-expo);
+  }
+
+  @media (hover: hover) {
+    .btn:hover { translate: -2px -2px; }
+    .btn:hover::before { translate: 6px 6px; opacity: 0.5; }
+    .btn:hover::after { scale: 1 1; transform-origin: 50% 100%; }
+  }
+
+  .btn:active { translate: 1px 1px; }
+  .btn:active::before { translate: 2px 2px; }
 
   .btn-solid {
     background: var(--c-accent);
     color: var(--c-on-accent);
     border-color: var(--c-accent);
   }
+  .btn-solid::before {
+    border-right-color: var(--c-accent);
+    border-bottom-color: var(--c-accent);
+    opacity: 0.45;
+  }
+  .btn-solid { --btn-fill: var(--c-ink); }
   .btn-solid:hover {
-    box-shadow: 0 0 0 6px var(--c-glow), 0 8px 30px -8px var(--c-accent);
+    color: var(--c-paper);
+    border-color: var(--c-ink);
+    box-shadow: 0 10px 34px -12px var(--c-accent);
   }
 
   .btn-outline {
@@ -357,9 +964,13 @@
     color: var(--c-ink);
     border-color: var(--c-rule-strong);
   }
+  .btn-outline::before {
+    border-right-color: var(--c-rule-strong);
+    border-bottom-color: var(--c-rule-strong);
+  }
   .btn-outline:hover {
     border-color: var(--c-accent);
-    color: var(--c-accent-ink);
+    color: var(--c-on-accent);
   }
 
   .btn-quiet {
@@ -368,6 +979,8 @@
     border-color: transparent;
     padding-inline: 0.5rem;
   }
+  .btn-quiet::before,
+  .btn-quiet::after { content: none; }
   .btn-quiet:hover { color: var(--c-accent-ink); }
 
   /* Underline that wipes out and back in on hover. */
@@ -396,6 +1009,31 @@
     100% { transform: scaleX(1); transform-origin: left; }
   }
 
+  /* Tool / stack pills — the reference's boxed chips, squared off. */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid var(--c-rule);
+    border-radius: 2px;
+    padding: 0.3rem 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-ink-3);
+    background: color-mix(in oklab, var(--c-paper) 50%, transparent);
+    transition: border-color 220ms var(--ease-out-quart),
+                color 220ms var(--ease-out-quart);
+  }
+
+  @media (hover: hover) {
+    .chip:hover {
+      border-color: var(--c-accent-line);
+      color: var(--c-ink);
+    }
+  }
+
   /* ═══════════════════════════════════════════════════════════════════
      Form fields
   ═══════════════════════════════════════════════════════════════════ */
@@ -418,9 +1056,9 @@
   .field:user-invalid { border-bottom-color: var(--c-accent); }
 
   /* ═══════════════════════════════════════════════════════════════════
-     Cursor - a dot plus a trailing ring that can carry a label.
-     The native cursor is never hidden, so the site stays usable if
-     the script fails, on touch, or under reduced motion.
+     Cursor — a crosshair dot and a trailing ring that can carry a label.
+     The native cursor is never hidden, so the site stays usable if the
+     script fails, on touch, or under reduced motion.
   ═══════════════════════════════════════════════════════════════════ */
   .cursor-dot,
   .cursor-ring {
@@ -434,17 +1072,15 @@
     will-change: transform;
   }
   .cursor-dot {
-    width: 6px;
-    height: 6px;
-    margin: -3px 0 0 -3px;
-    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+    margin: -2.5px 0 0 -2.5px;
     background: var(--c-accent);
   }
   .cursor-ring {
-    width: 34px;
-    height: 34px;
-    margin: -17px 0 0 -17px;
-    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    margin: -16px 0 0 -16px;
     border: 1px solid var(--c-accent);
     display: grid;
     place-items: center;
@@ -456,20 +1092,20 @@
   }
   .cursor-ring > span {
     font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--c-on-accent);
     opacity: 0;
     transition: opacity 200ms;
   }
   .cursor-dot.is-visible { opacity: 1; }
-  .cursor-ring.is-visible { opacity: 0.7; }
+  .cursor-ring.is-visible { opacity: 0.65; }
   .cursor-ring.is-active {
-    width: 54px;
-    height: 54px;
-    margin: -27px 0 0 -27px;
-    background: color-mix(in oklab, var(--c-accent) 14%, transparent);
+    width: 52px;
+    height: 52px;
+    margin: -26px 0 0 -26px;
+    background: color-mix(in oklab, var(--c-accent) 12%, transparent);
   }
   .cursor-ring.is-label {
     width: 84px;
@@ -487,11 +1123,10 @@
   /* ═══════════════════════════════════════════════════════════════════
      Motion utilities
   ═══════════════════════════════════════════════════════════════════ */
-  /* Split-text line/word masks. */
   .mask-line { overflow: hidden; display: block; }
 
-  /* The mask is padded out and pulled back with negative margins, so tight
-     display leading can't clip ascenders or descenders mid-reveal. */
+  /* Padded out and pulled back with negative margins, so tight display
+     leading can't clip ascenders or descenders mid-reveal. */
   .mask-word {
     overflow: hidden;
     display: inline-block;
@@ -535,9 +1170,7 @@
   }
   @keyframes ping { 75%, 100% { transform: scale(2.6); opacity: 0; } }
 
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -545,7 +1178,494 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Reduced motion
+   Ink — the one drop.
+
+   The reference spends a single drop of clay ink and lets it spread
+   through the page. Here the drop is a scalar, --ink (0 → 1), written by
+   lib/ink.ts as the page is read; marks below interpolate off it and,
+   with no script or under reduced motion, fall back to their finished
+   state because --ink defaults to 1.
+═══════════════════════════════════════════════════════════════════ */
+/* `.ink-ready` is set on <html> by the director before first paint. Without
+   it - no script - --ink stays 1 and every mark renders finished. */
+:root.ink-ready [data-ink] {
+  --ink: 0;
+}
+
+.ink-fill {
+  scale: var(--ink, 1) 1;
+  transform-origin: left center;
+}
+
+.ink-tint {
+  color: color-mix(in oklab, var(--c-accent) calc(var(--ink, 1) * 100%), var(--c-ink-3));
+}
+
+.ink-stroke {
+  stroke: color-mix(in oklab, var(--c-accent) calc(var(--ink, 1) * 100%), var(--c-rule-strong));
+}
+
+/* Hairline vector marks — the Rough.js presets, drawn straight. */
+.mark {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: visible;
+}
+
+.mark__line {
+  fill: none;
+  stroke: var(--c-rule-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.mark__line--accent { stroke: var(--c-accent); }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   Scroll scenes — the lenis.dev vocabulary, in SIGNAL's materials.
+
+   Each scene is a tall section with a sticky viewport inside it. One
+   ScrollTrigger per scene writes its progress into `--p` (lib/progress)
+   and everything below is `calc()` off that number.
+
+   Every scene is *armed* by script (`data-armed`), never by default: with
+   no script, under reduced motion, or below the breakpoint it opted out
+   of, the section is ordinary flow content and reads finished.
+═══════════════════════════════════════════════════════════════════ */
+
+/* ── Inverted region ─────────────────────────────────────────────────
+   Paints its own ground, and fades back to the page's at the bottom so
+   the return trip is a dusk rather than a seam. */
+[data-invert] {
+  position: relative;
+  color: var(--c-ink);
+  background: linear-gradient(
+    to bottom,
+    var(--c-paper) calc(100% - var(--invert-fade, 0px)),
+    transparent
+  );
+}
+.invert-fade { --invert-fade: clamp(120px, 18vh, 200px); padding-bottom: var(--invert-fade); }
+
+/* ── Roll — the lenis.dev link hover ─────────────────────────────────
+   Two copies of a label. On hover the first folds up into its top edge
+   while the second unfolds down out of its own; on leave both reverse
+   from the other edge, so the label always flips the same way. */
+.roll {
+  position: relative;
+  display: inline-grid;
+  vertical-align: top;
+}
+.roll__a,
+.roll__b {
+  grid-area: 1 / 1;
+  display: block;
+  transition: scale 600ms var(--ease-out-expo), opacity 600ms var(--ease-out-expo);
+}
+.roll__a { transform-origin: 50% 100%; }
+.roll__b {
+  transform-origin: 50% 0;
+  scale: 1 0;
+  opacity: 0;
+  transition-duration: 600ms, 400ms;
+}
+@media (hover: hover) {
+  :is(a, button, .roll-host):hover .roll__a {
+    transform-origin: 50% 0;
+    scale: 1 0;
+    opacity: 0;
+  }
+  :is(a, button, .roll-host):hover .roll__b {
+    transform-origin: 50% 100%;
+    scale: 1 1;
+    opacity: 1;
+  }
+}
+
+/* ── Hero — the name parts, the instrument rises ─────────────────────
+     --a  0 → 1  the two lines of the name slide off either edge
+     --b  0 → 1  the instrument climbs out of the floor (--e: eased)  */
+.hero__sticky {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+  padding: var(--top-line) 0 var(--rhythm);
+  overflow: hidden;
+}
+.hero__rig { margin-top: var(--rhythm); }
+
+.hero[data-armed] {
+  --a: clamp(0, calc(var(--p, 0) / 0.6), 1);
+  --b: clamp(0, calc((var(--p, 0) - 0.1) / 0.7), 1);
+  --e: calc(var(--b) * (2 - var(--b)));
+  --m: clamp(0, calc((var(--b) - 0.72) * 4), 1);
+  height: 230svh;
+}
+.hero[data-armed] .hero__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 0;
+  padding: calc(var(--header-h) + 3vh) 0 4vh;
+  perspective: 1400px;
+  perspective-origin: 50% 25%;
+}
+.hero[data-armed] .hero__type {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hero[data-armed] .hero__title,
+.hero[data-armed] .hero__foot { margin-top: 0; }
+.hero[data-armed] .hero__pitch {
+  margin-top: 0;
+  translate: 0 calc(var(--a) * 3rem);
+  opacity: calc(1 - var(--a) * 2.4);
+}
+
+.hero[data-armed] .hero__l1 { translate: calc(var(--a) * var(--a) * -62%) 0; }
+.hero[data-armed] .hero__l2 { translate: calc(var(--a) * var(--a) * 62%) 0; }
+.hero[data-armed] .hero__mark { opacity: calc(1 - var(--a) * 1.05); }
+.hero[data-armed] .hero__tr {
+  translate: calc(var(--a) * 24vw) 0;
+  opacity: calc(1 - var(--a) * 2.2);
+}
+.hero[data-armed] .hero__bl {
+  translate: calc(var(--a) * -24vw) 0;
+  opacity: calc(1 - var(--a) * 2.2);
+}
+.hero[data-armed] .hero__top {
+  translate: 0 calc(var(--a) * -2.5rem);
+  opacity: calc(1 - var(--a) * 2.5);
+}
+.hero[data-armed] .hero__foot {
+  translate: 0 calc(var(--a) * 2.5rem);
+  opacity: calc(1 - var(--a) * 2.5);
+}
+.hero[data-armed] .hero__floor { translate: 0 calc(var(--e) * -12svh); }
+
+.hero[data-armed] .hero__rig {
+  --iw: min(46rem, 50vw, calc((100svh - var(--header-h) - 10rem) * 1.3));
+  position: absolute;
+  left: 50%;
+  top: calc(50% + var(--header-h) / 2);
+  width: calc(var(--iw) + 3rem + 17rem);
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  grid-template-columns: var(--iw) 17rem;
+  column-gap: 3rem;
+  transform-origin: 50% 100%;
+  translate: -50% calc(-50% + (1 - var(--e)) * 75svh);
+  rotate: x calc((1 - var(--e)) * 58deg);
+  scale: calc(0.8 + var(--e) * 0.2);
+  opacity: clamp(0, calc(var(--b) * 4), 1);
+}
+.hero[data-armed] .hero__marks {
+  opacity: var(--m);
+  translate: calc((1 - var(--m)) * 2rem) 0;
+}
+.hero[data-armed]:not(.is-open) .hero__rig,
+.hero[data-armed].is-open .hero__type { pointer-events: none; }
+
+/* ── Career — the climb ──────────────────────────────────────────────
+   --t is time walked, 0 → 1 across the career; the plates hand over in
+   script (React state), everything continuous runs off --t here. */
+.career__instr,
+.career__axis { display: none; }
+
+.career[data-armed] {
+  --t: clamp(0, calc(var(--p, 0) / var(--walk, 1)), 1);
+  height: calc(100svh * (1 + var(--n) * 0.75));
+}
+.career[data-armed] .career__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--header-h) + 3vh) 0 4vh;
+}
+.career[data-armed] .career__grid {
+  flex: 1;
+  min-height: 0;
+  padding-block: 0 3vh;
+  align-items: stretch;
+}
+.career[data-armed] .career__lead h2 { font-size: clamp(2rem, 4.4vw, 3.5rem); margin-top: 1.75rem; }
+.career[data-armed] .career__instr,
+.career[data-armed] .career__axis { display: block; }
+
+.career[data-armed] .career__stack { display: grid; align-content: center; }
+.career[data-armed] .career__role {
+  grid-area: 1 / 1;
+  margin: 0;
+  opacity: 0;
+  translate: 0 3rem;
+  pointer-events: none;
+  transition: opacity 600ms var(--ease-out-quart), translate 900ms var(--ease-out-expo);
+}
+.career[data-armed] .career__role.is-past { translate: 0 -3rem; }
+.career[data-armed] .career__role.is-active {
+  opacity: 1;
+  translate: 0 0;
+  pointer-events: auto;
+  transition-delay: 120ms;
+}
+
+.career__climb { clip-path: inset(0 calc((1 - var(--t, 1)) * 100%) 0 0); }
+.career__axis-fill { scale: var(--t, 1) 1; transform-origin: left center; }
+.career__needle { left: calc(var(--t, 1) * 100%); }
+/* The date rides right of the needle at the start, left of it at the end. */
+.career__needle > span { translate: calc(var(--t, 1) * (-100% - 1rem)) 0; }
+.career__mark { transition: background-color 400ms, border-color 400ms, box-shadow 400ms; }
+.career__mark.is-on {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 4px var(--c-glow);
+}
+.career__step { transition: color 400ms var(--ease-out-quart); }
+
+/* Odometer: one strip of 0-9 per digit, rolled to its value. */
+.odo { display: inline-flex; line-height: 1; }
+.odo__col { display: block; height: 1em; overflow: hidden; }
+.odo__strip {
+  display: flex;
+  flex-direction: column;
+  translate: 0 calc(var(--d, 0) * -1em);
+  transition: translate 1100ms var(--ease-out-expo) calc(var(--i, 0) * 70ms);
+}
+.odo__strip > span { display: block; height: 1em; }
+
+/* ── Showcase — the pinned horizontal reel ("Lenis runs the web") ──── */
+.showcase__track {
+  display: flex;
+  gap: clamp(1rem, 2vw, 2rem);
+  width: max-content;
+  padding-inline: var(--gutter);
+}
+.showcase[data-armed] { height: calc(100svh + var(--distance, 0px)); }
+.showcase[data-armed] .showcase__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.showcase[data-armed] .showcase__sticky { padding-block: calc(var(--header-h) + 2vh) 3vh; }
+.showcase[data-armed] .showcase__viewport { overflow: visible; }
+.showcase[data-armed] .showcase__rail { display: flex; }
+.showcase[data-armed] .showcase__track {
+  translate: calc(var(--p, 0) * var(--distance, 0px) * -1) 0;
+  will-change: translate;
+}
+/* Each frame's picture drifts against the reel's travel (`--x` is the
+   card's own -1 → 1 position across the viewport, written by script). */
+.showcase__img {
+  scale: 1.16;
+  translate: calc(var(--x, 0) * -6.5%) 0;
+  transition: scale 900ms var(--ease-out-expo);
+}
+.showcase__card:hover .showcase__img { scale: 1.22; }
+.showcase__veil {
+  background: var(--c-paper);
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out-expo);
+}
+.showcase__card:hover .showcase__veil { opacity: 0.32; }
+.showcase__go {
+  opacity: 0;
+  scale: 0.6;
+  transition: opacity 600ms var(--ease-out-expo), scale 600ms var(--ease-out-expo);
+}
+.showcase__card:hover .showcase__go,
+.showcase__card:focus-visible .showcase__go { opacity: 1; scale: 1; }
+.showcase__meter { scale: var(--p, 0) 1; transform-origin: left center; }
+
+/* ── Interlude — the zoom-through ("Enter Lenis") ────────────────────
+   Three phases off one progress value:
+     --a  0 → 1  the camera pushes through the centre line
+     --w  0 → 1  the other palette floods out from the middle
+   Derived with clamp(), so the scene needs nothing but --p. */
+.interlude__sticky {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding-block: var(--rhythm);
+  overflow: hidden;
+}
+.interlude__frame {
+  display: grid;
+  gap: clamp(1.5rem, 5vh, 3.5rem);
+  width: 100%;
+}
+.interlude__wash { display: none; }
+
+.interlude[data-armed] {
+  --a: clamp(0, calc((var(--p, 0) - 0.12) / 0.62), 1);
+  --w: clamp(0, calc((var(--p, 0) - 0.7) / 0.24), 1);
+  height: 420svh;
+}
+/* In light mode there is no flood to hand over to (the page is already
+   light), so the camera push takes the whole scene instead of leaving a
+   stretch of empty paper at the end. */
+[data-theme="light"] .interlude[data-armed] {
+  --a: clamp(0, calc((var(--p, 0) - 0.1) / 0.84), 1);
+}
+.interlude[data-armed] .interlude__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: 0;
+}
+.interlude[data-armed] .interlude__frame {
+  position: absolute;
+  inset: 0;
+  align-content: space-between;
+  padding: calc(var(--header-h) + 6vh) var(--gutter) 8vh;
+  z-index: 1;
+  scale: calc(1 + var(--a) * var(--a) * 3);
+}
+.interlude[data-armed] .interlude__top {
+  translate: 0 calc(var(--a) * -110%);
+  opacity: calc(1 - var(--a) * 1.6);
+}
+.interlude[data-armed] .interlude__bottom {
+  translate: 0 calc(var(--a) * 110%);
+  opacity: calc(1 - var(--a) * 1.6);
+}
+.interlude[data-armed] .interlude__zoom {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  white-space: nowrap;
+  /* Aimed at the counter of the "o" in "to", so the camera flies through
+     the hole in the letter rather than into a stroke. */
+  transform-origin: 54.5% 63%;
+  scale: calc(0.18 + var(--a) * var(--a) * var(--a) * 9);
+  opacity: min(calc(var(--a) * 4), calc((1 - var(--a)) * 6));
+}
+.interlude[data-armed] .interlude__wash {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--c-paper);
+  clip-path: circle(calc(var(--w) * 80vmax) at 50% 50%);
+}
+
+/* ── Cascade — cards stepping in on a diagonal ("brings the heat") ──── */
+.cascade[data-armed] { height: calc(100svh * (1 + var(--n) * 0.55)); }
+.cascade[data-armed] .cascade__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.cascade[data-armed] .cascade__stage {
+  --card: min(clamp(16rem, 26vw, 24rem), calc(100svh - var(--header-h) - 22vh));
+  /* One diagonal step; % resolves against the stage where it is used. */
+  --step: calc((100% - var(--card)) / (var(--n) - 1));
+  display: block;
+  position: absolute;
+  inset: calc(var(--header-h) + 5vh) var(--gutter) 7vh;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+.cascade[data-armed] .cascade__head {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: calc(2 * var(--step) - 2rem);
+}
+.cascade[data-armed] .cascade__head h2 { font-size: clamp(2rem, 4.6vw, 3.5rem); }
+.cascade[data-armed] .cascade__aside {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: calc(var(--step) - 2rem);
+}
+.cascade[data-armed] .cascade__card {
+  position: absolute;
+  width: var(--card);
+  height: var(--card);
+  top: calc((100% - var(--card)) / (var(--n) - 1) * var(--i));
+  left: calc((100% - var(--card)) / (var(--n) - 1) * var(--i));
+  translate: 100% 100%;
+  opacity: 0;
+  transition: translate 1200ms var(--ease-out-expo), opacity 1200ms var(--ease-out-expo);
+  will-change: translate;
+}
+.cascade[data-armed] .cascade__card.is-in { translate: 0 0; opacity: 1; }
+.cascade[data-armed] .cascade__card > * { height: 100%; }
+.cascade__plate { background: color-mix(in oklab, var(--c-paper-2) 88%, transparent); backdrop-filter: blur(6px); }
+
+/* ── Deck — case studies stacking like plates (/projects) ────────────
+   Pure sticky, so the stack itself works with no script; the script only
+   adds the recession (`--d`, 0 → 1 as the next plate slides over). */
+@media (min-width: 1024px) and (min-height: 640px) {
+  .deck__item {
+    position: sticky;
+    top: calc(var(--header-h) + 3.5rem + var(--i) * 0.6rem);
+  }
+  .deck__body {
+    height: calc(100svh - var(--header-h) - 6rem - var(--n) * 0.6rem);
+    min-height: 30rem;
+  }
+}
+.deck__body {
+  scale: calc(1 - var(--d, 0) * 0.07);
+  transform-origin: 50% 0;
+}
+/* Recession is a shade laid over the plate, not a filter on it - opacity
+   composites, a brightness() filter would repaint the image every frame. */
+.deck__shade {
+  background: var(--c-paper);
+  opacity: calc(var(--d, 0) * 0.62);
+}
+.deck__img {
+  scale: 1.12;
+  translate: 0 calc(var(--y, 0) * 5%);
+  transition: scale 900ms var(--ease-out-expo);
+}
+.group:hover .deck__img { scale: 1.17; }
+.deck-rail a[aria-current="true"] { color: var(--c-ink); }
+.deck-rail a[aria-current="true"] .deck-rail__tick { scale: 1 1; background: var(--c-accent); }
+.deck-rail__tick {
+  scale: 0.4 1;
+  transform-origin: left center;
+  transition: scale 500ms var(--ease-out-expo), background-color 300ms;
+}
+
+/* ── Read-along — words light as the line is read ──────────────────── */
+:root.ink-ready [data-read] [data-split-word] { opacity: 0.16; }
+
+/* ── Route curtain ───────────────────────────────────────────────────── */
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 1700;
+  pointer-events: none;
+  display: none;
+  background: var(--c-accent);
+}
+.curtain.is-on { display: block; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Reduced motion — every drawn-in mark jumps to its finished state.
 ═══════════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -556,7 +1676,22 @@
   }
   .cursor-ring, .cursor-dot { display: none; }
   .packet { display: none; }
+  /* The drifting depth layers are pure atmosphere - park them rather
+     than let the global animation clamp above snap them to frame one. */
+  .floor, .orb, .scanline, .hud { animation: none !important; }
+  /* These two are nothing but motion - a falling line and a falling
+     drop - so there is nothing left of them to park. The extrusion
+     stays: it is a static part of the mark, not an animation. */
+  .scanline, .scroll-cue { display: none; }
   [data-anim="pending"] { opacity: 1 !important; }
+  :root.ink-ready [data-ink] { --ink: 1; }
+  :root.ink-ready [data-read] [data-split-word] { opacity: 1; }
+  .lit { background-size: 100% 46%; }
+  :root.ink-ready .ticks[data-lit] li {
+    opacity: 1;
+    translate: none;
+  }
+  :root.ink-ready .ticks[data-lit] li::before { clip-path: none; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -564,18 +1699,20 @@
 ═══════════════════════════════════════════════════════════════════ */
 @media print {
   body::before,
+  body::after,
   .cursor-ring,
   .cursor-dot,
   .scroll-meter,
+  .floor,
+  .orb,
+  .scanline,
+  .scroll-cue,
+  .gleam,
+  .hud,
+  .wm__ghost,
   [data-print="hide"] { display: none !important; }
   body { background: #fff; color: #000; }
+  .plate::before { display: none; }
+  .plate { box-shadow: none; }
   a { text-decoration: underline; }
-}
-
-/* Career-ladder rung: lights up once the scroll line reaches it. */
-.tl-dot { transition: background-color 400ms, border-color 400ms, box-shadow 400ms; }
-.tl-dot.is-on {
-  background: var(--c-accent);
-  border-color: var(--c-accent);
-  box-shadow: 0 0 0 6px var(--c-glow);
 }
